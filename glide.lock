@@ -1,0 +1,63 @@
+hash: c83d71627b97f23cb72c0ecff8102ec77bf9821f9474769ca027e9ebdd854d8d
+updated: 2017-06-18T16:36:07.130181519+02:00
+imports:
+- name: github.com/containous/flaeg
+  version: b5d2dc5878df07c2d74413348186982e7b865871
+- name: github.com/golang/protobuf
+  version: 2bba0603135d7d7f5cb73b2125beeda19c09f4ef
+  subpackages:
+  - proto
+- name: github.com/google/go-github
+  version: 6896997c7c9fe603fb9d2e8e92303bb18481e60a
+  subpackages:
+  - github
+- name: github.com/google/go-querystring
+  version: 53e6ce116135b80d037921a7fdd5138cf32d7a8a
+  subpackages:
+  - query
+- name: github.com/ldez/go-git-cmd-wrapper
+  version: fba46f5bcc259cbd1f0ffd9a4d438e47fe32539c
+  subpackages:
+  - branch
+  - checkout
+  - fetch
+  - git
+  - push
+  - remote
+  - types
+- name: github.com/ogier/pflag
+  version: 45c278ab3607870051a2ea9040bb85fcb8557481
+- name: golang.org/x/net
+  version: 242b6b35177ec3909636b6cf6a47e8c2c6324b5d
+  subpackages:
+  - context
+- name: golang.org/x/oauth2
+  version: f047394b6d14284165300fd82dad67edb3a4d7f6
+  subpackages:
+  - internal
+- name: google.golang.org/appengine
+  version: 4f7eeb5305a4ba1966344836ba4af9996b7b4e05
+  subpackages:
+  - internal
+  - internal/app_identity
+  - internal/base
+  - internal/datastore
+  - internal/log
+  - internal/modules
+  - internal/remote_api
+  - internal/urlfetch
+  - urlfetch
+testImports:
+- name: github.com/davecgh/go-spew
+  version: 04cdfd42973bb9c8589fd6a731800cf222fde1a9
+  subpackages:
+  - spew
+- name: github.com/pmezard/go-difflib
+  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
+  subpackages:
+  - difflib
+- name: github.com/stretchr/testify
+  version: f6abca593680b2315d2075e0f5e2a9751e3f431a
+  subpackages:
+  - assert
+  - require
