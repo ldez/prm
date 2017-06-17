@@ -1,0 +1,52 @@
+[
+  {
+    "directory": "/my/git/directory/aaa",
+    "base_remote": "remoteA",
+    "pull_requests": {
+      "hubert": [
+        {
+          "owner": "hubert",
+          "number": 123,
+          "branch": "branchA"
+        }
+      ],
+      "robert": [
+        {
+          "owner": "robert",
+          "number": 124,
+          "branch": "branchA"
+        },
+        {
+          "owner": "robert",
+          "number": 125,
+          "branch": "branchB"
+        }
+      ]
+    }
+  },
+  {
+    "directory": "/my/git/directory/bbb",
+    "base_remote": "remoteA",
+    "pull_requests": {
+      "hubert": [
+        {
+          "owner": "hubert",
+          "number": 123,
+          "branch": "branchA"
+        }
+      ],
+      "robert": [
+        {
+          "owner": "robert",
+          "number": 124,
+          "branch": "branchA"
+        },
+        {
+          "owner": "robert",
+          "number": 125,
+          "branch": "branchB"
+        }
+      ]
+    }
+  }
+]

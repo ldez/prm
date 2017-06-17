@@ -2,3 +2,5 @@ vendor/
 .idea/
 prm
 cover.out
+.prm
+temp/

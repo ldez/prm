@@ -1,0 +1,115 @@
+package types
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/ldez/go-git-cmd-wrapper/branch"
+	"github.com/ldez/go-git-cmd-wrapper/checkout"
+	"github.com/ldez/go-git-cmd-wrapper/fetch"
+	"github.com/ldez/go-git-cmd-wrapper/git"
+	"github.com/ldez/go-git-cmd-wrapper/push"
+	"github.com/ldez/go-git-cmd-wrapper/remote"
+)
+
+// PullRequest the pull request model.
+type PullRequest struct {
+	Owner      string `json:"owner,omitempty"`
+	BranchName string `json:"branch_name,omitempty"`
+	Number     int    `json:"number,omitempty"`
+}
+
+// Remove remove the pull request from the local git repository.
+func (pr *PullRequest) Remove() error {
+
+	// git remote get-url $remote
+	out, err := git.Remote(remote.GetURL(pr.Owner))
+	if err != nil {
+		log.Println(out)
+		return nil
+	}
+
+	// git checkout $initial
+	out, err = git.Checkout(checkout.Branch("master"), git.Debug)
+	if err != nil {
+		log.Println(out)
+		return err
+	}
+
+	// git branch -D "$pr--$branch"
+	branchName := fmt.Sprintf("%s--%s", pr.Number, pr.BranchName)
+	out, err = git.Branch(branch.DeleteForce, branch.BranchName(branchName), git.Debug)
+	if err != nil {
+		log.Println(out)
+		return err
+	}
+
+	return nil
+}
+
+// RemoveRemote remove the remote of the pull request from the local git repository.
+func (pr *PullRequest) RemoveRemote() error {
+	// git remote get-url $remote
+	out, err := git.Remote(remote.GetURL(pr.Owner))
+	if err != nil {
+		log.Println(out)
+		return nil
+	}
+
+	// git remote remove $remote
+	out, err = git.Remote(remote.Remove(pr.Owner), git.Debug)
+	if err != nil {
+		log.Println(out)
+		return err
+	}
+
+	return nil
+}
+
+// PushForce push force the pull request to the remote git repository.
+func (pr *PullRequest) PushForce() error {
+
+	// git push --force-with-lease $remote $pr--$branch:$branch
+	ref := fmt.Sprintf("%s--%s:%s", pr.Number, pr.BranchName, pr.BranchName)
+	out, err := git.Push(push.ForceWithLease, push.Remote(pr.Owner), push.RefSpec(ref), git.Debug)
+	if err != nil {
+		log.Println(out)
+		return err
+	}
+
+	return nil
+}
+
+// Checkout checkout the branch related to the pull request into the local git repository.
+func (pr *PullRequest) Checkout() error {
+
+	// git remote get-url $remote
+	out, err := git.Remote(remote.GetURL(pr.Owner))
+	if err != nil {
+		// git remote add $remote git@github.com:$remote/traefik.git
+		forkURL := fmt.Sprintf("git@github.com:%s/traefik.git", pr.Owner)
+		out, err = git.Remote(remote.Add(pr.Owner, forkURL), git.Debug)
+		if err != nil {
+			log.Println(out)
+			return err
+		}
+	}
+
+	// git fetch $remote $branch
+	out, err = git.Fetch(fetch.Remote(pr.Owner), fetch.RefSpec(pr.BranchName), git.Debug)
+	if err != nil {
+		log.Println(out)
+		return err
+	}
+
+	// git checkout -t -b "$pr--$branch" $remote/$branch
+	localBranchName := fmt.Sprintf("%s--%s", pr.Number, pr.BranchName)
+	startPoint := fmt.Sprintf("%s/%s", pr.Owner, pr.BranchName)
+	out, err = git.Checkout(checkout.Track, checkout.NewBranch, checkout.Branch(localBranchName), checkout.StartPoint(startPoint), git.Debug)
+	if err != nil {
+		log.Println(out)
+		return err
+	}
+
+	return nil
+}
