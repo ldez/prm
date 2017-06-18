@@ -8,6 +8,7 @@ import (
 	"github.com/ldez/prm/types"
 )
 
+// PushForce push force a PR.
 func PushForce(options *types.PushForceOptions) error {
 
 	// get configuration

@@ -18,6 +18,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
+// Checkout checkout a PR.
 func Checkout(options *types.CheckoutOptions) error {
 
 	// Get all remotes

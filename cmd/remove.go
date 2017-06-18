@@ -11,6 +11,7 @@ import (
 	"github.com/ldez/prm/types"
 )
 
+// Remove remove PR.
 func Remove(options *types.RemoveOptions) error {
 
 	// get configuration
