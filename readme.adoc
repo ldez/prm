@@ -1,0 +1,69 @@
+= PRM - Pull Request Manager
+
+image:https://travis-ci.org/ldez/prm.svg?branch=master["Build Status", link="https://travis-ci.org/ldez/prm"]
+
+If you work in the Open Source Software, you need to review a lot of PR, this tool is made for you.
+
+Feature:
+
+* checkout a PR by his number.
+* remove (clean) a PR by his number.
+* push force a PR by his number.
+
+Install:
+
+[source, shell]
+----
+# TODO
+----
+
+Currently, only works with GitHub.
+
+== Checkout
+
+[source, shell]
+----
+prm c --number=1234
+# or
+prm c -n1234
+----
+
+* Add the user git remote named with the user login.
+* Checkout the PR branch named like that: `<PR_NUMBER>--<BRANCH_NAME>`
++
+ex: `1234--myBranch`
+
+== Remove
+
+== By Number
+
+[source, shell]
+----
+prm rm --number=1234
+# or
+prm rm -n1234
+----
+
+* Remove the local branch.
+* Remove the user git remote if necessary.
+
+== All
+
+[source, shell]
+----
+prm rm --all
+----
+
+* Remove all PR related local branches.
+* Remove all PR related git remote.
+
+== Push Force
+
+[source, shell]
+----
+prm pf --number=1234
+# or
+prm pf -n1234
+----
+
+* Push force the PR related branch.
