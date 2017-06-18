@@ -142,7 +142,7 @@ func promptRemoteChoice(remotes []types.Remote) (string, error) {
 	for i, rmt := range remotes {
 		fmt.Printf("%d: %s (%s)\n", i, rmt.Name, rmt.URL)
 	}
-	fmt.Println("Choose the base remote:")
+	fmt.Println("Choose the remote related to PR:")
 
 	reader := bufio.NewReader(os.Stdin)
 	rawAnswer, err := reader.ReadString('\n')
