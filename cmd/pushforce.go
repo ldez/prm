@@ -27,7 +27,7 @@ func PushForce(options *types.PushForceOptions) error {
 	}
 
 	if pr, err := con.FindPullRequests(options.Number); err == nil {
-		fmt.Println(pr, "push force")
+		fmt.Println("push force", pr)
 
 		err := pr.PushForce()
 		if err != nil {

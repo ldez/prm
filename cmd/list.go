@@ -16,18 +16,7 @@ func List(options *types.ListOptions) error {
 	}
 
 	if options.All {
-		for _, conf := range configs {
-			fmt.Println(conf.Directory)
-			if len(conf.PullRequests) == 0 {
-				fmt.Println("* 0 PR.")
-			} else {
-				for _, prs := range conf.PullRequests {
-					for _, pr := range prs {
-						fmt.Printf("* %d: %s - %s\n", pr.Number, pr.Owner, pr.BranchName)
-					}
-				}
-			}
-		}
+		displayProjects(configs)
 	} else {
 		repoDir, err := os.Getwd()
 		if err != nil {
@@ -39,16 +28,27 @@ func List(options *types.ListOptions) error {
 			return err
 		}
 
-		if len(conf.PullRequests) == 0 {
-			fmt.Println("* 0 PR.")
-		} else {
-			for _, prs := range conf.PullRequests {
-				for _, pr := range prs {
-					fmt.Printf("* %d: %s - %s\n", pr.Number, pr.Owner, pr.BranchName)
-				}
-			}
-		}
+		displayPullRequests(conf.PullRequests)
 	}
 
 	return nil
+}
+
+func displayPullRequests(pulls map[string][]types.PullRequest) {
+	if len(pulls) == 0 {
+		fmt.Println("* 0 PR.")
+	} else {
+		for _, prs := range pulls {
+			for _, pr := range prs {
+				fmt.Printf("* %d: %s - %s\n", pr.Number, pr.Owner, pr.BranchName)
+			}
+		}
+	}
+}
+
+func displayProjects(configs []config.Configuration) {
+	for _, conf := range configs {
+		fmt.Println(conf.Directory)
+		displayPullRequests(conf.PullRequests)
+	}
 }

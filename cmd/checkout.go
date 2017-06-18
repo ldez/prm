@@ -86,7 +86,7 @@ func Checkout(options *types.CheckoutOptions) error {
 		con.PullRequests = make(map[string][]types.PullRequest)
 	}
 	con.PullRequests[pr.Owner] = append(con.PullRequests[pr.Owner], *pr)
-	fmt.Println(pr, "checkout")
+	fmt.Println("checkout", pr)
 
 	err = pr.Checkout()
 	if err != nil {
