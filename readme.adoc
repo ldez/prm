@@ -6,9 +6,11 @@ If you work in the Open Source Software, you need to review a lot of PR, this to
 
 Feature:
 
-* checkout a PR by his number.
-* remove (clean) a PR by his number.
-* push force a PR by his number.
+* Checkout a PR by his number.
+* Remove (clean) a PR by his number.
+* Push force a PR (auto).
+* Manage all your repositories.
+* Save your configuration: `~/.prm`
 
 Install:
 
