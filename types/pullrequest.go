@@ -17,7 +17,10 @@ type PullRequest struct {
 	Owner      string `json:"owner,omitempty"`
 	BranchName string `json:"branch_name,omitempty"`
 	Number     int    `json:"number,omitempty"`
+	Project    string `json:"project,omitempty"`
 }
+
+const defaultInitialBranch = "master"
 
 // Remove remove the pull request from the local git repository.
 func (pr *PullRequest) Remove() error {
@@ -30,14 +33,14 @@ func (pr *PullRequest) Remove() error {
 	}
 
 	// git checkout $initial
-	out, err = git.Checkout(checkout.Branch("master"), git.Debug)
+	out, err = git.Checkout(checkout.Branch(defaultInitialBranch), git.Debug)
 	if err != nil {
 		log.Println(out)
 		return err
 	}
 
 	// git branch -D "$pr--$branch"
-	branchName := fmt.Sprintf("%s--%s", pr.Number, pr.BranchName)
+	branchName := makeLocalBranchName(pr)
 	out, err = git.Branch(branch.DeleteForce, branch.BranchName(branchName), git.Debug)
 	if err != nil {
 		log.Println(out)
@@ -70,7 +73,7 @@ func (pr *PullRequest) RemoveRemote() error {
 func (pr *PullRequest) PushForce() error {
 
 	// git push --force-with-lease $remote $pr--$branch:$branch
-	ref := fmt.Sprintf("%s--%s:%s", pr.Number, pr.BranchName, pr.BranchName)
+	ref := fmt.Sprintf("%s:%s", makeLocalBranchName(pr), pr.BranchName)
 	out, err := git.Push(push.ForceWithLease, push.Remote(pr.Owner), push.RefSpec(ref), git.Debug)
 	if err != nil {
 		log.Println(out)
@@ -86,8 +89,8 @@ func (pr *PullRequest) Checkout() error {
 	// git remote get-url $remote
 	out, err := git.Remote(remote.GetURL(pr.Owner))
 	if err != nil {
-		// git remote add $remote git@github.com:$remote/traefik.git
-		forkURL := fmt.Sprintf("git@github.com:%s/traefik.git", pr.Owner)
+		// git remote add $remote git@github.com:$remote/$project.git
+		forkURL := fmt.Sprintf("git@github.com:%s/%s.git", pr.Owner, pr.Project)
 		out, err = git.Remote(remote.Add(pr.Owner, forkURL), git.Debug)
 		if err != nil {
 			log.Println(out)
@@ -103,7 +106,7 @@ func (pr *PullRequest) Checkout() error {
 	}
 
 	// git checkout -t -b "$pr--$branch" $remote/$branch
-	localBranchName := fmt.Sprintf("%s--%s", pr.Number, pr.BranchName)
+	localBranchName := makeLocalBranchName(pr)
 	startPoint := fmt.Sprintf("%s/%s", pr.Owner, pr.BranchName)
 	out, err = git.Checkout(checkout.Track, checkout.NewBranch, checkout.Branch(localBranchName), checkout.StartPoint(startPoint), git.Debug)
 	if err != nil {
@@ -112,4 +115,8 @@ func (pr *PullRequest) Checkout() error {
 	}
 
 	return nil
+}
+
+func makeLocalBranchName(pr *PullRequest) string {
+	return fmt.Sprintf("%d--%s", pr.Number, pr.BranchName)
 }
