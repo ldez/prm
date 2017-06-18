@@ -16,7 +16,7 @@ type RemoveOptions struct {
 
 // PushForceOptions "push force" command options.
 type PushForceOptions struct {
-	Number int `short:"n" description:"PR number."`
+	Number int `short:"n" description:"PR number (optional: parse the branch name)."`
 }
 
 // ListOptions "list" command options.

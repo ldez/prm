@@ -84,11 +84,7 @@ func main() {
 		DefaultPointersConfig: &types.PushForceOptions{},
 	}
 	pushForceCmd.Run = func() error {
-		err := requirePRNumber(pushForceOptions.Number, pushForceCmd.Name)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		err = cmd.PushForce(pushForceOptions)
+		err := cmd.PushForce(pushForceOptions)
 		if err != nil {
 			log.Println(err)
 		}

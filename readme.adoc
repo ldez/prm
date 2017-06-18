@@ -61,9 +61,14 @@ prm rm --all
 
 [source, shell]
 ----
+# recommended
+prm pf
+
+# Manual
 prm pf --number=1234
 # or
 prm pf -n1234
 ----
 
 * Push force the PR related branch.
+* Detect the PR number from the branch name.
