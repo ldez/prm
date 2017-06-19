@@ -2,12 +2,13 @@
 
 image:https://travis-ci.org/ldez/prm.svg?branch=master["Build Status", link="https://travis-ci.org/ldez/prm"]
 
-If you work in the Open Source Software, you need to review a lot of PR, this tool is made for you.
+If you are a maintainer of Open Source Software, you need to review a lot of PR, this tool is made for you.
 
 Feature:
 
 * Checkout a PR by his number.
 * Remove (clean) a PR by his number.
+* Remove (clean) all PR for a project.
 * Push force a PR (auto).
 * Manage all your repositories.
 * Save your configuration: `~/.prm`
