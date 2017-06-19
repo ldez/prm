@@ -75,3 +75,18 @@ prm pf -n1234
 
 * Push force the PR related branch.
 * Detect the PR number from the branch name.
+
+== List
+
+[source, shell]
+----
+# display local branches related to PR. (current project only)
+prm list
+
+# display local branches related to PR. (all projects)
+prm list --all
+----
+
+* Display local branches related to PR for:
+** current project
+** all projects
