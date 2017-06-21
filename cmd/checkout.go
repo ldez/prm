@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -43,9 +44,14 @@ func Checkout(options *types.CheckoutOptions) error {
 
 	con, err := config.Find(confs, repoDir)
 	if err != nil {
-		remoteName, err := promptRemoteChoice(remotes)
-		if err != nil {
-			return err
+		var remoteName string
+		if len(remotes) == 1 {
+			remoteName = remotes[0].Name
+		} else {
+			remoteName, err = promptRemoteChoice(remotes)
+			if err != nil {
+				return err
+			}
 		}
 
 		confs = append(confs, config.Configuration{
@@ -125,6 +131,8 @@ func getRemotes(output string) []types.Remote {
 	for _, entry := range remoteMap {
 		remotes = append(remotes, entry)
 	}
+
+	sort.Sort(types.ByRemoteName(remotes))
 
 	return remotes
 }
