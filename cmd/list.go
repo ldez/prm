@@ -8,7 +8,7 @@ import (
 	"github.com/ldez/prm/types"
 )
 
-// List list PR.
+// List list PRs.
 func List(options *types.ListOptions) error {
 	// get configuration
 	configs, err := config.ReadFile()

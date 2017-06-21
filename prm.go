@@ -31,7 +31,7 @@ func main() {
 
 	checkoutCmd := &flaeg.Command{
 		Name:                  "c",
-		Description:           "Checkout a PR.",
+		Description:           "Checkout a PR (create a local branch and add remote).",
 		Config:                checkoutOptions,
 		DefaultPointersConfig: &types.CheckoutOptions{},
 	}
@@ -55,7 +55,7 @@ func main() {
 
 	removeCmd := &flaeg.Command{
 		Name:                  "rm",
-		Description:           "Remove one or more PRs from the local repository.",
+		Description:           "Remove one or more PRs from the current local repository.",
 		Config:                removeOptions,
 		DefaultPointersConfig: &types.RemoveOptions{},
 	}
@@ -79,7 +79,7 @@ func main() {
 
 	pushForceCmd := &flaeg.Command{
 		Name:                  "pf",
-		Description:           "Push force a PR.",
+		Description:           "Push force to the PR branch.",
 		Config:                pushForceOptions,
 		DefaultPointersConfig: &types.PushForceOptions{},
 	}
