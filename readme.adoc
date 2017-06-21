@@ -4,7 +4,7 @@ image:https://travis-ci.org/ldez/prm.svg?branch=master["Build Status", link="htt
 
 If you are a maintainer of Open Source Software, you need to review a lot of PR, this tool is made for you.
 
-Due to the GitHub feature (link:https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/["repository maintainer permissions on existing pull requests"]), now we can edit real PR branch.
+With the GitHub feature (link:https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/["repository maintainer permissions on existing pull requests"]), now we can edit real PR branch.
 This tool allow to easily manage PR branches and remotes.
 
 Feature:
@@ -17,13 +17,17 @@ Feature:
 * Save your configuration: `~/.prm`
 * Only works with GitHub.
 
-Install:
+== How to Install
+
+* Download `prm` from link:https://github.com/ldez/prm/releases[releases].
+* add `prm` in your `PATH`.
+
+or
 
 [source, shell]
 ----
-# TODO
+go get -u github.com/ldez/prm
 ----
-
 
 == Checkout
 
@@ -41,7 +45,7 @@ ex: `1234\--myBranch`
 
 == Remove
 
-== By Number
+=== By Number
 
 [source, shell]
 ----
@@ -53,7 +57,9 @@ prm rm --number=1234
 * Remove the local branch.
 * Remove the user git remote if necessary.
 
-== All
+=== All
+
+Only for the current project. (not all PR for all your projects)
 
 [source, shell]
 ----
@@ -67,13 +73,7 @@ prm rm --all
 
 [source, shell]
 ----
-# recommended
 prm pf
-
-# Manual
-prm pf -n 1234
-# or
-prm pf --number=1234
 ----
 
 * Push force the PR related branch.
