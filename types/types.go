@@ -14,9 +14,10 @@ type RemoveOptions struct {
 	All    bool `description:"All PR."`
 }
 
-// PushForceOptions "push force" command options.
-type PushForceOptions struct {
-	Number int `short:"n" description:"PR number (optional: parse the branch name)."`
+// PushOptions "push" command options.
+type PushOptions struct {
+	Number int  `short:"n" description:"PR number (optional: parse the branch name)."`
+	Force  bool `short:"f" description:"Force the push."`
 }
 
 // ListOptions "list" command options.

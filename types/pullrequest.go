@@ -69,12 +69,12 @@ func (pr *PullRequest) RemoveRemote() error {
 	return nil
 }
 
-// PushForce push force the pull request to the remote git repository.
-func (pr *PullRequest) PushForce() error {
+// Push push force the pull request to the remote git repository.
+func (pr *PullRequest) Push(force bool) error {
 
 	// git push --force-with-lease $remote $pr--$branch:$branch
 	ref := fmt.Sprintf("%s:%s", makeLocalBranchName(pr), pr.BranchName)
-	out, err := git.Push(push.ForceWithLease, push.Remote(pr.Owner), push.RefSpec(ref), git.Debug)
+	out, err := git.Push(git.Cond(force, push.ForceWithLease), push.Remote(pr.Owner), push.RefSpec(ref), git.Debug)
 	if err != nil {
 		log.Println(out)
 		return err

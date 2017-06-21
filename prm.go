@@ -75,16 +75,16 @@ func main() {
 
 	// Push Force
 
-	pushForceOptions := &types.PushForceOptions{}
+	pushForceOptions := &types.PushOptions{Force: true}
 
 	pushForceCmd := &flaeg.Command{
 		Name:                  "pf",
 		Description:           "Push force to the PR branch.",
 		Config:                pushForceOptions,
-		DefaultPointersConfig: &types.PushForceOptions{},
+		DefaultPointersConfig: &types.PushOptions{},
 	}
 	pushForceCmd.Run = func() error {
-		err := cmd.PushForce(pushForceOptions)
+		err := cmd.Push(pushForceOptions)
 		if err != nil {
 			log.Println(err)
 		}
@@ -92,6 +92,26 @@ func main() {
 	}
 
 	flag.AddCommand(pushForceCmd)
+
+	// Push
+
+	pushOptions := &types.PushOptions{}
+
+	pushCmd := &flaeg.Command{
+		Name:                  "p",
+		Description:           "Push to the PR branch.",
+		Config:                pushOptions,
+		DefaultPointersConfig: &types.PushOptions{},
+	}
+	pushCmd.Run = func() error {
+		err := cmd.Push(pushOptions)
+		if err != nil {
+			log.Println(err)
+		}
+		return nil
+	}
+
+	flag.AddCommand(pushCmd)
 
 	// List
 

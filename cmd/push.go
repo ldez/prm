@@ -13,8 +13,8 @@ import (
 	"github.com/ldez/prm/types"
 )
 
-// PushForce push force a PR.
-func PushForce(options *types.PushForceOptions) error {
+// Push push to the PR branch.
+func Push(options *types.PushOptions) error {
 
 	// get configuration
 	confs, err := config.ReadFile()
@@ -32,18 +32,9 @@ func PushForce(options *types.PushForceOptions) error {
 		return err
 	}
 
-	number := options.Number
-	if options.Number == 0 {
-		out, err := git.RevParse(revparse.AbbrevRef(""), revparse.Args("HEAD"))
-		if err != nil {
-			log.Println(out)
-			return err
-		}
-
-		number, err = parsePRNumber(out)
-		if err != nil {
-			return err
-		}
+	number, err := getPRNUmber(options.Number)
+	if err != nil {
+		return err
 	}
 
 	pr, err := con.FindPullRequests(number)
@@ -51,14 +42,32 @@ func PushForce(options *types.PushForceOptions) error {
 		return err
 	}
 
-	fmt.Println("push force", pr)
+	fmt.Println("push", pr)
 
-	err = pr.PushForce()
+	err = pr.Push(options.Force)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func getPRNUmber(manualNumber int) (int, error) {
+	if manualNumber == 0 {
+		out, err := git.RevParse(revparse.AbbrevRef(""), revparse.Args("HEAD"))
+		if err != nil {
+			log.Println(out)
+			return 0, err
+		}
+
+		number, err := parsePRNumber(out)
+		if err != nil {
+			return 0, err
+		}
+		return number, nil
+	} else {
+		return manualNumber, nil
+	}
 }
 
 func parsePRNumber(out string) (int, error) {
