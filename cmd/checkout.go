@@ -142,7 +142,7 @@ func promptRemoteChoice(remotes []types.Remote) (string, error) {
 	for i, rmt := range remotes {
 		fmt.Printf("%d: %s (%s)\n", i, rmt.Name, rmt.URL)
 	}
-	fmt.Println("Choose the remote related to PR:")
+	fmt.Println("Choose the remote related to PR (main remote):")
 
 	reader := bufio.NewReader(os.Stdin)
 	rawAnswer, err := reader.ReadString('\n')
@@ -152,7 +152,7 @@ func promptRemoteChoice(remotes []types.Remote) (string, error) {
 
 	answer, err := strconv.ParseInt(strings.TrimSpace(rawAnswer), 10, 8)
 	if err != nil || answer > int64(len(remotes)) || answer < 0 {
-		return "", fmt.Errorf("Invalid answer: %s", rawAnswer)
+		return "", fmt.Errorf("invalid answer: %s", rawAnswer)
 	}
 
 	return remotes[answer].Name, nil

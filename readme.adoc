@@ -4,6 +4,9 @@ image:https://travis-ci.org/ldez/prm.svg?branch=master["Build Status", link="htt
 
 If you are a maintainer of Open Source Software, you need to review a lot of PR, this tool is made for you.
 
+Due to the GitHub feature (link:https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/["repository maintainer permissions on existing pull requests"]), now we can edit real PR branch.
+This tool allow to easily manage PR branches and remotes.
+
 Feature:
 
 * Checkout a PR by his number.
@@ -12,6 +15,7 @@ Feature:
 * Push force a PR (auto).
 * Manage all your repositories.
 * Save your configuration: `~/.prm`
+* Only works with GitHub.
 
 Install:
 
@@ -20,21 +24,20 @@ Install:
 # TODO
 ----
 
-Currently, only works with GitHub.
 
 == Checkout
 
 [source, shell]
 ----
-prm c --number=1234
+prm c -n 1234
 # or
-prm c -n1234
+prm c --number=1234
 ----
 
 * Add the user git remote named with the user login.
 * Checkout the PR branch named like that: `<PR_NUMBER>--<BRANCH_NAME>`
 +
-ex: `1234--myBranch`
+ex: `1234\--myBranch`
 
 == Remove
 
@@ -42,9 +45,9 @@ ex: `1234--myBranch`
 
 [source, shell]
 ----
-prm rm --number=1234
+prm rm -n 1234
 # or
-prm rm -n1234
+prm rm --number=1234
 ----
 
 * Remove the local branch.
@@ -68,9 +71,9 @@ prm rm --all
 prm pf
 
 # Manual
-prm pf --number=1234
+prm pf -n 1234
 # or
-prm pf -n1234
+prm pf --number=1234
 ----
 
 * Push force the PR related branch.

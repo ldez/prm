@@ -139,7 +139,7 @@ func main() {
 
 func requirePRNumber(number int, action string) error {
 	if number <= 0 {
-		return fmt.Errorf("You must provide a PR number. ex: 'prm %s --number=1235'", action)
+		return fmt.Errorf("You must provide a PR number. ex: 'prm %s -n 1235'", action)
 	}
 	return nil
 }
