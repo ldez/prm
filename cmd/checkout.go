@@ -159,7 +159,11 @@ func promptRemoteChoice(remotes []types.Remote) (string, error) {
 }
 
 func newRepository(URL string) (*types.Repository, error) {
-	exp := regexp.MustCompile(`(?:git@github.com:|https://github.com/)([^/]+)/(.+).git`)
+	exp := regexp.MustCompile(`(?:git@github.com:|https://github.com/)([^/]+)/(.+)\.git`)
+
+	if !exp.MatchString(URL) {
+		return nil, fmt.Errorf("invalid URL: %s", URL)
+	}
 
 	parts := exp.FindStringSubmatch(URL)
 

@@ -28,6 +28,14 @@ func Test_newRepository_ssh(t *testing.T) {
 	assert.Equal(t, "containous", repository.Owner)
 }
 
+func Test_newRepository_should_fail_when_invalid_URL(t *testing.T) {
+	url := "https://github.com/ldez/prm"
+
+	_, err := newRepository(url)
+
+	require.Error(t, err)
+}
+
 func Test_getRemotes(t *testing.T) {
 	output := `
 origin	git@github.com:ldez/traefik.git (fetch)
