@@ -113,6 +113,26 @@ func main() {
 
 	flag.AddCommand(pushCmd)
 
+	// Pull
+
+	pullOptions := &types.PullOptions{}
+
+	pullCmd := &flaeg.Command{
+		Name:                  "pull",
+		Description:           "Pull to the PR branch.",
+		Config:                pullOptions,
+		DefaultPointersConfig: &types.PullOptions{},
+	}
+	pullCmd.Run = func() error {
+		err := cmd.Pull(pullOptions)
+		if err != nil {
+			log.Println(err)
+		}
+		return nil
+	}
+
+	flag.AddCommand(pullCmd)
+
 	// List
 
 	listOptions := &types.ListOptions{}

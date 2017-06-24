@@ -8,8 +8,8 @@ import (
 	"github.com/ldez/prm/types"
 )
 
-// Push push to the PR branch.
-func Push(options *types.PushOptions) error {
+// Pull pull the PR branch.
+func Pull(options *types.PullOptions) error {
 
 	// get configuration
 	confs, err := config.ReadFile()
@@ -27,7 +27,7 @@ func Push(options *types.PushOptions) error {
 		return err
 	}
 
-	number, err := getPRNumber(options.Number)
+	number, err := getBranchPRNumber()
 	if err != nil {
 		return err
 	}
@@ -37,9 +37,9 @@ func Push(options *types.PushOptions) error {
 		return err
 	}
 
-	fmt.Println("push", pr)
+	fmt.Println("pull", pr)
 
-	err = pr.Push(options.Force)
+	err = pr.Pull(options.Force)
 	if err != nil {
 		return err
 	}

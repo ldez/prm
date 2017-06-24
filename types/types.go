@@ -20,6 +20,11 @@ type PushOptions struct {
 	Force  bool `short:"f" description:"Force the push."`
 }
 
+// PullOptions "pull" command options.
+type PullOptions struct {
+	Force bool `short:"f" description:"Force the push."`
+}
+
 // ListOptions "list" command options.
 type ListOptions struct {
 	All bool `description:"All PR."`

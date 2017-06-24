@@ -10,6 +10,7 @@ import (
 	"github.com/ldez/go-git-cmd-wrapper/git"
 	"github.com/ldez/go-git-cmd-wrapper/push"
 	"github.com/ldez/go-git-cmd-wrapper/remote"
+	"github.com/ldez/go-git-cmd-wrapper/pull"
 )
 
 // PullRequest the pull request model.
@@ -75,6 +76,19 @@ func (pr *PullRequest) Push(force bool) error {
 	// git push --force-with-lease $remote $pr--$branch:$branch
 	ref := fmt.Sprintf("%s:%s", makeLocalBranchName(pr), pr.BranchName)
 	out, err := git.Push(git.Cond(force, push.ForceWithLease), push.Remote(pr.Owner), push.RefSpec(ref), git.Debug)
+	if err != nil {
+		log.Println(out)
+		return err
+	}
+
+	return nil
+}
+
+// Pull pull the PR from the remote git repository.
+func (pr *PullRequest) Pull(force bool) error {
+
+	// git pull -f $remote $branch
+	out, err := git.Pull(git.Cond(force, pull.Force), pull.Repository(pr.Owner), pull.Refspec(pr.BranchName), git.Debug)
 	if err != nil {
 		log.Println(out)
 		return err
