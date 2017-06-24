@@ -1,5 +1,5 @@
-hash: a3d86703156fcc7965bbe7c4ab19771d990eb12d5282e7135fa7ace0a0cc52e6
-updated: 2017-06-23T11:56:13.54004293+02:00
+hash: e4a07184e3b9aeee650f47f10d77f2c865d86d50f074a14de3ebc4818f7f1e49
+updated: 2017-06-25T01:28:29.078441592+02:00
 imports:
 - name: github.com/containous/flaeg
   version: b5d2dc5878df07c2d74413348186982e7b865871
@@ -16,7 +16,7 @@ imports:
   subpackages:
   - query
 - name: github.com/ldez/go-git-cmd-wrapper
-  version: 016b7c6007d8c01f9969384e36560bafa0a2072b
+  version: c0a70e430be019eb30003a0563ae431b7f0531d3
   subpackages:
   - branch
   - checkout
