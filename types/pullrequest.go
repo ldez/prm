@@ -70,7 +70,7 @@ func (pr *PullRequest) RemoveRemote() error {
 	return nil
 }
 
-// Push push force the pull request to the remote git repository.
+// Push push the pull request to the remote git repository.
 func (pr *PullRequest) Push(force bool) error {
 
 	// git push --force-with-lease $remote $pr--$branch:$branch

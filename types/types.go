@@ -47,4 +47,4 @@ type ByRemoteName []Remote
 
 func (r ByRemoteName) Len() int           { return len(r) }
 func (r ByRemoteName) Swap(i, j int)      { r[i], r[j] = r[j], r[i] }
-func (r ByRemoteName) Less(i, j int) bool { return len(r[i].Name) < len(r[j].Name) }
+func (r ByRemoteName) Less(i, j int) bool { return r[i].Name < r[j].Name }
