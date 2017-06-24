@@ -98,7 +98,7 @@ func main() {
 	pushOptions := &types.PushOptions{}
 
 	pushCmd := &flaeg.Command{
-		Name:                  "p",
+		Name:                  "push",
 		Description:           "Push to the PR branch.",
 		Config:                pushOptions,
 		DefaultPointersConfig: &types.PushOptions{},
