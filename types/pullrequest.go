@@ -84,31 +84,37 @@ func (pr *PullRequest) Push(force bool) error {
 }
 
 // Checkout checkout the branch related to the pull request into the local git repository.
-func (pr *PullRequest) Checkout() error {
+func (pr *PullRequest) Checkout(newBranch bool) error {
 
-	// git remote get-url $remote
-	out, err := git.Remote(remote.GetURL(pr.Owner))
-	if err != nil {
-		// git remote add $remote git@github.com:$remote/$project.git
-		forkURL := fmt.Sprintf("git@github.com:%s/%s.git", pr.Owner, pr.Project)
-		out, err = git.Remote(remote.Add(pr.Owner, forkURL), git.Debug)
+	if newBranch {
+		// git remote get-url $remote
+		out, err := git.Remote(remote.GetURL(pr.Owner))
+		if err != nil {
+			// git remote add $remote git@github.com:$remote/$project.git
+			forkURL := fmt.Sprintf("git@github.com:%s/%s.git", pr.Owner, pr.Project)
+			out, err = git.Remote(remote.Add(pr.Owner, forkURL), git.Debug)
+			if err != nil {
+				log.Println(out)
+				return err
+			}
+		}
+
+		// git fetch $remote $branch
+		out, err = git.Fetch(fetch.Remote(pr.Owner), fetch.RefSpec(pr.BranchName), git.Debug)
 		if err != nil {
 			log.Println(out)
 			return err
 		}
 	}
 
-	// git fetch $remote $branch
-	out, err = git.Fetch(fetch.Remote(pr.Owner), fetch.RefSpec(pr.BranchName), git.Debug)
-	if err != nil {
-		log.Println(out)
-		return err
-	}
-
 	// git checkout -t -b "$pr--$branch" $remote/$branch
 	localBranchName := makeLocalBranchName(pr)
 	startPoint := fmt.Sprintf("%s/%s", pr.Owner, pr.BranchName)
-	out, err = git.Checkout(checkout.Track, checkout.NewBranch, checkout.Branch(localBranchName), checkout.StartPoint(startPoint), git.Debug)
+	out, err := git.Checkout(
+		git.Cond(newBranch, checkout.Track, checkout.NewBranch),
+		checkout.Branch(localBranchName),
+		git.Cond(newBranch, checkout.StartPoint(startPoint)),
+		git.Debug)
 	if err != nil {
 		log.Println(out)
 		return err

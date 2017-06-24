@@ -42,7 +42,7 @@ func Checkout(options *types.CheckoutOptions) error {
 		return err
 	}
 
-	con, err := config.Find(confs, repoDir)
+	conf, err := config.Find(confs, repoDir)
 	if err != nil {
 		var remoteName string
 		if len(remotes) == 1 {
@@ -58,52 +58,57 @@ func Checkout(options *types.CheckoutOptions) error {
 			Directory:  repoDir,
 			BaseRemote: remoteName,
 		})
-		con, err = config.Find(confs, repoDir)
+		conf, err = config.Find(confs, repoDir)
 		if err != nil {
 			return err
 		}
 	}
 
 	// check if already exists in config
-	for _, pulls := range con.PullRequests {
-		for _, pull := range pulls {
-			if pull.Number == options.Number {
-				return fmt.Errorf("PR already exists: %d", options.Number)
-			}
+	pr, err := conf.FindPullRequests(options.Number)
+	if err == nil {
+		log.Println("PR already exists.")
+		// simple checkout
+		err = pr.Checkout(false)
+		if err != nil {
+			return err
+		}
+	} else {
+		log.Println("New Pull Request.")
+		// remote checkout
+		rmt, err := findRemote(remotes, conf.BaseRemote)
+		if err != nil {
+			return err
+		}
+
+		baseRepository, err := newRepository(rmt.URL)
+		if err != nil {
+			return err
+		}
+
+		pr, err = getPullRequest(baseRepository, options.Number)
+		if err != nil {
+			return err
+		}
+
+		// add PR to config
+		if conf.PullRequests == nil {
+			conf.PullRequests = make(map[string][]types.PullRequest)
+		}
+		conf.PullRequests[pr.Owner] = append(conf.PullRequests[pr.Owner], *pr)
+
+		err = config.Save(confs)
+		if err != nil {
+			return err
+		}
+
+		err = pr.Checkout(true)
+		if err != nil {
+			return err
 		}
 	}
 
-	rmt, err := findRemote(remotes, con.BaseRemote)
-	if err != nil {
-		return err
-	}
-
-	baseRepository, err := newRepository(rmt.URL)
-	if err != nil {
-		return err
-	}
-
-	pr, err := getPullRequest(baseRepository, options.Number)
-	if err != nil {
-		return err
-	}
-
-	// add
-	if con.PullRequests == nil {
-		con.PullRequests = make(map[string][]types.PullRequest)
-	}
-	con.PullRequests[pr.Owner] = append(con.PullRequests[pr.Owner], *pr)
 	fmt.Println("checkout", pr)
-
-	err = pr.Checkout()
-	if err != nil {
-		return err
-	}
-
-	err = config.Save(confs)
-	if err != nil {
-		return err
-	}
 
 	return nil
 }
