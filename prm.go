@@ -19,6 +19,7 @@ func main() {
 		Config:                emptyConfig,
 		DefaultPointersConfig: &types.NoOption{},
 		Run: func() error {
+			cmd.List(&types.ListOptions{})
 			return nil
 		},
 	}
