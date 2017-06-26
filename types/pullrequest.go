@@ -8,9 +8,9 @@ import (
 	"github.com/ldez/go-git-cmd-wrapper/checkout"
 	"github.com/ldez/go-git-cmd-wrapper/fetch"
 	"github.com/ldez/go-git-cmd-wrapper/git"
+	"github.com/ldez/go-git-cmd-wrapper/pull"
 	"github.com/ldez/go-git-cmd-wrapper/push"
 	"github.com/ldez/go-git-cmd-wrapper/remote"
-	"github.com/ldez/go-git-cmd-wrapper/pull"
 )
 
 // PullRequest the pull request model.
