@@ -1,6 +1,7 @@
 .PHONY: all
 
-default: test-unit validate build
+default:
+	./.script/make.sh
 
 dependencies:
 	glide install

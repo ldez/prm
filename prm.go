@@ -7,6 +7,7 @@ import (
 
 	"github.com/containous/flaeg"
 	"github.com/ldez/prm/cmd"
+	"github.com/ldez/prm/meta"
 	"github.com/ldez/prm/types"
 )
 
@@ -153,6 +154,23 @@ func main() {
 	}
 
 	flag.AddCommand(listCmd)
+
+	// version
+
+	versionOptions := &types.NoOption{}
+
+	versionCmd := &flaeg.Command{
+		Name:                  "version",
+		Description:           "Display the version.",
+		Config:                versionOptions,
+		DefaultPointersConfig: &types.NoOption{},
+		Run: func() error {
+			meta.DisplayVersion()
+			return nil
+		},
+	}
+
+	flag.AddCommand(versionCmd)
 
 	// Run command
 	flag.Run()

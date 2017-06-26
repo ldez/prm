@@ -21,7 +21,8 @@ install: make dependencies
 deploy:
   - provider: releases
     api_key: ${GITHUB_TOKEN}
-    file: prm
+    file: dist/prm*
     skip_cleanup: true
+    file_glob: true
     on:
       tags: true

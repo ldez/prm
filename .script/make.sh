@@ -8,6 +8,8 @@ DEFAULT_BUNDLES=(
 	validate-golint
 
 	test-unit
+
+	crossbinary
 )
 
 bundle() {

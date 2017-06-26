@@ -19,15 +19,17 @@ Feature:
 
 == How to Install
 
-* Download `prm` from link:https://github.com/ldez/prm/releases[releases].
-* add `prm` in your `PATH`.
-
-or
 
 [source, shell]
 ----
 go get -u github.com/ldez/prm
 ----
+
+or
+
+* Download `prm` from link:https://github.com/ldez/prm/releases[releases].
+* Rename `prm_<OS>-<ARCH>` to `prm`.
+* add `prm` in your `PATH`.
 
 == Checkout
 
