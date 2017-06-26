@@ -20,7 +20,10 @@ func main() {
 		Config:                emptyConfig,
 		DefaultPointersConfig: &types.NoOption{},
 		Run: func() error {
-			cmd.List(&types.ListOptions{})
+			err := cmd.List(&types.ListOptions{})
+			if err != nil {
+				log.Println(err)
+			}
 			return nil
 		},
 	}
