@@ -125,9 +125,8 @@ func (pr *PullRequest) Checkout(newBranch bool) error {
 	localBranchName := makeLocalBranchName(pr)
 	startPoint := fmt.Sprintf("%s/%s", pr.Owner, pr.BranchName)
 	out, err := git.Checkout(
-		git.Cond(newBranch, checkout.Track, checkout.NewBranch),
-		checkout.Branch(localBranchName),
-		git.Cond(newBranch, checkout.StartPoint(startPoint)),
+		git.Cond(newBranch, checkout.Track, checkout.NewBranch(localBranchName), checkout.StartPoint(startPoint)),
+		git.Cond(!newBranch, checkout.Branch(localBranchName)),
 		git.Debug)
 	if err != nil {
 		log.Println(out)

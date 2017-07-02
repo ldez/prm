@@ -1,14 +1,14 @@
-hash: 63ed7c3f4531c9705eefb2a115f294975fff49a24bc82bb6d84291a7df029ed3
-updated: 2017-06-26T02:26:24.071379496+02:00
+hash: 99083b8a0e6bb7edd0296cad88a6397f543c5e6de0ba01d1249bbc2b179e655a
+updated: 2017-07-02T22:23:29.339500323+02:00
 imports:
 - name: github.com/containous/flaeg
   version: b5d2dc5878df07c2d74413348186982e7b865871
 - name: github.com/golang/protobuf
-  version: 2bba0603135d7d7f5cb73b2125beeda19c09f4ef
+  version: 7a211bcf3bce0e3f1d74f9894916e6f116ae83b4
   subpackages:
   - proto
 - name: github.com/google/go-github
-  version: 6896997c7c9fe603fb9d2e8e92303bb18481e60a
+  version: 4c4aea2b66bd1d26305d40a307bfa377d24f9c8c
   subpackages:
   - github
 - name: github.com/google/go-querystring
@@ -16,7 +16,7 @@ imports:
   subpackages:
   - query
 - name: github.com/ldez/go-git-cmd-wrapper
-  version: f8968ea7f0356e4828e69748a1a489970d4f40c7
+  version: 79c058f1cf4cbce22213b8b6570abfdd7a647a3c
   subpackages:
   - branch
   - checkout
@@ -30,7 +30,7 @@ imports:
 - name: github.com/ogier/pflag
   version: 45c278ab3607870051a2ea9040bb85fcb8557481
 - name: golang.org/x/net
-  version: 242b6b35177ec3909636b6cf6a47e8c2c6324b5d
+  version: 4876518f9e71663000c348837735820161a42df7
   subpackages:
   - context
 - name: golang.org/x/oauth2
@@ -38,7 +38,7 @@ imports:
   subpackages:
   - internal
 - name: google.golang.org/appengine
-  version: 4f7eeb5305a4ba1966344836ba4af9996b7b4e05
+  version: d11fc8a8dccf41ab5bd3c51a3ea52051240e325c
   subpackages:
   - internal
   - internal/app_identity
