@@ -55,7 +55,7 @@ func (pr *PullRequest) Remove() error {
 	out, err = git.Branch(branch.DeleteForce, branch.BranchName(branchName), git.Debug)
 	if err != nil {
 		log.Println(out)
-		return err
+		return fmt.Errorf("[PR %d] unable to checkout PR: %s", pr.Number, err)
 	}
 
 	return nil
@@ -74,7 +74,7 @@ func (pr *PullRequest) RemoveRemote() error {
 	out, err = git.Remote(remote.Remove(pr.Owner), git.Debug)
 	if err != nil {
 		log.Println(out)
-		return err
+		return fmt.Errorf("[PR %d] unable to remove remote: %s", pr.Number, err)
 	}
 
 	return nil
@@ -88,7 +88,7 @@ func (pr *PullRequest) Push(force bool) error {
 	out, err := git.Push(git.Cond(force, push.ForceWithLease), push.Remote(pr.Owner), push.RefSpec(ref), git.Debug)
 	if err != nil {
 		log.Println(out)
-		return err
+		return fmt.Errorf("[PR %d] unable to push: %s", pr.Number, err)
 	}
 
 	return nil
@@ -101,7 +101,7 @@ func (pr *PullRequest) Pull(force bool) error {
 	out, err := git.Pull(git.Cond(force, pull.Force), pull.Repository(pr.Owner), pull.Refspec(pr.BranchName), git.Debug)
 	if err != nil {
 		log.Println(out)
-		return err
+		return fmt.Errorf("[PR %d] unable to pull: %s", pr.Number, err)
 	}
 
 	return nil
@@ -119,7 +119,7 @@ func (pr *PullRequest) Checkout(newBranch bool) error {
 			out, err = git.Remote(remote.Add(pr.Owner, forkURL), git.Debug)
 			if err != nil {
 				log.Println(out)
-				return err
+				return fmt.Errorf("[PR %d] unable to add remote: %s", pr.Number, err)
 			}
 		}
 
@@ -127,7 +127,7 @@ func (pr *PullRequest) Checkout(newBranch bool) error {
 		out, err = git.Fetch(fetch.Remote(pr.Owner), fetch.RefSpec(pr.BranchName), git.Debug)
 		if err != nil {
 			log.Println(out)
-			return err
+			return fmt.Errorf("[PR %d] unable to fetch: %s", pr.Number, err)
 		}
 	}
 
@@ -140,7 +140,7 @@ func (pr *PullRequest) Checkout(newBranch bool) error {
 		git.Debug)
 	if err != nil {
 		log.Println(out)
-		return err
+		return fmt.Errorf("[PR %d] unable to checkout: %s", pr.Number, err)
 	}
 
 	return nil
