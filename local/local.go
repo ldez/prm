@@ -1,4 +1,4 @@
-package cmd
+package local
 
 import (
 	"fmt"
@@ -8,27 +8,33 @@ import (
 
 	"github.com/ldez/go-git-cmd-wrapper/git"
 	"github.com/ldez/go-git-cmd-wrapper/revparse"
+	"strings"
 )
 
-func getPRNumber(manualNumber int) (int, error) {
+func GetCurrentPRNumber(manualNumber int) (int, error) {
 	if manualNumber == 0 {
-		return getBranchPRNumber()
+		return GetCurrentBranchPRNumber()
 	}
 	return manualNumber, nil
 }
 
-func getBranchPRNumber() (int, error) {
-	out, err := git.RevParse(revparse.AbbrevRef(""), revparse.Args("HEAD"))
-	if err != nil {
-		log.Println(out)
-		return 0, err
-	}
+func GetCurrentBranchPRNumber() (int, error) {
+	out, err := GetCurrentBranchName()
 
 	number, err := parsePRNumber(out)
 	if err != nil {
 		return 0, err
 	}
 	return number, nil
+}
+
+func GetCurrentBranchName() (string, error) {
+	out, err := git.RevParse(revparse.AbbrevRef(""), revparse.Args("HEAD"))
+	if err != nil {
+		log.Println(out)
+		return "", err
+	}
+	return strings.TrimSpace(out), nil
 }
 
 func parsePRNumber(out string) (int, error) {

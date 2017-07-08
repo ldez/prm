@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/ldez/prm/config"
+	"github.com/ldez/prm/local"
 	"github.com/ldez/prm/types"
 )
 
@@ -27,7 +28,7 @@ func Push(options *types.PushOptions) error {
 		return err
 	}
 
-	number, err := getPRNumber(options.Number)
+	number, err := local.GetCurrentPRNumber(options.Number)
 	if err != nil {
 		return err
 	}

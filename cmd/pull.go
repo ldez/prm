@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/ldez/prm/config"
+	"github.com/ldez/prm/local"
 	"github.com/ldez/prm/types"
 )
 
@@ -27,7 +28,7 @@ func Pull(options *types.PullOptions) error {
 		return err
 	}
 
-	number, err := getBranchPRNumber()
+	number, err := local.GetCurrentBranchPRNumber()
 	if err != nil {
 		return err
 	}
