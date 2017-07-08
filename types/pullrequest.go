@@ -11,6 +11,7 @@ import (
 	"github.com/ldez/go-git-cmd-wrapper/pull"
 	"github.com/ldez/go-git-cmd-wrapper/push"
 	"github.com/ldez/go-git-cmd-wrapper/remote"
+	"github.com/ldez/prm/local"
 )
 
 // PullRequest the pull request model.
@@ -33,15 +34,24 @@ func (pr *PullRequest) Remove() error {
 		return nil
 	}
 
-	// git checkout $initial
-	out, err = git.Checkout(checkout.Branch(defaultInitialBranch), git.Debug)
+	branchName := makeLocalBranchName(pr)
+
+	currentBranchName, err := local.GetCurrentBranchName()
 	if err != nil {
-		log.Println(out)
-		return err
+		return fmt.Errorf("[PR %d] unable to find current local branch name: %s", pr.Number, err)
+	}
+	fmt.Println(currentBranchName, branchName)
+
+	if currentBranchName == branchName {
+		// git checkout $initial
+		out, err = git.Checkout(checkout.Branch(defaultInitialBranch), git.Debug)
+		if err != nil {
+			log.Println(out)
+			return fmt.Errorf("[PR %d] unable to checkout initial branch (%s): %s", pr.Number, defaultInitialBranch, err)
+		}
 	}
 
 	// git branch -D "$pr--$branch"
-	branchName := makeLocalBranchName(pr)
 	out, err = git.Branch(branch.DeleteForce, branch.BranchName(branchName), git.Debug)
 	if err != nil {
 		log.Println(out)
