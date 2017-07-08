@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"reflect"
 
 	"github.com/containous/flaeg"
 	"github.com/ldez/prm/cmd"
@@ -29,6 +30,8 @@ func main() {
 	}
 
 	flag := flaeg.New(rootCmd, os.Args[1:])
+
+	flag.AddParser(reflect.TypeOf(types.PRNumbers{}), &types.PRNumbers{})
 
 	// Checkout
 
@@ -65,7 +68,7 @@ func main() {
 		DefaultPointersConfig: &types.RemoveOptions{},
 	}
 	removeCmd.Run = func() error {
-		err := requirePRNumber(removeOptions.Number, removeCmd.Name)
+		err := requirePRNumbers(removeOptions.Numbers, removeCmd.Name)
 		if !removeOptions.All && err != nil {
 			log.Fatalln(err)
 		}
@@ -181,6 +184,13 @@ func main() {
 
 func requirePRNumber(number int, action string) error {
 	if number <= 0 {
+		return fmt.Errorf("You must provide a PR number. ex: 'prm %s -n 1235'", action)
+	}
+	return nil
+}
+
+func requirePRNumbers(numbers types.PRNumbers, action string) error {
+	if len(numbers) == 0 {
 		return fmt.Errorf("You must provide a PR number. ex: 'prm %s -n 1235'", action)
 	}
 	return nil

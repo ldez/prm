@@ -25,13 +25,13 @@ func Remove(options *types.RemoveOptions) error {
 		return err
 	}
 
-	con, err := config.Find(confs, repoDir)
+	conf, err := config.Find(confs, repoDir)
 	if err != nil {
 		return err
 	}
 
 	if options.All {
-		for remoteName, prs := range con.PullRequests {
+		for remoteName, prs := range conf.PullRequests {
 			for _, pr := range prs {
 				fmt.Println("remove", pr)
 
@@ -48,24 +48,13 @@ func Remove(options *types.RemoveOptions) error {
 				return err
 			}
 		}
-		con.PullRequests = make(map[string][]types.PullRequest)
+		conf.PullRequests = make(map[string][]types.PullRequest)
 	} else {
-		if pr, err := con.FindPullRequests(options.Number); err == nil {
-			fmt.Println("remove", pr)
-
-			err = pr.Remove()
+		for _, prNumber := range options.Numbers {
+			err = removePR(conf, prNumber)
 			if err != nil {
 				return err
 			}
-
-			if con.RemovePullRequest(pr) == 0 {
-				err = pr.RemoveRemote()
-				if err != nil {
-					return err
-				}
-			}
-		} else {
-			log.Println(err)
 		}
 	}
 
@@ -74,5 +63,26 @@ func Remove(options *types.RemoveOptions) error {
 		return err
 	}
 
+	return nil
+}
+
+func removePR(conf *config.Configuration, prNumber int) error {
+	if pr, err := conf.FindPullRequests(prNumber); err == nil {
+		fmt.Println("remove", pr)
+
+		err = pr.Remove()
+		if err != nil {
+			return err
+		}
+
+		if conf.RemovePullRequest(pr) == 0 {
+			err = pr.RemoveRemote()
+			if err != nil {
+				return err
+			}
+		}
+	} else {
+		log.Println(err)
+	}
 	return nil
 }
