@@ -202,8 +202,8 @@ func getPullRequest(baseRepository *types.Repository, number int) (*types.PullRe
 
 	return &types.PullRequest{
 		Project:    baseRepository.Name,
-		Owner:      *pr.Head.Repo.Owner.Login,
-		BranchName: *pr.Head.Ref,
+		Owner:      pr.Head.Repo.Owner.GetLogin(),
+		BranchName: pr.Head.GetRef(),
 		Number:     number,
 	}, nil
 }
