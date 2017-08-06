@@ -1,0 +1,42 @@
+
+# Gopkg.toml example
+#
+# Refer to https://github.com/golang/dep/blob/master/docs/Gopkg.toml.md
+# for detailed Gopkg.toml documentation.
+#
+# required = ["github.com/user/thing/cmd/thing"]
+# ignored = ["github.com/user/project/pkgX", "bitbucket.org/user/project/pkgA/pkgY"]
+#
+# [[constraint]]
+#   name = "github.com/user/project"
+#   version = "1.0.0"
+#
+# [[constraint]]
+#   name = "github.com/user/project2"
+#   branch = "dev"
+#   source = "github.com/myfork/project2"
+#
+# [[override]]
+#  name = "github.com/x/y"
+#  version = "2.4.0"
+
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/containous/flaeg"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/google/go-github"
+
+[[constraint]]
+  name = "github.com/ldez/go-git-cmd-wrapper"
+  version = "^0.18.0"
+
+[[constraint]]
+  name = "github.com/stretchr/testify"
+  revision = "f6abca593680b2315d2075e0f5e2a9751e3f431a"
+
+[[constraint]]
+  name = "golang.org/x/oauth2"
+  revision = "f047394b6d14284165300fd82dad67edb3a4d7f6"
