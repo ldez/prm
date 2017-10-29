@@ -37,6 +37,8 @@ or
 ----
 prm c -n 1234
 # or
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fldez%2Fprm.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fldez%2Fprm?ref=badge_shield)
+
 prm c --number=1234
 ----
 
@@ -95,3 +97,7 @@ prm list --all
 * Display local branches related to PR for:
 ** current project
 ** all projects
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fldez%2Fprm.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fldez%2Fprm?ref=badge_large)
