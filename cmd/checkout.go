@@ -91,6 +91,11 @@ func Checkout(options *types.CheckoutOptions) error {
 			return err
 		}
 
+		err = pr.Checkout(true)
+		if err != nil {
+			return err
+		}
+
 		// add PR to config
 		if conf.PullRequests == nil {
 			conf.PullRequests = make(map[string][]types.PullRequest)
@@ -98,11 +103,6 @@ func Checkout(options *types.CheckoutOptions) error {
 		conf.PullRequests[pr.Owner] = append(conf.PullRequests[pr.Owner], *pr)
 
 		err = config.Save(confs)
-		if err != nil {
-			return err
-		}
-
-		err = pr.Checkout(true)
 		if err != nil {
 			return err
 		}
