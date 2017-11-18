@@ -95,3 +95,10 @@ prm list --all
 * Display local branches related to PR for:
 ** current project
 ** all projects
+
+== Help
+
+[source, shell]
+----
+prm -h
+----
