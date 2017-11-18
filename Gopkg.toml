@@ -22,8 +22,8 @@
 
 
 [[constraint]]
-  branch = "master"
   name = "github.com/containous/flaeg"
+  version = "^1.0.0"
 
 [[constraint]]
   branch = "master"
@@ -34,9 +34,21 @@
   version = "^0.18.0"
 
 [[constraint]]
+  branch = "master"
   name = "github.com/stretchr/testify"
-  revision = "f6abca593680b2315d2075e0f5e2a9751e3f431a"
 
 [[constraint]]
+  branch = "master"
   name = "golang.org/x/oauth2"
-  revision = "f047394b6d14284165300fd82dad67edb3a4d7f6"
+
+[[override]]
+  branch = "master"
+  name = "github.com/ogier/pflag"
+
+[[override]]
+  branch = "master"
+  name = "github.com/davecgh/go-spew"
+
+[[override]]
+  branch = "master"
+  name = "google.golang.org/appengine"
