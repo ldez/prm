@@ -36,12 +36,14 @@ type ListOptions struct {
 	All bool `description:"All PR."`
 }
 
+// PRNumbers Slice of PR numbers
 type PRNumbers []int
 
+// Set a slice of PR numbers
 func (c *PRNumbers) Set(rawValue string) error {
 	values := strings.Split(rawValue, ",")
 	if len(values) == 0 {
-		return fmt.Errorf("Bad Value format: %s", rawValue)
+		return fmt.Errorf("bad Value format: %s", rawValue)
 	}
 	for _, value := range values {
 		number, err := strconv.ParseInt(value, 10, 32)
@@ -53,20 +55,22 @@ func (c *PRNumbers) Set(rawValue string) error {
 	return nil
 }
 
+// Get a slice of PR numbers
 func (c *PRNumbers) Get() interface{} { return []int(*c) }
+
+// SetValue of a slice of PR numbers
+func (c *PRNumbers) SetValue(val interface{}) {
+	*c = val.(PRNumbers)
+}
 
 func (c *PRNumbers) String() string {
 
-	stringNumbers := []string{}
+	var stringNumbers []string
 	for _, number := range *c {
-		stringNumbers = append(stringNumbers, strconv.FormatInt(int64(number), 10))
+		stringNumbers = append(stringNumbers, strconv.Itoa(number))
 	}
 
 	return strings.Join(stringNumbers, ",")
-}
-
-func (c *PRNumbers) SetValue(val interface{}) {
-	*c = PRNumbers(val.(PRNumbers))
 }
 
 // Repository Git repository model.

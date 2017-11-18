@@ -148,7 +148,7 @@ func findRemote(remotes []types.Remote, remoteName string) (*types.Remote, error
 			return &rmt, nil
 		}
 	}
-	return nil, fmt.Errorf("Unable to find remote: %s", remoteName)
+	return nil, fmt.Errorf("unable to find remote: %s", remoteName)
 }
 
 func promptRemoteChoice(remotes []types.Remote) (string, error) {
@@ -181,7 +181,7 @@ func newRepository(URL string) (*types.Repository, error) {
 	parts := exp.FindStringSubmatch(URL)
 
 	if len(parts) < 3 {
-		return nil, fmt.Errorf("Invalid URL: %s", URL)
+		return nil, fmt.Errorf("invalid URL: %s", URL)
 	}
 
 	return &types.Repository{

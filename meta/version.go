@@ -9,6 +9,7 @@ var (
 	BuildDate = "I don't remember exactly"
 )
 
+// Display PRM version
 func DisplayVersion() {
-	fmt.Printf("Version: %s, %s", Version, BuildDate)
+	fmt.Printf("Version: %s, %s\n", Version, BuildDate)
 }

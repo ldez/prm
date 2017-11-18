@@ -5,12 +5,13 @@ import (
 	"log"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/ldez/go-git-cmd-wrapper/git"
 	"github.com/ldez/go-git-cmd-wrapper/revparse"
-	"strings"
 )
 
+// GetCurrentPRNumber get the current PR number.
 func GetCurrentPRNumber(manualNumber int) (int, error) {
 	if manualNumber == 0 {
 		return GetCurrentBranchPRNumber()
@@ -18,16 +19,18 @@ func GetCurrentPRNumber(manualNumber int) (int, error) {
 	return manualNumber, nil
 }
 
+// GetCurrentBranchPRNumber get the current branch PR number.
 func GetCurrentBranchPRNumber() (int, error) {
 	out, err := GetCurrentBranchName()
-
-	number, err := parsePRNumber(out)
 	if err != nil {
+		log.Println(out)
 		return 0, err
 	}
-	return number, nil
+
+	return parsePRNumber(out)
 }
 
+// GetCurrentBranchName get the current branch name.
 func GetCurrentBranchName() (string, error) {
 	out, err := git.RevParse(revparse.AbbrevRef(""), revparse.Args("HEAD"))
 	if err != nil {
@@ -50,5 +53,5 @@ func parsePRNumber(out string) (int, error) {
 		return int(number), nil
 	}
 
-	return 0, fmt.Errorf("Unable to parse: %s", out)
+	return 0, fmt.Errorf("unable to parse: %s", out)
 }

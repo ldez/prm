@@ -42,10 +42,10 @@ func Remove(options *types.RemoveOptions) error {
 			}
 
 			fmt.Println("remove remote", remoteName)
-			out, err := git.Remote(remote.Remove(remoteName), git.Debug)
-			if err != nil {
+			out, errRemote := git.Remote(remote.Remove(remoteName), git.Debug)
+			if errRemote != nil {
 				log.Println(out)
-				return err
+				return errRemote
 			}
 		}
 		conf.PullRequests = make(map[string][]types.PullRequest)
@@ -58,12 +58,7 @@ func Remove(options *types.RemoveOptions) error {
 		}
 	}
 
-	err = config.Save(confs)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return config.Save(confs)
 }
 
 func removePR(conf *config.Configuration, prNumber int) error {

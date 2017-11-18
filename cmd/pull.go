@@ -40,10 +40,5 @@ func Pull(options *types.PullOptions) error {
 
 	fmt.Println("pull", pr)
 
-	err = pr.Pull(options.Force)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return pr.Pull(options.Force)
 }

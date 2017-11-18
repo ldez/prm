@@ -65,7 +65,7 @@ func (c *Configuration) FindPullRequests(number int) (*types.PullRequest, error)
 		}
 	}
 
-	return nil, fmt.Errorf("Unable to find PR: %d", number)
+	return nil, fmt.Errorf("unable to find PR: %d", number)
 }
 
 // Find find a configuration by directory name.
@@ -77,7 +77,7 @@ func Find(configurations []Configuration, directory string) (*Configuration, err
 		}
 	}
 
-	return nil, fmt.Errorf("No existing configuration for: %s", directory)
+	return nil, fmt.Errorf("no existing configuration for: %s", directory)
 }
 
 // ReadFile read the configuration file and load the configuration into an array.
@@ -90,28 +90,31 @@ func ReadFile() ([]Configuration, error) {
 		return configs, err
 	}
 
-	if _, err := os.Stat(filePath); err != nil {
+	if _, errStat := os.Stat(filePath); errStat != nil {
 		log.New(os.Stdout, "INFO: ", log.LstdFlags).Printf("Create the configuration file: %s", filePath)
 
-		content, err := json.MarshalIndent(configs, "", "  ")
-		if err != nil {
-			return configs, err
+		content, errMarshal := json.MarshalIndent(configs, "", "  ")
+		if errMarshal != nil {
+			return configs, errMarshal
 		}
 
-		file, err := os.Create(filePath)
-		if err != nil {
-			return configs, err
+		file, errCreate := os.Create(filePath)
+		if errCreate != nil {
+			return configs, errCreate
 		}
 
-		_, err = file.Write(content)
-		if err != nil {
-			return configs, err
+		_, errWrite := file.Write(content)
+		if errWrite != nil {
+			return configs, errWrite
 		}
 
 		defer file.Close()
 	}
 
 	file, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		return nil, err
+	}
 
 	err = json.Unmarshal(file, &configs)
 	if err != nil {
@@ -134,12 +137,7 @@ func Save(configs []Configuration) error {
 		return err
 	}
 
-	err = ioutil.WriteFile(filePath, confJSON, 0644)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return ioutil.WriteFile(filePath, confJSON, 0644)
 }
 
 // GetPath get the configuration file path.

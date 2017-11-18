@@ -112,22 +112,22 @@ func (pr *PullRequest) Checkout(newBranch bool) error {
 
 	if newBranch {
 		// git remote get-url $remote
-		out, err := git.Remote(remote.GetURL(pr.Owner))
+		_, err := git.Remote(remote.GetURL(pr.Owner))
 		if err != nil {
 			// git remote add $remote git@github.com:$remote/$project.git
 			forkURL := fmt.Sprintf("git@github.com:%s/%s.git", pr.Owner, pr.Project)
-			out, err = git.Remote(remote.Add(pr.Owner, forkURL), git.Debug)
-			if err != nil {
+			out, errRemote := git.Remote(remote.Add(pr.Owner, forkURL), git.Debug)
+			if errRemote != nil {
 				log.Println(out)
-				return fmt.Errorf("[PR %d] unable to add remote: %s", pr.Number, err)
+				return fmt.Errorf("[PR %d] unable to add remote: %s", pr.Number, errRemote)
 			}
 		}
 
 		// git fetch $remote $branch
-		out, err = git.Fetch(fetch.Remote(pr.Owner), fetch.RefSpec(pr.BranchName), git.Debug)
-		if err != nil {
+		out, errFetch := git.Fetch(fetch.Remote(pr.Owner), fetch.RefSpec(pr.BranchName), git.Debug)
+		if errFetch != nil {
 			log.Println(out)
-			return fmt.Errorf("[PR %d] unable to fetch: %s", pr.Number, err)
+			return fmt.Errorf("[PR %d] unable to fetch: %s", pr.Number, errFetch)
 		}
 	}
 

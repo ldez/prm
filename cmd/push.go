@@ -40,10 +40,5 @@ func Push(options *types.PushOptions) error {
 
 	fmt.Println("push", pr)
 
-	err = pr.Push(options.Force)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return pr.Push(options.Force)
 }
