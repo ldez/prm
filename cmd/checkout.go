@@ -21,7 +21,6 @@ import (
 
 // Checkout checkout a PR.
 func Checkout(options *types.CheckoutOptions) error {
-
 	// Get all remotes
 	output, err := git.Remote(remote.Verbose, git.Debug)
 	if err != nil {

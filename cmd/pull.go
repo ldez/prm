@@ -11,7 +11,6 @@ import (
 
 // Pull pull the PR branch.
 func Pull(options *types.PullOptions) error {
-
 	// get configuration
 	confs, err := config.ReadFile()
 	if err != nil {

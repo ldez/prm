@@ -27,7 +27,6 @@ const defaultInitialBranch = "master"
 
 // Remove remove the pull request from the local git repository.
 func (pr *PullRequest) Remove() error {
-
 	// git remote get-url $remote
 	out, err := git.Remote(remote.GetURL(pr.Owner))
 	if err != nil {
@@ -83,7 +82,6 @@ func (pr *PullRequest) RemoveRemote() error {
 
 // Push push the pull request to the remote git repository.
 func (pr *PullRequest) Push(force bool) error {
-
 	// git push --force-with-lease $remote $pr--$branch:$branch
 	ref := fmt.Sprintf("%s:%s", makeLocalBranchName(pr), pr.BranchName)
 	out, err := git.Push(git.Cond(force, push.ForceWithLease), push.Remote(pr.Owner), push.RefSpec(ref), git.Debug)
@@ -97,7 +95,6 @@ func (pr *PullRequest) Push(force bool) error {
 
 // Pull pull the PR from the remote git repository.
 func (pr *PullRequest) Pull(force bool) error {
-
 	// git pull -f $remote $branch
 	out, err := git.Pull(git.Cond(force, pull.Force), pull.Repository(pr.Owner), pull.Refspec(pr.BranchName), git.Debug)
 	if err != nil {

@@ -13,7 +13,6 @@ import (
 
 // Remove remove PR.
 func Remove(options *types.RemoveOptions) error {
-
 	// get configuration
 	confs, err := config.ReadFile()
 	if err != nil {

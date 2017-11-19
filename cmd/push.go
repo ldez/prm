@@ -11,7 +11,6 @@ import (
 
 // Push push to the PR branch.
 func Push(options *types.PushOptions) error {
-
 	// get configuration
 	confs, err := config.ReadFile()
 	if err != nil {
