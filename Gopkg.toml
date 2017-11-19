@@ -41,6 +41,10 @@
   branch = "master"
   name = "golang.org/x/oauth2"
 
+[[constraint]]
+  branch = "master"
+  name = "github.com/pkg/errors"
+
 [[override]]
   branch = "master"
   name = "github.com/ogier/pflag"
