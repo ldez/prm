@@ -93,6 +93,11 @@ func Checkout(options *types.CheckoutOptions) error {
 
 		err = pr.Checkout(true)
 		if err != nil {
+			// Remove remote if needed
+			errRemote := removeRemote(conf, pr)
+			if errRemote != nil {
+				log.Println(errRemote)
+			}
 			return err
 		}
 
@@ -140,6 +145,17 @@ func getRemotes(output string) []types.Remote {
 	sort.Sort(types.ByRemoteName(remotes))
 
 	return remotes
+}
+
+// removeRemote if needed
+func removeRemote(conf *config.Configuration, pr *types.PullRequest) error {
+	if len(conf.PullRequests[pr.Owner]) == 0 {
+		errRemote := pr.RemoveRemote()
+		if errRemote != nil {
+			return errRemote
+		}
+	}
+	return nil
 }
 
 func findRemote(remotes []types.Remote, remoteName string) (*types.Remote, error) {
