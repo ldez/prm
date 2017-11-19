@@ -163,12 +163,10 @@ func main() {
 
 	// version
 
-	versionOptions := &types.NoOption{}
-
 	versionCmd := &flaeg.Command{
 		Name:                  "version",
 		Description:           "Display the version.",
-		Config:                versionOptions,
+		Config:                &types.NoOption{},
 		DefaultPointersConfig: &types.NoOption{},
 		Run: func() error {
 			meta.DisplayVersion()
