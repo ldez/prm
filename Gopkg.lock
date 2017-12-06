@@ -23,7 +23,7 @@
   branch = "master"
   name = "github.com/google/go-github"
   packages = ["github"]
-  revision = "471e67c93cdd36a5f7c9bba5d6d11665ba12147d"
+  revision = "fbfee053c26dab3772adfc7799d995eed379133e"
 
 [[projects]]
   branch = "master"
@@ -34,8 +34,8 @@
 [[projects]]
   name = "github.com/ldez/go-git-cmd-wrapper"
   packages = ["branch","checkout","fetch","git","pull","push","remote","revparse","types"]
-  revision = "590e8f3c63daa8e76077fa9c8c2446c421a15ef1"
-  version = "v0.18.0"
+  revision = "a510f886a679ab15694d6deb97ef67c0559bf7e5"
+  version = "v0.20.0"
 
 [[projects]]
   branch = "master"
@@ -65,13 +65,13 @@
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context","context/ctxhttp"]
-  revision = "9dfe39835686865bff950a07b394c12a98ddc811"
+  revision = "a8b9294777976932365dabb6640cf1468d95c70f"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/oauth2"
   packages = [".","internal"]
-  revision = "f95fa95eaa936d9d87489b15d1d18b97c1ba9c28"
+  revision = "6a2004c8907a86949d71c664c81574897a4e55a6"
 
 [[projects]]
   branch = "master"
@@ -82,6 +82,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "06ae42c55d9dbc7e0f2cbc1f16f40167202f53892b3dfbbbce05b96310d08ffe"
+  inputs-digest = "910e080aa14701e09681f9a3bd85b9fb49199705a2cacaaa82977aec71b3f23c"
   solver-name = "gps-cdcl"
   solver-version = 1
