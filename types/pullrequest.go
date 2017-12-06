@@ -84,7 +84,7 @@ func (pr *PullRequest) RemoveRemote() error {
 func (pr *PullRequest) Push(force bool) error {
 	// git push --force-with-lease $remote $pr--$branch:$branch
 	ref := fmt.Sprintf("%s:%s", makeLocalBranchName(pr), pr.BranchName)
-	out, err := git.Push(git.Cond(force, push.ForceWithLease), push.Remote(pr.Owner), push.RefSpec(ref), git.Debug)
+	out, err := git.Push(push.NoFollowTags, git.Cond(force, push.ForceWithLease), push.Remote(pr.Owner), push.RefSpec(ref), git.Debug)
 	if err != nil {
 		log.Println(out)
 		return errors.Wrapf(err, "[PR %d] unable to push", pr.Number)
