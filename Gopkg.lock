@@ -23,7 +23,7 @@
   branch = "master"
   name = "github.com/google/go-github"
   packages = ["github"]
-  revision = "fbfee053c26dab3772adfc7799d995eed379133e"
+  revision = "0c3b302de2a6de84a2511db47ea1bb2ff8146830"
 
 [[projects]]
   branch = "master"
@@ -33,7 +33,17 @@
 
 [[projects]]
   name = "github.com/ldez/go-git-cmd-wrapper"
-  packages = ["branch","checkout","fetch","git","pull","push","remote","revparse","types"]
+  packages = [
+    "branch",
+    "checkout",
+    "fetch",
+    "git",
+    "pull",
+    "push",
+    "remote",
+    "revparse",
+    "types"
+  ]
   revision = "a510f886a679ab15694d6deb97ef67c0559bf7e5"
   version = "v0.20.0"
 
@@ -47,7 +57,7 @@
   branch = "master"
   name = "github.com/pkg/errors"
   packages = ["."]
-  revision = "f15c970de5b76fac0b59abb32d62c17cc7bed265"
+  revision = "e881fd58d78e04cf6d0de1217f8707c8cc2249bc"
 
 [[projects]]
   name = "github.com/pmezard/go-difflib"
@@ -58,26 +68,43 @@
 [[projects]]
   branch = "master"
   name = "github.com/stretchr/testify"
-  packages = ["assert","require"]
+  packages = [
+    "assert",
+    "require"
+  ]
   revision = "2aa2c176b9dab406a6970f6a55f513e8a8c8b18f"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/net"
-  packages = ["context","context/ctxhttp"]
-  revision = "a8b9294777976932365dabb6640cf1468d95c70f"
+  packages = [
+    "context",
+    "context/ctxhttp"
+  ]
+  revision = "d866cfc389cec985d6fda2859936a575a55a3ab6"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/oauth2"
-  packages = [".","internal"]
-  revision = "6a2004c8907a86949d71c664c81574897a4e55a6"
+  packages = [
+    ".",
+    "internal"
+  ]
+  revision = "0448841f0cbe9d174c6c1cedd177f583337b8e2c"
 
 [[projects]]
   branch = "master"
   name = "google.golang.org/appengine"
-  packages = ["internal","internal/base","internal/datastore","internal/log","internal/remote_api","internal/urlfetch","urlfetch"]
-  revision = "9d8544a6b2c7df9cff240fcf92d7b2f59bc13416"
+  packages = [
+    "internal",
+    "internal/base",
+    "internal/datastore",
+    "internal/log",
+    "internal/remote_api",
+    "internal/urlfetch",
+    "urlfetch"
+  ]
+  revision = "5bee14b453b4c71be47ec1781b0fa61c2ea182db"
 
 [solve-meta]
   analyzer-name = "dep"
