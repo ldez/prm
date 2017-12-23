@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"reflect"
+	"strings"
 
 	"github.com/containous/flaeg"
 	"github.com/ldez/prm/cmd"
@@ -13,7 +14,6 @@ import (
 )
 
 func main() {
-
 	emptyConfig := &types.NoOption{}
 	rootCmd := &flaeg.Command{
 		Name:                  "prm",
@@ -21,11 +21,7 @@ func main() {
 		Config:                emptyConfig,
 		DefaultPointersConfig: &types.NoOption{},
 		Run: func() error {
-			err := cmd.List(&types.ListOptions{})
-			if err != nil {
-				log.Println(err)
-			}
-			return nil
+			return cmd.List(&types.ListOptions{})
 		},
 	}
 
@@ -46,13 +42,9 @@ func main() {
 	checkoutCmd.Run = func() error {
 		err := requirePRNumber(checkoutOptions.Number, checkoutCmd.Name)
 		if err != nil {
-			log.Fatalln(err)
+			return err
 		}
-		err = cmd.Checkout(checkoutOptions)
-		if err != nil {
-			log.Println(err)
-		}
-		return nil
+		return cmd.Checkout(checkoutOptions)
 	}
 
 	flag.AddCommand(checkoutCmd)
@@ -70,13 +62,9 @@ func main() {
 	removeCmd.Run = func() error {
 		err := requirePRNumbers(removeOptions.Numbers, removeCmd.Name)
 		if !removeOptions.All && err != nil {
-			log.Fatalln(err)
+			return err
 		}
-		err = cmd.Remove(removeOptions)
-		if err != nil {
-			log.Println(err)
-		}
-		return nil
+		return cmd.Remove(removeOptions)
 	}
 
 	flag.AddCommand(removeCmd)
@@ -92,11 +80,7 @@ func main() {
 		DefaultPointersConfig: &types.PushOptions{},
 	}
 	pushForceCmd.Run = func() error {
-		err := cmd.Push(pushForceOptions)
-		if err != nil {
-			log.Println(err)
-		}
-		return nil
+		return cmd.Push(pushForceOptions)
 	}
 
 	flag.AddCommand(pushForceCmd)
@@ -112,11 +96,7 @@ func main() {
 		DefaultPointersConfig: &types.PushOptions{},
 	}
 	pushCmd.Run = func() error {
-		err := cmd.Push(pushOptions)
-		if err != nil {
-			log.Println(err)
-		}
-		return nil
+		return cmd.Push(pushOptions)
 	}
 
 	flag.AddCommand(pushCmd)
@@ -132,11 +112,7 @@ func main() {
 		DefaultPointersConfig: &types.PullOptions{},
 	}
 	pullCmd.Run = func() error {
-		err := cmd.Pull(pullOptions)
-		if err != nil {
-			log.Println(err)
-		}
-		return nil
+		return cmd.Pull(pullOptions)
 	}
 
 	flag.AddCommand(pullCmd)
@@ -151,11 +127,7 @@ func main() {
 		Config:                listOptions,
 		DefaultPointersConfig: &types.ListOptions{},
 		Run: func() error {
-			err := cmd.List(listOptions)
-			if err != nil {
-				log.Println(err)
-			}
-			return nil
+			return cmd.List(listOptions)
 		},
 	}
 
@@ -177,19 +149,22 @@ func main() {
 	flag.AddCommand(versionCmd)
 
 	// Run command
-	flag.Run()
+	err := flag.Run()
+	if err != nil && !strings.HasSuffix(err.Error(), "pflag: help requested") {
+		log.Printf("Error: %v\n", err)
+	}
 }
 
 func requirePRNumber(number int, action string) error {
 	if number <= 0 {
-		return fmt.Errorf("You must provide a PR number. ex: 'prm %s -n 1235'", action)
+		return fmt.Errorf("you must provide a PR number. ex: 'prm %s -n 1235'", action)
 	}
 	return nil
 }
 
 func requirePRNumbers(numbers types.PRNumbers, action string) error {
 	if len(numbers) == 0 {
-		return fmt.Errorf("You must provide a PR number. ex: 'prm %s -n 1235'", action)
+		return fmt.Errorf("you must provide a PR number. ex: 'prm %s -n 1235'", action)
 	}
 	return nil
 }
