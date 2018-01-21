@@ -5,12 +5,14 @@ import (
 	"log"
 	"os"
 	"reflect"
-	"strings"
 
 	"github.com/containous/flaeg"
+	"github.com/ldez/prm/choose"
 	"github.com/ldez/prm/cmd"
+	"github.com/ldez/prm/config"
 	"github.com/ldez/prm/meta"
 	"github.com/ldez/prm/types"
+	"github.com/ogier/pflag"
 )
 
 func main() {
@@ -21,7 +23,7 @@ func main() {
 		Config:                emptyConfig,
 		DefaultPointersConfig: &types.NoOption{},
 		Run: func() error {
-			return cmd.List(&types.ListOptions{})
+			return cmd.Switch(&types.ListOptions{})
 		},
 	}
 
@@ -59,13 +61,7 @@ func main() {
 		Config:                removeOptions,
 		DefaultPointersConfig: &types.RemoveOptions{},
 	}
-	removeCmd.Run = func() error {
-		err := requirePRNumbers(removeOptions.Numbers, removeCmd.Name)
-		if !removeOptions.All && err != nil {
-			return err
-		}
-		return cmd.Remove(removeOptions)
-	}
+	removeCmd.Run = removeRun(removeCmd.Name, removeOptions)
 
 	flag.AddCommand(removeCmd)
 
@@ -150,8 +146,36 @@ func main() {
 
 	// Run command
 	err := flag.Run()
-	if err != nil && !strings.HasSuffix(err.Error(), "pflag: help requested") {
+	if err != nil && err != pflag.ErrHelp {
 		log.Printf("Error: %v\n", err)
+	}
+}
+
+func removeRun(action string, removeOptions *types.RemoveOptions) func() error {
+	return func() error {
+		if removeOptions.All {
+			return cmd.Remove(removeOptions)
+		}
+
+		if !removeOptions.NoPrompt && len(removeOptions.Numbers) == 0 {
+			conf, err := config.Get()
+			if err != nil {
+				return err
+			}
+
+			number, err := choose.PullRequest(conf.PullRequests)
+			if err != nil || number <= 0 {
+				return err
+			}
+			removeOptions.Numbers = append(removeOptions.Numbers, number)
+		} else {
+			err := requirePRNumbers(removeOptions.Numbers, action)
+			if err != nil {
+				return err
+			}
+		}
+
+		return cmd.Remove(removeOptions)
 	}
 }
 

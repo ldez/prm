@@ -16,8 +16,9 @@ type CheckoutOptions struct {
 
 // RemoveOptions "remove" command options.
 type RemoveOptions struct {
-	Numbers PRNumbers `short:"n" description:"PRs numbers."`
-	All     bool      `description:"All PR."`
+	Numbers  PRNumbers `short:"n" description:"PRs numbers."`
+	All      bool      `description:"All PR."`
+	NoPrompt bool      `short:"d" description:"Disable interactive prompt."`
 }
 
 // PushOptions "push" command options.

@@ -1,6 +1,9 @@
 package meta
 
-import "fmt"
+import (
+	"fmt"
+	"runtime"
+)
 
 var (
 	// Version holds the current version.
@@ -11,5 +14,11 @@ var (
 
 // DisplayVersion DisplayVersion PRM version
 func DisplayVersion() {
-	fmt.Printf("Version: %s, %s\n", Version, BuildDate)
+	fmt.Printf(`structor:
+ version     : %s
+ build date  : %s
+ go version  : %s
+ go compiler : %s
+ platform    : %s/%s
+`, Version, BuildDate, runtime.Version(), runtime.Compiler, runtime.GOOS, runtime.GOARCH)
 }

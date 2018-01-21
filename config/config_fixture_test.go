@@ -21,24 +21,12 @@ func aConfiguration(builders ...func(*Configuration)) Configuration {
 	return *conf
 }
 
-func directoryA(conf *Configuration) {
-	conf.Directory = defaultTestDirectory
-}
-
 func directoryB(conf *Configuration) {
 	conf.Directory = "/my/git/directory/bbb"
 }
 
 func directoryC(conf *Configuration) {
 	conf.Directory = "/my/git/directory/ccc"
-}
-
-func remoteA(conf *Configuration) {
-	conf.BaseRemote = defaultTestBaseRemote
-}
-
-func remoteB(conf *Configuration) {
-	conf.BaseRemote = "remoteB"
 }
 
 func withPullRequest(owner string, builders ...func(*types.PullRequest)) func(*Configuration) {

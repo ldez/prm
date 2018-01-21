@@ -45,6 +45,10 @@
   branch = "master"
   name = "github.com/pkg/errors"
 
+[[constraint]]
+  name = "gopkg.in/AlecAivazis/survey.v1"
+  version = "1.4.1"
+
 [[override]]
   branch = "master"
   name = "github.com/ogier/pflag"
@@ -56,3 +60,4 @@
 [[override]]
   branch = "master"
   name = "google.golang.org/appengine"
+

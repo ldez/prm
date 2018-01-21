@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 	"os/user"
-	"path"
+	"path/filepath"
 
 	"github.com/ldez/prm/types"
 )
@@ -68,6 +68,21 @@ func (c *Configuration) FindPullRequests(number int) (*types.PullRequest, error)
 	return nil, fmt.Errorf("unable to find PR: %d", number)
 }
 
+// Get configuration for the current directory
+func Get() (*Configuration, error) {
+	confs, err := ReadFile()
+	if err != nil {
+		return nil, err
+	}
+
+	repoDir, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+
+	return Find(confs, repoDir)
+}
+
 // Find find a configuration by directory name.
 func Find(configurations []Configuration, directory string) (*Configuration, error) {
 
@@ -103,12 +118,17 @@ func ReadFile() ([]Configuration, error) {
 			return configs, errCreate
 		}
 
+		defer func() {
+			errClose := file.Close()
+			if errClose != nil {
+				log.Println(errClose)
+			}
+		}()
+
 		_, errWrite := file.Write(content)
 		if errWrite != nil {
 			return configs, errWrite
 		}
-
-		defer file.Close()
 	}
 
 	file, err := ioutil.ReadFile(filePath)
@@ -147,5 +167,5 @@ func GetPath() (string, error) {
 		return "", err
 	}
 
-	return path.Join(usr.HomeDir, defaultFileName), nil
+	return filepath.Join(usr.HomeDir, defaultFileName), nil
 }
