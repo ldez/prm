@@ -30,22 +30,9 @@ func Remove(options *types.RemoveOptions) error {
 	}
 
 	if options.All {
-		for remoteName, prs := range conf.PullRequests {
-			for _, pr := range prs {
-				fmt.Println("remove", pr)
-
-				err = pr.Remove()
-				if err != nil {
-					return err
-				}
-			}
-
-			fmt.Println("remove remote", remoteName)
-			out, errRemote := git.Remote(remote.Remove(remoteName), git.Debug)
-			if errRemote != nil {
-				log.Println(out)
-				return errRemote
-			}
+		err = removeAll(conf)
+		if err != nil {
+			return err
 		}
 		conf.PullRequests = make(map[string][]types.PullRequest)
 	} else {
@@ -77,6 +64,27 @@ func removePR(conf *config.Configuration, prNumber int) error {
 		}
 	} else {
 		log.Println(err)
+	}
+	return nil
+}
+
+func removeAll(conf *config.Configuration) error {
+	for remoteName, prs := range conf.PullRequests {
+		for _, pr := range prs {
+			fmt.Println("remove", pr)
+
+			err := pr.Remove()
+			if err != nil {
+				return err
+			}
+		}
+
+		fmt.Println("remove remote", remoteName)
+		out, errRemote := git.Remote(remote.Remove(remoteName), git.Debug)
+		if errRemote != nil {
+			log.Println(out)
+			return errRemote
+		}
 	}
 	return nil
 }

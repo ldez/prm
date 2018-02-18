@@ -20,6 +20,8 @@ import (
 )
 
 // Checkout checkout a PR.
+// TODO simplify this function
+// nolint: gocyclo
 func Checkout(options *types.CheckoutOptions) error {
 	// Get all remotes
 	output, err := git.Remote(remote.Verbose, git.Debug)

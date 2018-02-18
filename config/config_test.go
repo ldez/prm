@@ -2,6 +2,7 @@ package config
 
 import (
 	"io/ioutil"
+	"log"
 	"os"
 	"path"
 	"testing"
@@ -37,7 +38,7 @@ func TestConfiguration_RemovePullRequest_should_remove_only_PR_when_multiple_PR_
 	count := conf.RemovePullRequest(&pr)
 
 	assert.Equalf(t, 1, count, "in configuration: %v", conf)
-	assert.Lenf(t, conf.PullRequests["hubert"], 1,"in configuration: %v", conf)
+	assert.Lenf(t, conf.PullRequests["hubert"], 1, "in configuration: %v", conf)
 }
 
 func TestConfiguration_FindPullRequests_should_return_pr_when_pr_exist(t *testing.T) {
@@ -71,9 +72,13 @@ func TestConfiguration_FindPullRequests_should_fail_when_pr_not_exist(t *testing
 }
 
 func TestReadFile_should_return_empty_configuration_list_when_file_not_exist(t *testing.T) {
-
 	dir, err := ioutil.TempDir("", "prm")
-	defer os.RemoveAll(dir)
+	defer func() {
+		errRemove := os.RemoveAll(dir)
+		if errRemove != nil {
+			log.Println(errRemove)
+		}
+	}()
 	require.NoError(t, err)
 
 	// Mock GetPath function
@@ -88,7 +93,6 @@ func TestReadFile_should_return_empty_configuration_list_when_file_not_exist(t *
 }
 
 func TestReadFile_should_return_configuration_list_when_file_exist(t *testing.T) {
-
 	// Mock GetPath function
 	getPathFunc = func() (string, error) {
 		return path.Join("fixture", "case01.json"), nil
@@ -101,9 +105,13 @@ func TestReadFile_should_return_configuration_list_when_file_exist(t *testing.T)
 }
 
 func TestSave_should_save_configuration(t *testing.T) {
-
 	dir, err := ioutil.TempDir("", "prm")
-	defer os.RemoveAll(dir)
+	defer func() {
+		errRemove := os.RemoveAll(dir)
+		if errRemove != nil {
+			log.Println(errRemove)
+		}
+	}()
 	require.NoError(t, err)
 
 	// Mock GetPath function

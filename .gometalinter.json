@@ -1,0 +1,18 @@
+{
+  "Vendor": true,
+  "Sort": [
+    "path",
+    "line",
+    "column",
+    "severity",
+    "linter"
+  ],
+  "Test": true,
+  "Cyclo": 12,
+  "Disable": [
+    "gas",
+    "maligned"
+  ],
+  "Exclude": [],
+  "Deadline": "1m"
+}

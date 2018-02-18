@@ -1,10 +1,9 @@
 .PHONY: all
 
-PKGS := $(shell go list ./... | grep -v '/vendor/')
 GOFILES := $(shell go list -f '{{range $$index, $$element := .GoFiles}}{{$$.Dir}}/{{$$element}}{{"\n"}}{{end}}' ./... | grep -v '/vendor/')
 TXT_FILES := $(shell find * -type f -not -path 'vendor/**')
 
-default: clean misspell checks lint test build-crossbinary
+default: clean misspell checks test build-crossbinary
 
 test: clean
 	go test -v -cover ./...
@@ -13,14 +12,10 @@ dependencies:
 	dep ensure -v
 
 clean:
-	rm -f cover.out
-
-lint:
-	golint -set_exit_status $(PKGS)
+	rm -rf dist/ cover.out
 
 checks: check-fmt
-	staticcheck $(PKGS)
-	gosimple $(PKGS)
+	gometalinter ./...
 
 check-fmt: SHELL := /bin/bash
 check-fmt:
@@ -29,7 +24,7 @@ check-fmt:
 misspell:
 	misspell -source=text -error $(TXT_FILES)
 
-build: clean misspell checks lint test
+build: clean misspell checks test
 	go build
 
 build-crossbinary:
