@@ -2,6 +2,7 @@ package choose
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 
@@ -10,12 +11,23 @@ import (
 	"gopkg.in/AlecAivazis/survey.v1"
 )
 
+const (
+	exitLabel = "exit"
+	allLabel  = "all"
+	ExitValue = 0
+	AllValue  = math.MaxInt32
+)
+
 type answersPR struct {
 	PR string
 }
 
 func (a answersPR) isExit() bool {
-	return a.PR == "exit"
+	return a.PR == exitLabel
+}
+
+func (a answersPR) isAll() bool {
+	return a.PR == allLabel
 }
 
 func (a answersPR) getPRNumber() (int, error) {
@@ -34,14 +46,14 @@ type answersProject struct {
 }
 
 func (a answersProject) isExit() bool {
-	return a.Directory == "exit"
+	return a.Directory == exitLabel
 }
 
 // PullRequest Choose a PR in the list
 func PullRequest(pulls map[string][]types.PullRequest) (int, error) {
 	if len(pulls) == 0 {
 		fmt.Println("* 0 PR.")
-		return 0, nil
+		return ExitValue, nil
 	}
 
 	var surveyOpts []string
@@ -50,7 +62,8 @@ func PullRequest(pulls map[string][]types.PullRequest) (int, error) {
 			surveyOpts = append(surveyOpts, fmt.Sprintf("%d: %s - %s", pr.Number, pr.Owner, pr.BranchName))
 		}
 	}
-	surveyOpts = append(surveyOpts, "exit")
+	surveyOpts = append(surveyOpts, exitLabel)
+	surveyOpts = append(surveyOpts, allLabel)
 
 	var qs = []*survey.Question{
 		{
@@ -67,8 +80,13 @@ func PullRequest(pulls map[string][]types.PullRequest) (int, error) {
 	if err != nil {
 		return 0, err
 	}
+
 	if answers.isExit() {
-		return 0, nil
+		return ExitValue, nil
+	}
+
+	if answers.isAll() {
+		return AllValue, nil
 	}
 
 	return answers.getPRNumber()

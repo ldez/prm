@@ -164,10 +164,16 @@ func removeRun(action string, removeOptions *types.RemoveOptions) func() error {
 			}
 
 			number, err := choose.PullRequest(conf.PullRequests)
-			if err != nil || number <= 0 {
+			if err != nil || number <= choose.ExitValue {
 				return err
 			}
-			removeOptions.Numbers = append(removeOptions.Numbers, number)
+
+			if number == choose.AllValue {
+				removeOptions.All = true
+			} else {
+				removeOptions.Numbers = append(removeOptions.Numbers, number)
+			}
+
 		} else {
 			err := requirePRNumbers(removeOptions.Numbers, action)
 			if err != nil {
