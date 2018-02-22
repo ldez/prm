@@ -14,8 +14,10 @@ import (
 const (
 	exitLabel = "exit"
 	allLabel  = "all"
+	// ExitValue representation
 	ExitValue = 0
-	AllValue  = math.MaxInt32
+	// AllValue representation
+	AllValue = math.MaxInt32
 )
 
 type answersPR struct {
