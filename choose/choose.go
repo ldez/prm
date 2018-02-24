@@ -3,6 +3,7 @@ package choose
 import (
 	"fmt"
 	"math"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -64,8 +65,9 @@ func PullRequest(pulls map[string][]types.PullRequest) (int, error) {
 			surveyOpts = append(surveyOpts, fmt.Sprintf("%d: %s - %s", pr.Number, pr.Owner, pr.BranchName))
 		}
 	}
-	surveyOpts = append(surveyOpts, exitLabel)
+	sort.Strings(surveyOpts)
 	surveyOpts = append(surveyOpts, allLabel)
+	surveyOpts = append(surveyOpts, exitLabel)
 
 	var qs = []*survey.Question{
 		{
