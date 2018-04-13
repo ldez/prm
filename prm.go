@@ -16,14 +16,14 @@ import (
 )
 
 func main() {
-	emptyConfig := &types.NoOption{}
+	rootConfig := &types.RootOptions{}
 	rootCmd := &flaeg.Command{
 		Name:                  "prm",
 		Description:           "PRM - The Pull Request Manager.",
-		Config:                emptyConfig,
-		DefaultPointersConfig: &types.NoOption{},
+		Config:                rootConfig,
+		DefaultPointersConfig: &types.RootOptions{},
 		Run: func() error {
-			return cmd.Switch(&types.ListOptions{})
+			return cmd.Switch(&types.ListOptions{All: rootConfig.All})
 		},
 	}
 

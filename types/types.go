@@ -9,6 +9,11 @@ import (
 // NoOption empty struct.
 type NoOption struct{}
 
+// RootOptions "root" command options.
+type RootOptions struct {
+	All bool `description:"All projects."`
+}
+
 // CheckoutOptions "checkout" command options.
 type CheckoutOptions struct {
 	Number int `short:"n" description:"PR number."`
