@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/google/go-github/github"
 	"github.com/ldez/prm/config"
 	"github.com/ldez/prm/types"
 	"gopkg.in/AlecAivazis/survey.v1"
@@ -124,4 +125,34 @@ func Project(configs []config.Configuration) (*config.Configuration, error) {
 		return nil, nil
 	}
 	return config.Find(configs, answers.Directory)
+}
+
+// RemotePulRequest Choose a PR in the list from GitHub
+func RemotePulRequest(prs []*github.PullRequest) (int, error) {
+	surveyOpts := []string{exitLabel}
+	for _, pr := range prs {
+		surveyOpts = append(surveyOpts, fmt.Sprintf("%d: %s - %s", pr.GetNumber(), pr.User.GetLogin(), pr.GetTitle()))
+	}
+
+	var qs = []*survey.Question{
+		{
+			Name: "pr",
+			Prompt: &survey.Select{
+				Message: "Choose a PR",
+				Options: surveyOpts,
+			},
+		},
+	}
+
+	answers := &answersPR{}
+	err := survey.Ask(qs, answers)
+	if err != nil {
+		return 0, err
+	}
+
+	if answers.isExit() {
+		return ExitValue, nil
+	}
+
+	return answers.getPRNumber()
 }

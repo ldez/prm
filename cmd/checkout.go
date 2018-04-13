@@ -14,8 +14,10 @@ import (
 	"github.com/google/go-github/github"
 	"github.com/ldez/go-git-cmd-wrapper/git"
 	"github.com/ldez/go-git-cmd-wrapper/remote"
+	"github.com/ldez/prm/choose"
 	"github.com/ldez/prm/config"
 	"github.com/ldez/prm/types"
+	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
 )
 
@@ -87,7 +89,12 @@ func Checkout(options *types.CheckoutOptions) error {
 			return err
 		}
 
-		pr, err = getPullRequest(baseRepository, options.Number)
+		prNumber, err := getPullRequestNumber(options, baseRepository)
+		if err != nil || prNumber <= 0 || prNumber == choose.ExitValue {
+			return err
+		}
+
+		pr, err = getPullRequest(baseRepository, prNumber)
 		if err != nil {
 			return err
 		}
@@ -168,6 +175,7 @@ func findRemote(remotes []types.Remote, remoteName string) (*types.Remote, error
 	return nil, fmt.Errorf("unable to find remote: %s", remoteName)
 }
 
+// TODO use survey
 func promptRemoteChoice(remotes []types.Remote) (string, error) {
 	for i, rmt := range remotes {
 		fmt.Printf("%d: %s (%s)\n", i, rmt.Name, rmt.URL)
@@ -208,7 +216,6 @@ func newRepository(URL string) (*types.Repository, error) {
 }
 
 func getPullRequest(baseRepository *types.Repository, number int) (*types.PullRequest, error) {
-
 	ctx := context.Background()
 	client := newGitHubClient(ctx, "")
 
@@ -223,6 +230,28 @@ func getPullRequest(baseRepository *types.Repository, number int) (*types.PullRe
 		BranchName: pr.Head.GetRef(),
 		Number:     number,
 	}, nil
+}
+
+func getPullRequestNumber(options *types.CheckoutOptions, baseRepository *types.Repository) (int, error) {
+	prNumber := options.Number
+	if prNumber == 0 {
+		ctx := context.Background()
+		client := newGitHubClient(ctx, "")
+
+		opt := &github.PullRequestListOptions{
+			State:       "open",
+			ListOptions: github.ListOptions{PerPage: 25},
+		}
+
+		prs, _, err := client.PullRequests.List(ctx, baseRepository.Owner, baseRepository.Name, opt)
+		if err != nil {
+			return 0, errors.Wrap(err, "fail to retrieve pull request from GitHub")
+		}
+
+		return choose.RemotePulRequest(prs)
+	}
+
+	return prNumber, nil
 }
 
 func newGitHubClient(ctx context.Context, token string) *github.Client {

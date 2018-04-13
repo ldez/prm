@@ -51,6 +51,22 @@ func main() {
 
 	flag.AddCommand(checkoutCmd)
 
+	// Get
+
+	getOptions := &types.NoOption{}
+
+	getCmd := &flaeg.Command{
+		Name:                  "g",
+		Description:           "Get remote PRs. (The last 25 PRs)",
+		Config:                getOptions,
+		DefaultPointersConfig: &types.NoOption{},
+		Run: func() error {
+			return cmd.Checkout(&types.CheckoutOptions{})
+		},
+	}
+
+	flag.AddCommand(getCmd)
+
 	// Remove
 
 	removeOptions := &types.RemoveOptions{}

@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"math"
 	"os"
 	"strings"
 
@@ -70,7 +69,7 @@ func changePR(configs []config.Configuration) error {
 	}
 
 	number, err := choose.PullRequest(conf.PullRequests)
-	if err != nil || number <= 0 || number == math.MaxInt32 {
+	if err != nil || number <= 0 || number == choose.ExitValue {
 		return err
 	}
 	return Checkout(&types.CheckoutOptions{Number: number})
