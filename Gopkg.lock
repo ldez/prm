@@ -3,27 +3,30 @@
 
 [[projects]]
   name = "github.com/containous/flaeg"
-  packages = ["."]
-  revision = "4b6f66624dce34a226f080b414c4705ea8731bc5"
-  version = "v1.0.0"
+  packages = [
+    ".",
+    "parse"
+  ]
+  revision = "b4c2f060875361c070ed2bc300c5929b82f5fa2e"
+  version = "v1.1.2"
 
 [[projects]]
   branch = "master"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
-  revision = "ecdeabc65495df2dec95d7c4a4c3e021903035e5"
+  revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
 
 [[projects]]
-  branch = "master"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
-  revision = "1e59b77b52bf8e4b449a57e6f79f21226d571845"
+  revision = "925541529c1fa6821df4e44ce2723319eb2be768"
+  version = "v1.0.0"
 
 [[projects]]
   branch = "master"
   name = "github.com/google/go-github"
   packages = ["github"]
-  revision = "0c3b302de2a6de84a2511db47ea1bb2ff8146830"
+  revision = "d170093f3fbf281371c165f18288053b89eb76c8"
 
 [[projects]]
   branch = "master"
@@ -75,7 +78,7 @@
   branch = "master"
   name = "github.com/pkg/errors"
   packages = ["."]
-  revision = "e881fd58d78e04cf6d0de1217f8707c8cc2249bc"
+  revision = "816c9085562cd7ee03e7f8188a1cfd942858cded"
 
 [[projects]]
   name = "github.com/pmezard/go-difflib"
@@ -90,7 +93,7 @@
     "assert",
     "require"
   ]
-  revision = "2aa2c176b9dab406a6970f6a55f513e8a8c8b18f"
+  revision = "c679ae2cc0cb27ec3293fea7e254e47386f05d69"
 
 [[projects]]
   branch = "master"
@@ -99,7 +102,7 @@
     "context",
     "context/ctxhttp"
   ]
-  revision = "d866cfc389cec985d6fda2859936a575a55a3ab6"
+  revision = "61147c48b25b599e5b561d2e9c4f3e1ef489ca41"
 
 [[projects]]
   branch = "master"
@@ -108,13 +111,13 @@
     ".",
     "internal"
   ]
-  revision = "0448841f0cbe9d174c6c1cedd177f583337b8e2c"
+  revision = "921ae394b9430ed4fb549668d7b087601bd60a81"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "83801418e1b59fb1880e363299581ee543af32ca"
+  revision = "f6f352972f061230a99fbf49d1eb8073ebdb36cb"
 
 [[projects]]
   branch = "master"
@@ -128,7 +131,7 @@
     "internal/urlfetch",
     "urlfetch"
   ]
-  revision = "5bee14b453b4c71be47ec1781b0fa61c2ea182db"
+  revision = "0a24098c0ec68416ec050f567f75df563d6b231e"
 
 [[projects]]
   name = "gopkg.in/AlecAivazis/survey.v1"
@@ -137,8 +140,8 @@
     "core",
     "terminal"
   ]
-  revision = "0aa8b6a162b391fe2d95648b7677d1d6ac2090a6"
-  version = "v1.4.1"
+  revision = "e752db451e07e09c7d7dc8cada807a44bdb0fd47"
+  version = "v1.5.3"
 
 [solve-meta]
   analyzer-name = "dep"
