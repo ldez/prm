@@ -12,6 +12,7 @@ image:https://asciinema.org/a/158378.png["prm", link="https://asciinema.org/a/15
 Feature:
 
 * Checkout a PR by his number.
+* Checkout (get) a PR into a list of PRs from GitHub.
 * Remove (clean) a PR by his number.
 * Remove (clean) all PR for a project.
 * Push force a PR (auto).
@@ -20,7 +21,6 @@ Feature:
 * Only works with GitHub.
 
 == How to Install
-
 
 [source, shell]
 ----
@@ -35,6 +35,8 @@ or
 
 == Checkout
 
+=== By Number
+
 [source, shell]
 ----
 prm c -n 1234
@@ -43,6 +45,31 @@ prm c --number=1234
 ----
 
 * Add the user git remote named with the user login.
+* Checkout the PR branch named like that: `<PR_NUMBER>--<BRANCH_NAME>`
++
+ex: `1234\--myBranch`
+
+=== Interactive (Local)
+
+[source, shell]
+----
+prm
+----
+
+* Choose a PR between all "local" PRs.
+* Checkout the PR branch named like that: `<PR_NUMBER>--<BRANCH_NAME>`
++
+ex: `1234\--myBranch`
+
+=== Interactive (Remote)
+
+[source, shell]
+----
+prm g
+----
+
+* Add the user git remote named with the user login.
+* Display the last 25 PRs from GitHub.
 * Checkout the PR branch named like that: `<PR_NUMBER>--<BRANCH_NAME>`
 +
 ex: `1234\--myBranch`
@@ -72,6 +99,28 @@ prm rm --all
 
 * Remove all PR related local branches.
 * Remove all PR related git remote.
+
+=== Interactive
+
+Only for the current project.
+
+[source, shell]
+----
+prm rm
+----
+
+* Display all "local" PRs.
+* Remove by one or remove all.
+
+== Push
+
+[source, shell]
+----
+prm push
+----
+
+* Push to the PR related branch.
+* Detect the PR number from the branch name.
 
 == Push Force
 
