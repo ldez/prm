@@ -54,8 +54,6 @@ func getPRNumberFromGitHub(baseRepository *types.Repository) (int, error) {
 }
 
 // Checkout checkout a PR.
-// TODO simplify this function
-// nolint: gocyclo
 func Checkout(options *types.CheckoutOptions) error {
 	// get configuration
 	confs, err := config.ReadFile()
