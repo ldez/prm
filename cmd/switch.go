@@ -9,7 +9,7 @@ import (
 	"github.com/ldez/prm/types"
 )
 
-// Switch from the list of PRs.
+// Switch from a list.
 func Switch(options *types.ListOptions) error {
 	// get configuration
 	configs, err := config.ReadFile()
@@ -33,13 +33,20 @@ func Switch(options *types.ListOptions) error {
 }
 
 func changeProject(configs []config.Configuration) error {
-	conf, err := choose.Project(configs)
+	var projectsConf []config.Configuration
+	for _, value := range configs {
+		if len(value.PullRequests) > 0 {
+			projectsConf = append(projectsConf, value)
+		}
+	}
+
+	conf, err := choose.Project(projectsConf)
 	if err != nil || conf == nil {
 		return err
 	}
 
-	number, err := choose.PullRequest(conf.PullRequests)
-	if err != nil || number <= 0 {
+	number, err := choose.PullRequest(conf.PullRequests, false)
+	if err != nil || number <= choose.ExitValue {
 		return err
 	}
 
@@ -68,8 +75,8 @@ func changePR(configs []config.Configuration) error {
 		return err
 	}
 
-	number, err := choose.PullRequest(conf.PullRequests)
-	if err != nil || number <= 0 || number == choose.ExitValue {
+	number, err := choose.PullRequest(conf.PullRequests, false)
+	if err != nil || number == choose.ExitValue {
 		return err
 	}
 	return Checkout(&types.CheckoutOptions{Number: number})

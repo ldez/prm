@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/ldez/prm/config"
+	"github.com/ldez/prm/local"
 	"github.com/ldez/prm/types"
 )
 
@@ -19,7 +19,7 @@ func List(options *types.ListOptions) error {
 	if options.All {
 		displayProjects(configs)
 	} else {
-		repoDir, err := os.Getwd()
+		repoDir, err := local.GetGitRepoRoot()
 		if err != nil {
 			return err
 		}

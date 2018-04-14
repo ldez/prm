@@ -9,6 +9,7 @@ import (
 	"os/user"
 	"path/filepath"
 
+	"github.com/ldez/prm/local"
 	"github.com/ldez/prm/types"
 )
 
@@ -75,7 +76,7 @@ func Get() (*Configuration, error) {
 		return nil, err
 	}
 
-	repoDir, err := os.Getwd()
+	repoDir, err := local.GetGitRepoRoot()
 	if err != nil {
 		return nil, err
 	}
@@ -95,7 +96,7 @@ func Find(configurations []Configuration, directory string) (*Configuration, err
 	return nil, fmt.Errorf("no existing configuration for: %s", directory)
 }
 
-// ReadFile read the configuration file and load the configuration into an array.
+// ReadFile read or create the configuration file and load the configuration into an array.
 func ReadFile() ([]Configuration, error) {
 
 	var configs []Configuration

@@ -3,13 +3,31 @@ package cmd
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/ldez/go-git-cmd-wrapper/git"
 	"github.com/ldez/go-git-cmd-wrapper/remote"
+	"github.com/ldez/prm/choose"
 	"github.com/ldez/prm/config"
+	"github.com/ldez/prm/local"
 	"github.com/ldez/prm/types"
 )
+
+// InteractiveRemove remove PR.
+func InteractiveRemove(conf *config.Configuration) error {
+	number, err := choose.PullRequest(conf.PullRequests, true)
+	if err != nil || number <= choose.ExitValue {
+		return err
+	}
+
+	removeOptions := &types.RemoveOptions{}
+	if number == choose.AllValue {
+		removeOptions.All = true
+	} else {
+		removeOptions.Numbers = append(removeOptions.Numbers, number)
+	}
+
+	return Remove(removeOptions)
+}
 
 // Remove remove PR.
 func Remove(options *types.RemoveOptions) error {
@@ -19,7 +37,7 @@ func Remove(options *types.RemoveOptions) error {
 		return err
 	}
 
-	repoDir, err := os.Getwd()
+	repoDir, err := local.GetGitRepoRoot()
 	if err != nil {
 		return err
 	}

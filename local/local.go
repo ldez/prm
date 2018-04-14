@@ -4,12 +4,40 @@ import (
 	"fmt"
 	"log"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 
 	"github.com/ldez/go-git-cmd-wrapper/git"
+	"github.com/ldez/go-git-cmd-wrapper/remote"
 	"github.com/ldez/go-git-cmd-wrapper/revparse"
 )
+
+// Remote Git remote model.
+type Remote struct {
+	Name string
+	URL  string
+}
+
+// Remotes a list of Remote
+type Remotes []Remote
+
+// Find a remote by name
+func (r Remotes) Find(remoteName string) (*Remote, error) {
+	for _, rmt := range r {
+		if rmt.Name == remoteName {
+			return &rmt, nil
+		}
+	}
+	return nil, fmt.Errorf("unable to find remote: %s", remoteName)
+}
+
+// ByRemoteName sort remote by name.
+type ByRemoteName Remotes
+
+func (r ByRemoteName) Len() int           { return len(r) }
+func (r ByRemoteName) Swap(i, j int)      { r[i], r[j] = r[j], r[i] }
+func (r ByRemoteName) Less(i, j int) bool { return r[i].Name < r[j].Name }
 
 // GetCurrentPRNumber get the current PR number.
 func GetCurrentPRNumber(manualNumber int) (int, error) {
@@ -54,4 +82,53 @@ func parsePRNumber(out string) (int, error) {
 	}
 
 	return 0, fmt.Errorf("unable to parse: %s", out)
+}
+
+// GetGitRepoRoot get the root of the git repository.
+func GetGitRepoRoot() (string, error) {
+	output, err := git.RevParse(revparse.ShowToplevel)
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(output), nil
+}
+
+// GetRemotes get git remotes
+func GetRemotes() (Remotes, error) {
+	output, err := git.Remote(remote.Verbose, git.Debug)
+	if err != nil {
+		log.Println(output)
+		return nil, err
+	}
+
+	return parseRemotes(output), nil
+}
+
+func parseRemotes(output string) Remotes {
+	lines := strings.Split(output, "\n")
+
+	remoteMap := make(map[string]Remote)
+
+	for _, line := range lines {
+		if len(line) != 0 {
+			exp := regexp.MustCompile(`[\t|\s{2,}]`)
+			elt := exp.Split(line, 3)
+
+			name := elt[0]
+			rmt := Remote{
+				Name: name,
+				URL:  elt[1],
+			}
+			remoteMap[name] = rmt
+		}
+	}
+
+	var remotes Remotes
+	for _, entry := range remoteMap {
+		remotes = append(remotes, entry)
+	}
+
+	sort.Sort(ByRemoteName(remotes))
+
+	return remotes
 }

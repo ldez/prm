@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/ldez/prm/config"
 	"github.com/ldez/prm/local"
@@ -17,7 +16,7 @@ func Push(options *types.PushOptions) error {
 		return err
 	}
 
-	repoDir, err := os.Getwd()
+	repoDir, err := local.GetGitRepoRoot()
 	if err != nil {
 		return err
 	}

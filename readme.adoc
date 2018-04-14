@@ -7,7 +7,7 @@ If you are a maintainer of Open Source Software, you need to review a lot of PR,
 With the GitHub feature (link:https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/["repository maintainer permissions on existing pull requests"]), now we can edit real PR branch.
 This tool allow to easily manage PR branches and remotes.
 
-image:https://asciinema.org/a/158378.png["prm", link="https://asciinema.org/a/158378"]
+image:https://asciinema.org/a/MTDusDWFBEsQTepWBE5Uo5ndi.png["prm", link="https://asciinema.org/a/MTDusDWFBEsQTepWBE5Uo5ndi"]
 
 Feature:
 
@@ -54,6 +54,7 @@ ex: `1234\--myBranch`
 [source, shell]
 ----
 prm
+# item "list"
 ----
 
 * Choose a PR between all "local" PRs.
@@ -65,11 +66,12 @@ ex: `1234\--myBranch`
 
 [source, shell]
 ----
-prm g
+prm
+# item "remove"
 ----
 
-* Add the user git remote named with the user login.
 * Display the last 25 PRs from GitHub.
+* Add the user git remote named with the user login.
 * Checkout the PR branch named like that: `<PR_NUMBER>--<BRANCH_NAME>`
 +
 ex: `1234\--myBranch`
@@ -107,6 +109,10 @@ Only for the current project.
 [source, shell]
 ----
 prm rm
+
+# or
+prm
+# item "remove"
 ----
 
 * Display all "local" PRs.

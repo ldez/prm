@@ -10,21 +10,20 @@ import (
 	"github.com/ldez/prm/choose"
 	"github.com/ldez/prm/cmd"
 	"github.com/ldez/prm/config"
+	"github.com/ldez/prm/local"
 	"github.com/ldez/prm/meta"
 	"github.com/ldez/prm/types"
 	"github.com/ogier/pflag"
+	"github.com/pkg/errors"
 )
 
 func main() {
-	rootConfig := &types.RootOptions{}
 	rootCmd := &flaeg.Command{
 		Name:                  "prm",
 		Description:           "PRM - The Pull Request Manager.",
-		Config:                rootConfig,
-		DefaultPointersConfig: &types.RootOptions{},
-		Run: func() error {
-			return cmd.Switch(&types.ListOptions{All: rootConfig.All})
-		},
+		Run:                   safe(rootRun),
+		Config:                &types.NoOption{},
+		DefaultPointersConfig: &types.NoOption{},
 	}
 
 	flag := flaeg.New(rootCmd, os.Args[1:])
@@ -41,31 +40,15 @@ func main() {
 		Config:                checkoutOptions,
 		DefaultPointersConfig: &types.CheckoutOptions{},
 	}
-	checkoutCmd.Run = func() error {
+	checkoutCmd.Run = safe(func() error {
 		err := requirePRNumber(checkoutOptions.Number, checkoutCmd.Name)
 		if err != nil {
 			return err
 		}
 		return cmd.Checkout(checkoutOptions)
-	}
+	})
 
 	flag.AddCommand(checkoutCmd)
-
-	// Get
-
-	getOptions := &types.NoOption{}
-
-	getCmd := &flaeg.Command{
-		Name:                  "g",
-		Description:           "Get remote PRs. (The last 25 PRs)",
-		Config:                getOptions,
-		DefaultPointersConfig: &types.NoOption{},
-		Run: func() error {
-			return cmd.Checkout(&types.CheckoutOptions{})
-		},
-	}
-
-	flag.AddCommand(getCmd)
 
 	// Remove
 
@@ -77,7 +60,7 @@ func main() {
 		Config:                removeOptions,
 		DefaultPointersConfig: &types.RemoveOptions{},
 	}
-	removeCmd.Run = removeRun(removeCmd.Name, removeOptions)
+	removeCmd.Run = safe(removeRun(removeCmd.Name, removeOptions))
 
 	flag.AddCommand(removeCmd)
 
@@ -91,9 +74,9 @@ func main() {
 		Config:                pushForceOptions,
 		DefaultPointersConfig: &types.PushOptions{},
 	}
-	pushForceCmd.Run = func() error {
+	pushForceCmd.Run = safe(func() error {
 		return cmd.Push(pushForceOptions)
-	}
+	})
 
 	flag.AddCommand(pushForceCmd)
 
@@ -107,9 +90,9 @@ func main() {
 		Config:                pushOptions,
 		DefaultPointersConfig: &types.PushOptions{},
 	}
-	pushCmd.Run = func() error {
+	pushCmd.Run = safe(func() error {
 		return cmd.Push(pushOptions)
-	}
+	})
 
 	flag.AddCommand(pushCmd)
 
@@ -123,9 +106,9 @@ func main() {
 		Config:                pullOptions,
 		DefaultPointersConfig: &types.PullOptions{},
 	}
-	pullCmd.Run = func() error {
+	pullCmd.Run = safe(func() error {
 		return cmd.Pull(pullOptions)
-	}
+	})
 
 	flag.AddCommand(pullCmd)
 
@@ -138,9 +121,9 @@ func main() {
 		Description:           "Display all current PRs.",
 		Config:                listOptions,
 		DefaultPointersConfig: &types.ListOptions{},
-		Run: func() error {
+		Run: safe(func() error {
 			return cmd.List(listOptions)
-		},
+		}),
 	}
 
 	flag.AddCommand(listCmd)
@@ -167,6 +150,31 @@ func main() {
 	}
 }
 
+func rootRun() error {
+	conf, err := config.Get()
+	if err != nil {
+		return err
+	}
+
+	action, err := choose.Action()
+	if err != nil {
+		return err
+	}
+
+	switch action {
+	case choose.ActionList:
+		return cmd.Switch(&types.ListOptions{})
+	case choose.ActionCheckout:
+		return cmd.InteractiveCheckout(conf)
+	case choose.ActionRemove:
+		return cmd.InteractiveRemove(conf)
+	case choose.ActionProjects:
+		return cmd.Switch(&types.ListOptions{All: true})
+	}
+
+	return nil
+}
+
 func removeRun(action string, removeOptions *types.RemoveOptions) func() error {
 	return func() error {
 		if removeOptions.All {
@@ -179,26 +187,69 @@ func removeRun(action string, removeOptions *types.RemoveOptions) func() error {
 				return err
 			}
 
-			number, err := choose.PullRequest(conf.PullRequests)
-			if err != nil || number <= choose.ExitValue {
-				return err
-			}
+			return cmd.InteractiveRemove(conf)
+		}
 
-			if number == choose.AllValue {
-				removeOptions.All = true
-			} else {
-				removeOptions.Numbers = append(removeOptions.Numbers, number)
-			}
+		err := requirePRNumbers(removeOptions.Numbers, action)
+		if err != nil {
+			return err
+		}
 
-		} else {
-			err := requirePRNumbers(removeOptions.Numbers, action)
+		return cmd.Remove(removeOptions)
+	}
+}
+
+func safe(fn func() error) func() error {
+	return func() error {
+		_, err := config.Get()
+		if err != nil {
+			err = initProject()
 			if err != nil {
 				return err
 			}
 		}
 
-		return cmd.Remove(removeOptions)
+		return fn()
 	}
+}
+
+func initProject() error {
+	// Get all remotes
+	remotes, err := local.GetRemotes()
+	if err != nil {
+		return err
+	}
+
+	// get global configuration
+	confs, err := config.ReadFile()
+	if err != nil {
+		return err
+	}
+
+	repoDir, err := local.GetGitRepoRoot()
+	if err != nil {
+		return err
+	}
+
+	var remoteName string
+	if len(remotes) == 1 {
+		remoteName = remotes[0].Name
+	} else {
+		remoteName, err = choose.GitRemote(remotes)
+		if err != nil {
+			return err
+		}
+		if len(remoteName) == 0 || remoteName == choose.ExitLabel {
+			return errors.New("no remote chosen: exit")
+		}
+	}
+
+	confs = append(confs, config.Configuration{
+		Directory:  repoDir,
+		BaseRemote: remoteName,
+	})
+
+	return config.Save(confs)
 }
 
 func requirePRNumber(number int, action string) error {
