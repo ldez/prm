@@ -16,11 +16,6 @@ func (a answersGitRemote) isExit() bool {
 	return a.Remote == ExitLabel
 }
 
-func (a answersGitRemote) getName() string {
-	parts := strings.SplitN(a.Remote, "]:", 2)
-	return strings.TrimPrefix(parts[0], "[")
-}
-
 // GitRemote Choose the remote related to PRs (main remote)
 func GitRemote(remotes []local.Remote) (string, error) {
 	var surveyOpts []string
@@ -33,9 +28,14 @@ func GitRemote(remotes []local.Remote) (string, error) {
 		{
 			Name: "remote",
 			Prompt: &survey.Select{
-				Message: "Choose the remote related to Pull Requests (main remote)",
+				Message: "Choose the remote",
 				Options: surveyOpts,
+				Help:    "The remote must be the repository where are the Pull Requests.",
 			},
+			Transform: survey.TransformString(func(value string) string {
+				parts := strings.SplitN(value, "]:", 2)
+				return strings.TrimPrefix(parts[0], "[")
+			}),
 		},
 	}
 
@@ -49,5 +49,5 @@ func GitRemote(remotes []local.Remote) (string, error) {
 		return ExitLabel, nil
 	}
 
-	return answers.getName(), nil
+	return answers.Remote, nil
 }
