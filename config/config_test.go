@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -80,6 +81,8 @@ func TestReadFile_should_return_empty_configuration_list_when_file_not_exist(t *
 		}
 	}()
 	require.NoError(t, err)
+
+	fmt.Println(dir)
 
 	// Mock GetPath function
 	getPathFunc = func() (string, error) {

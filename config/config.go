@@ -6,8 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"os/user"
-	"path/filepath"
+	"path"
 
 	"github.com/ldez/prm/local"
 	"github.com/ldez/prm/types"
@@ -19,8 +18,6 @@ type Configuration struct {
 	BaseRemote   string                         `json:"base_remote,omitempty"`
 	PullRequests map[string][]types.PullRequest `json:"pull_requests,omitempty"`
 }
-
-const defaultFileName = ".prm"
 
 var getPathFunc = GetPath
 
@@ -114,6 +111,11 @@ func ReadFile() ([]Configuration, error) {
 			return configs, errMarshal
 		}
 
+		errDir := createDirectory(filePath)
+		if errDir != nil {
+			return configs, errDir
+		}
+
 		file, errCreate := os.Create(filePath)
 		if errCreate != nil {
 			return configs, errCreate
@@ -147,7 +149,6 @@ func ReadFile() ([]Configuration, error) {
 
 // Save save the configuration into a file.
 func Save(configs []Configuration) error {
-
 	filePath, err := getPathFunc()
 	if err != nil {
 		return err
@@ -158,15 +159,21 @@ func Save(configs []Configuration) error {
 		return err
 	}
 
+	err = createDirectory(filePath)
+	if err != nil {
+		return err
+	}
+
 	return ioutil.WriteFile(filePath, confJSON, 0644)
 }
 
-// GetPath get the configuration file path.
-func GetPath() (string, error) {
-	usr, err := user.Current()
-	if err != nil {
-		return "", err
+func createDirectory(filePath string) error {
+	baseDir := path.Dir(filePath)
+	if _, errDirStat := os.Stat(baseDir); errDirStat != nil {
+		errDir := os.MkdirAll(baseDir, 0700)
+		if errDir != nil {
+			return errDir
+		}
 	}
-
-	return filepath.Join(usr.HomeDir, defaultFileName), nil
+	return nil
 }

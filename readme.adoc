@@ -17,7 +17,7 @@ Feature:
 * Remove (clean) all PR for a project.
 * Push force a PR (auto).
 * Manage all your repositories.
-* Save your configuration: `~/.prm`
+* Save your configuration: `config/prm` (or `~/.prm` on Windows)
 * Only works with GitHub.
 
 == How to Install
