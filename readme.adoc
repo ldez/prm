@@ -11,9 +11,9 @@ image:https://asciinema.org/a/176222.png["prm", link="https://asciinema.org/a/17
 
 Feature:
 
-* Checkout a PR by his number.
+* Checkout a PR by its number.
 * Checkout (get) a PR into a list of PRs from GitHub.
-* Remove (clean) a PR by his number.
+* Remove (clean) a PR by its number.
 * Remove (clean) all PR for a project.
 * Push force a PR (auto).
 * Manage all your repositories.
