@@ -140,7 +140,7 @@ func getPullRequest(baseRepository *types.Repository, number int) (*types.PullRe
 	}
 
 	if pr.Head == nil || pr.Head.Repo == nil || pr.Head.Repo.Owner == nil {
-		return nil, errors.New("The pull request repository has been deleted.")
+		return nil, errors.New("the repository of the pull request has been deleted")
 	}
 
 	return &types.PullRequest{
