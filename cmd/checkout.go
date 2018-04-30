@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"log"
+	"os"
 
 	"github.com/google/go-github/github"
 	"github.com/ldez/prm/choose"
@@ -38,7 +39,7 @@ func InteractiveCheckout(conf *config.Configuration) error {
 
 func getPRNumberFromGitHub(baseRepository *types.Repository) (int, error) {
 	ctx := context.Background()
-	client := newGitHubClient(ctx, "")
+	client := newGitHubClient(ctx)
 
 	opt := &github.PullRequestListOptions{
 		State:       "open",
@@ -132,7 +133,7 @@ func removeRemote(conf *config.Configuration, pr *types.PullRequest) error {
 
 func getPullRequest(baseRepository *types.Repository, number int) (*types.PullRequest, error) {
 	ctx := context.Background()
-	client := newGitHubClient(ctx, "")
+	client := newGitHubClient(ctx)
 
 	pr, _, err := client.PullRequests.Get(ctx, baseRepository.Owner, baseRepository.Name, number)
 	if err != nil {
@@ -151,7 +152,9 @@ func getPullRequest(baseRepository *types.Repository, number int) (*types.PullRe
 	}, nil
 }
 
-func newGitHubClient(ctx context.Context, token string) *github.Client {
+func newGitHubClient(ctx context.Context) *github.Client {
+	token := os.Getenv("PRM_GITHUB_TOKEN")
+
 	var client *github.Client
 	if len(token) == 0 {
 		client = github.NewClient(nil)
