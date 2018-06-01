@@ -149,6 +149,7 @@ func getPullRequest(baseRepository *types.Repository, number int) (*types.PullRe
 		Owner:      pr.Head.Repo.Owner.GetLogin(),
 		BranchName: pr.Head.GetRef(),
 		Number:     number,
+		CloneURL:   pr.Head.Repo.GetSSHURL(),
 	}, nil
 }
 
