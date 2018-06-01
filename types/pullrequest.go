@@ -21,6 +21,7 @@ type PullRequest struct {
 	BranchName string `json:"branch_name,omitempty"`
 	Number     int    `json:"number,omitempty"`
 	Project    string `json:"project,omitempty"`
+	CloneURL   string `json:"clone_url,omitempty"`
 }
 
 const defaultInitialBranch = "master"
@@ -113,8 +114,11 @@ func (pr *PullRequest) Checkout(newBranch bool) error {
 		_, err := git.Remote(remote.GetURL(pr.Owner))
 		if err != nil {
 			// git remote add $remote git@github.com:$remote/$project.git
-			forkURL := fmt.Sprintf("git@github.com:%s/%s.git", pr.Owner, pr.Project)
-			out, errRemote := git.Remote(remote.Add(pr.Owner, forkURL), git.Debug)
+			cloneURL := pr.CloneURL
+			if cloneURL == "" { // backward-compatible with previous configurations
+				cloneURL = fmt.Sprintf("git@github.com:%s/%s.git", pr.Owner, pr.Project)
+			}
+			out, errRemote := git.Remote(remote.Add(pr.Owner, cloneURL), git.Debug)
 			if errRemote != nil {
 				log.Println(out)
 				return errors.Wrapf(errRemote, "[PR %d] unable to add remote", pr.Number)
