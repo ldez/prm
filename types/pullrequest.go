@@ -41,7 +41,6 @@ func (pr *PullRequest) Remove() error {
 	if err != nil {
 		return errors.Wrapf(err, "[PR %d] unable to find current local branch name", pr.Number)
 	}
-	fmt.Println(currentBranchName, branchName)
 
 	if currentBranchName == branchName {
 		// git checkout $initial

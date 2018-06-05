@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/ldez/prm/config"
 	"github.com/ldez/prm/local"
@@ -36,7 +36,7 @@ func Pull(options *types.PullOptions) error {
 		return err
 	}
 
-	fmt.Println("pull", pr)
+	log.Println("pull", pr.Number)
 
 	return pr.Pull(options.Force)
 }
