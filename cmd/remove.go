@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/ldez/go-git-cmd-wrapper/git"
@@ -67,7 +66,7 @@ func Remove(options *types.RemoveOptions) error {
 
 func removePR(conf *config.Configuration, prNumber int) error {
 	if pr, err := conf.FindPullRequests(prNumber); err == nil {
-		fmt.Println("remove", pr)
+		log.Println("remove", pr.Number)
 
 		err = pr.Remove()
 		if err != nil {
@@ -89,7 +88,7 @@ func removePR(conf *config.Configuration, prNumber int) error {
 func removeAll(conf *config.Configuration) error {
 	for remoteName, prs := range conf.PullRequests {
 		for _, pr := range prs {
-			fmt.Println("remove", pr)
+			log.Println("remove", pr.Number)
 
 			err := pr.Remove()
 			if err != nil {
@@ -97,7 +96,7 @@ func removeAll(conf *config.Configuration) error {
 			}
 		}
 
-		fmt.Println("remove remote", remoteName)
+		log.Println("remove remote", remoteName)
 		out, errRemote := git.Remote(remote.Remove(remoteName), git.Debug)
 		if errRemote != nil {
 			log.Println(out)

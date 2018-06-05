@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/ldez/prm/config"
 	"github.com/ldez/prm/local"
@@ -36,7 +36,7 @@ func Push(options *types.PushOptions) error {
 		return err
 	}
 
-	fmt.Println("push", pr)
+	log.Println("push", pr.Number)
 
 	return pr.Push(options.Force)
 }
