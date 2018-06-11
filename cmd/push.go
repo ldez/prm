@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"log"
-
 	"github.com/ldez/prm/config"
 	"github.com/ldez/prm/local"
 	"github.com/ldez/prm/types"
@@ -35,8 +33,6 @@ func Push(options *types.PushOptions) error {
 	if err != nil {
 		return err
 	}
-
-	log.Println("push", pr.Number)
 
 	return pr.Push(options.Force)
 }
