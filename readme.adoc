@@ -70,7 +70,7 @@ prm
 # item "remove"
 ----
 
-* Display the last 25 PRs from GitHub.
+* Display the last 50 PRs from GitHub.
 * Add the user git remote named with the user login.
 * Checkout the PR branch named like that: `<PR_NUMBER>--<BRANCH_NAME>`
 +

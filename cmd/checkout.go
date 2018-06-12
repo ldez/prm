@@ -43,7 +43,7 @@ func getPRNumberFromGitHub(baseRepository *types.Repository) (int, error) {
 
 	opt := &github.PullRequestListOptions{
 		State:       "open",
-		ListOptions: github.ListOptions{PerPage: 25},
+		ListOptions: github.ListOptions{PerPage: 50},
 	}
 
 	prs, _, err := client.PullRequests.List(ctx, baseRepository.Owner, baseRepository.Name, opt)
