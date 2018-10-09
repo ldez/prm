@@ -3,7 +3,7 @@
 GOFILES := $(shell go list -f '{{range $$index, $$element := .GoFiles}}{{$$.Dir}}/{{$$element}}{{"\n"}}{{end}}' ./... | grep -v '/vendor/')
 TXT_FILES := $(shell find * -type f -not -path 'vendor/**')
 
-default: clean misspell checks test build-crossbinary
+default: clean checks test build-crossbinary
 
 test: clean
 	go test -v -cover ./...
@@ -15,14 +15,11 @@ clean:
 	rm -rf dist/ cover.out
 
 checks: check-fmt
-	gometalinter ./...
+	golangci-lint run
 
 check-fmt: SHELL := /bin/bash
 check-fmt:
 	diff -u <(echo -n) <(gofmt -d $(GOFILES))
-
-misspell:
-	misspell -source=text -error $(TXT_FILES)
 
 build: clean misspell checks test
 	go build
