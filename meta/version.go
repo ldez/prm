@@ -14,7 +14,7 @@ var (
 
 // DisplayVersion DisplayVersion PRM version
 func DisplayVersion() {
-	fmt.Printf(`structor:
+	fmt.Printf(`prm:
  version     : %s
  build date  : %s
  go version  : %s
