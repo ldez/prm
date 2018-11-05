@@ -21,7 +21,7 @@ check-fmt: SHELL := /bin/bash
 check-fmt:
 	diff -u <(echo -n) <(gofmt -d $(GOFILES))
 
-build: clean misspell checks test
+build: clean checks test
 	go build
 
 build-crossbinary:
