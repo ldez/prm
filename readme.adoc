@@ -32,7 +32,14 @@ or
 
 * Download `prm` from link:https://github.com/ldez/prm/releases[releases].
 * Rename `prm_<OS>-<ARCH>` to `prm`.
-* add `prm` in your `PATH`.
+* Add `prm` in your `PATH`.
+
+=== Configuration for private repositories
+
+If you need to use `prm` for a private repository:
+
+* Create a https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/[Github Token]
+* Set the environment variable `PRM_GITHUB_TOKEN` with this token's value: `export PRM_GITHUB_TOKEN=xxxxxxx`
 
 == Checkout
 
