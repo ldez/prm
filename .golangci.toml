@@ -28,10 +28,14 @@
     "gas",
     "dupl",
     "prealloc",
+    "scopelint",
   ]
 
 [issues]
   exclude-use-default = false
   max-per-linter = 0
   max-same = 0
-  exclude = []
+  exclude = [
+    "`(Version|BuildDate)` is a global variable", # meta/version.go
+    "`getPathFunc` is a global variable", # config/config.go
+  ]
