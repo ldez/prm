@@ -22,11 +22,35 @@ func TestNewRepository(t *testing.T) {
 			},
 		},
 		{
-			desc: "SSH",
-			url:  "git@github.com:containous/traefik.git",
+			desc: "HTTPS without suffix",
+			url:  "https://github.com/ldez/prm",
 			expected: &Repository{
-				Owner: "containous",
-				Name:  "traefik",
+				Owner: "ldez",
+				Name:  "prm",
+			},
+		},
+		{
+			desc: "HTTPS without suffix ending with /",
+			url:  "https://github.com/ldez/prm/",
+			expected: &Repository{
+				Owner: "ldez",
+				Name:  "prm",
+			},
+		},
+		{
+			desc: "SSH",
+			url:  "git@github.com:ldez/prm.git",
+			expected: &Repository{
+				Owner: "ldez",
+				Name:  "prm",
+			},
+		},
+		{
+			desc: "SSH without suffix",
+			url:  "git@github.com:ldez/prm",
+			expected: &Repository{
+				Owner: "ldez",
+				Name:  "prm",
 			},
 		},
 	}
@@ -37,17 +61,9 @@ func TestNewRepository(t *testing.T) {
 			t.Parallel()
 
 			repository, err := newRepository(test.url)
-
 			require.NoError(t, err)
+
 			assert.Equal(t, test.expected, repository)
 		})
 	}
-}
-
-func TestNewRepository_should_fail_when_invalid_URL(t *testing.T) {
-	url := "https://github.com/ldez/prm"
-
-	_, err := newRepository(url)
-
-	require.Error(t, err)
 }
