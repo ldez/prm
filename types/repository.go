@@ -3,6 +3,7 @@ package types
 import (
 	"fmt"
 	"regexp"
+	"strings"
 
 	"github.com/ldez/prm/local"
 )
@@ -14,7 +15,7 @@ type Repository struct {
 }
 
 func newRepository(URL string) (*Repository, error) {
-	exp := regexp.MustCompile(`(?:git@github.com:|https://github.com/)([^/]+)/(.+)\.git`)
+	exp := regexp.MustCompile(`(?:git@github.com:|https://github.com/)([^/]+)/(.+)`)
 
 	if !exp.MatchString(URL) {
 		return nil, fmt.Errorf("invalid URL: %s", URL)
@@ -26,10 +27,8 @@ func newRepository(URL string) (*Repository, error) {
 		return nil, fmt.Errorf("invalid URL: %s", URL)
 	}
 
-	return &Repository{
-		Owner: parts[1],
-		Name:  parts[2],
-	}, nil
+	name := strings.TrimSuffix(strings.TrimSuffix(parts[2], ".git"), "/")
+	return &Repository{Owner: parts[1], Name: name}, nil
 }
 
 // GetRepository get repository information by remote name.
