@@ -23,16 +23,28 @@ Feature:
 
 == How to Install
 
-[source, shell]
-----
-go get -u github.com/ldez/prm
-----
-
-or
+=== Binaries
 
 * Download `prm` from link:https://github.com/ldez/prm/releases[releases].
 * Rename `prm_<OS>-<ARCH>` to `prm`.
 * Add `prm` in your `PATH`.
+
+Available for: Linux (64bits), MacOS (64bits) and Windows (64bits).
+
+=== From the package manager
+
+- link:https://aur.archlinux.org/packages/prm/[ArchLinux (AUR)]:
+
+```bash
+yay -S prm
+```
+
+=== From sources
+
+[source, shell]
+----
+go get -u github.com/ldez/prm
+----
 
 === Configuration for private repositories
 
