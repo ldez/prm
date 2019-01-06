@@ -34,5 +34,16 @@ archive:
   files:
     - LICENSE
 
+snapcraft:
+  publish: true
+  name_template: '{{ .ProjectName }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+  summary: Pull Request Manager for Maintainers
+  description: |
+    PRM Pull Request Manager for Maintainers.
+  grade: devel
+  #grade: stable
+  confinement: classic
+
 release:
   disable: true
+
