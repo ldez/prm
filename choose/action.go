@@ -1,6 +1,6 @@
 package choose
 
-import "gopkg.in/AlecAivazis/survey.v1"
+import survey "gopkg.in/AlecAivazis/survey.v1"
 
 // Action name
 const (

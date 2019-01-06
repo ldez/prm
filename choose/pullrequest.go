@@ -8,7 +8,7 @@ import (
 
 	"github.com/google/go-github/github"
 	"github.com/ldez/prm/types"
-	"gopkg.in/AlecAivazis/survey.v1"
+	survey "gopkg.in/AlecAivazis/survey.v1"
 )
 
 type answersPR struct {

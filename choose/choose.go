@@ -4,7 +4,7 @@ import (
 	"math"
 
 	"github.com/ldez/prm/config"
-	"gopkg.in/AlecAivazis/survey.v1"
+	survey "gopkg.in/AlecAivazis/survey.v1"
 )
 
 const (

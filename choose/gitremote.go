@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/ldez/prm/local"
-	"gopkg.in/AlecAivazis/survey.v1"
+	survey "gopkg.in/AlecAivazis/survey.v1"
 )
 
 type answersGitRemote struct {
