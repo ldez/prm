@@ -6,19 +6,19 @@ import (
 )
 
 var (
-	// Version holds the current version.
-	Version = "dev"
-	// BuildDate holds the build date.
-	BuildDate = "I don't remember exactly"
+	version = "dev"
+	commit  = "I don't remember exactly"
+	date    = "I don't remember exactly"
 )
 
 // DisplayVersion DisplayVersion PRM version
 func DisplayVersion() {
 	fmt.Printf(`prm:
  version     : %s
+ commit      : %s
  build date  : %s
  go version  : %s
  go compiler : %s
  platform    : %s/%s
-`, Version, BuildDate, runtime.Version(), runtime.Compiler, runtime.GOOS, runtime.GOARCH)
+`, version, commit, date, runtime.Version(), runtime.Compiler, runtime.GOOS, runtime.GOARCH)
 }

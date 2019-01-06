@@ -25,13 +25,13 @@ Feature:
 
 === Binaries
 
-* Download `prm` from link:https://github.com/ldez/prm/releases[releases].
-* Rename `prm_<OS>-<ARCH>` to `prm`.
+* To get the binary just download the latest release for your OS/Arch from link:https://github.com/ldez/prm/releases[the releases page]
+* Unzip the archive.
 * Add `prm` in your `PATH`.
 
-Available for: Linux (64bits), MacOS (64bits) and Windows (64bits).
+Available for: Linux, MacOS, Windows, FreeBSD, OpenBSD.
 
-=== From the package manager
+=== From a package manager
 
 - link:https://aur.archlinux.org/packages/prm/[ArchLinux (AUR)]:
 
