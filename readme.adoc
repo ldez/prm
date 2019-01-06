@@ -39,6 +39,14 @@ Available for: Linux, MacOS, Windows, FreeBSD, OpenBSD.
 yay -S prm
 ```
 
+- link:https://github.com/ldez/homebrew-tap[Homebrew Taps]
+
+```bash
+brew tap ldez/tap
+brew update
+brew install prm
+```
+
 === From sources
 
 [source, shell]

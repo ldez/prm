@@ -34,5 +34,18 @@ archive:
   files:
     - LICENSE
 
+brew:
+  github:
+    owner: ldez
+    name: homebrew-tap
+  commit_author:
+    name: ldez
+    email: ldez@users.noreply.github.com
+  folder: Formula
+  homepage: https://github.com/ldez/prm
+  description: Pull Request Manager for Maintainers
+  test: |
+    system "#{bin}/prm version"
+
 release:
   disable: true
