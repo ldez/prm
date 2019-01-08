@@ -34,18 +34,28 @@ Available for: Linux, MacOS, Windows, FreeBSD, OpenBSD.
 === From a package manager
 
 - link:https://aur.archlinux.org/packages/prm/[ArchLinux (AUR)]:
-
-```bash
++
+[source, shell]
+----
 yay -S prm
-```
+----
 
 - link:https://github.com/ldez/homebrew-tap[Homebrew Taps]
-
-```bash
++
+[source, shell]
+----
 brew tap ldez/tap
 brew update
 brew install prm
-```
+----
+
+- link:https://github.com/ldez/scoop-bucket[Scoop Bucket]
++
+[source, shell]
+----
+scoop bucket add prm https://github.com/ldez/scoop-bucket.git
+scoop install prm
+----
 
 === From sources
 
