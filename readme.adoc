@@ -49,6 +49,13 @@ brew update
 brew install prm
 ----
 
+- link:https://github.com/lukesampson/scoop[Scoop main bucket]
++
+[source, shell]
+----
+scoop install prm
+----
+
 - link:https://github.com/ldez/scoop-bucket[Scoop Bucket]
 +
 [source, shell]
