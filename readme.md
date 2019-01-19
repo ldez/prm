@@ -24,12 +24,12 @@ This tool allow to easily manage PR branches and remotes.
 
 ---
 
-:package: How to install:
+:package: **How to install:**
 **[From binaries](#from-binaries)** -
 **[From a package manager](#from-a-package-manager)** -
 **[From sources](#from-sources)** 
 
-:bulb: How to use:
+:bulb: **How to use:**
 **[Checkout](#checkout)** -
 **[Remove](#remove)** -
 **[Push](#push)** -
