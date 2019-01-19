@@ -75,7 +75,7 @@ export PRM_GITHUB_TOKEN=xxxxxxx
 * Or set the environment variable `PRM_GITHUB_TOKEN_FILE` with a path to file that contains this token's value.
 ```bash
 # /path/to/my/token/secret.txt contains only the value of the token.
-export PRM_GITHUB_TOKEN=/path/to/my/token/secret.txt
+export PRM_GITHUB_TOKEN_FILE=/path/to/my/token/secret.txt
 ```
 
 ## Checkout
