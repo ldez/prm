@@ -11,20 +11,37 @@ This tool allow to easily manage PR branches and remotes.
 
 [![prm](https://asciinema.org/a/176222.png)](https://asciinema.org/a/176222)
 
-Features:
+:briefcase: Features:
 
-* Checkout a PR by its number.
-* Checkout (get) a PR into a list of PRs from GitHub.
-* Remove (clean) a PR by its number.
-* Remove (clean) all PR for a project.
-* Push force a PR (auto).
+* Checkout a PR (interactively or by its number)
+* Remove a PR (interactively or by its number)
+* Remove all "checkouted" PRs for a project.
+* Push on a PR.
+* Display all "checkouted" PR (for a project or for all projects)
 * Manage all your repositories.
 * Save your configuration: `config/prm` (or `~/.prm` on Windows)
 * Only works with GitHub.
 
+---
+
+:package: How to install:
+**[From binaries](#from-binaries)** -
+**[From a package manager](#from-a-package-manager)** -
+**[From sources](#from-sources)** 
+
+:bulb: How to use:
+**[Checkout](#checkout)** -
+**[Remove](#remove)** -
+**[Push](#push)** -
+**[Push Force](#push-force)** -
+**[List](#list)** -
+**[Help](#help)**
+
+---
+
 ## How to Install
 
-### Binaries
+### From Binaries
 
 * To get the binary just download the latest release for your OS/Arch from [the releases page](https://github.com/ldez/prm/releases)
 * Unzip the archive.
@@ -32,7 +49,7 @@ Features:
 
 Available for: Linux, MacOS, Windows, FreeBSD, OpenBSD.
 
-### From a package manager
+### From a Package Manager
 
 - [ArchLinux (AUR)](https://aur.archlinux.org/packages/prm/):
 ```bash
@@ -57,13 +74,13 @@ scoop bucket add prm https://github.com/ldez/scoop-bucket.git
 scoop install prm
 ```
 
-### From sources
+### From Sources
 
 ```bash
 go get -u github.com/ldez/prm
 ```
 
-### Configuration for private repositories
+### Configuration for Private Repositories
 
 If you need to use `prm` for a private repository:
 
@@ -78,9 +95,24 @@ export PRM_GITHUB_TOKEN=xxxxxxx
 export PRM_GITHUB_TOKEN_FILE=/path/to/my/token/secret.txt
 ```
 
-## Checkout
 
-### Interactive (Local)
+## How to Use
+
+### Checkout
+
+#### Interactive (Remote)
+
+```bash
+prm
+# item "checkout"
+```
+
+* Display the last 50 PRs from GitHub.
+* Add the user git remote named with the user login.
+* Checkout the PR branch named like that: `<PR_NUMBER>--<BRANCH_NAME>`
+ex: `1234\--myBranch`
+
+#### Interactive (Local)
 
 ```bash
 prm
@@ -91,19 +123,7 @@ prm
 * Checkout the PR branch named like that: `<PR_NUMBER>--<BRANCH_NAME>`
 ex: `1234\--myBranch`
 
-### Interactive (Remote)
-
-```bash
-prm
-# item "remove"
-```
-
-* Display the last 50 PRs from GitHub.
-* Add the user git remote named with the user login.
-* Checkout the PR branch named like that: `<PR_NUMBER>--<BRANCH_NAME>`
-ex: `1234\--myBranch`
-
-### By Number
+#### By Number
 
 ```bash
 prm c -n 1234
@@ -115,9 +135,9 @@ prm c --number=1234
 * Checkout the PR branch named like that: `<PR_NUMBER>--<BRANCH_NAME>`
 ex: `1234\--myBranch`
 
-## Remove
+### Remove
 
-### Interactive
+#### Interactive
 
 Only for the current project.
 
@@ -132,7 +152,7 @@ prm
 * Display all "local" PRs.
 * Remove by one or remove all.
 
-### By Number
+#### By Number
 
 ```bash
 prm rm -n 1234
@@ -143,7 +163,7 @@ prm rm --number=1234
 * Remove the local branch.
 * Remove the user git remote if necessary.
 
-### All
+#### All
 
 Only for the current project. (not all PR for all your projects)
 
@@ -154,7 +174,9 @@ prm rm --all
 * Remove all PR related local branches.
 * Remove all PR related git remote.
 
-## Push
+:star: It can be also done interactively with the item "remove".
+
+### Push
 
 ```bash
 prm push
@@ -163,7 +185,7 @@ prm push
 * Push to the PR related branch.
 * Detect the PR number from the branch name.
 
-## Push Force
+### Push Force
 
 ```bash
 prm pf
@@ -172,7 +194,7 @@ prm pf
 * Push force the PR related branch.
 * Detect the PR number from the branch name.
 
-## List
+### List
 
 ```bash
 # display local branches related to PR. (current project only)
@@ -186,7 +208,7 @@ prm list --all
   * current project
   * all projects
 
-## Help
+### Help
 
 ```bash
 prm -h
