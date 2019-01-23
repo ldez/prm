@@ -53,7 +53,26 @@ upstream	git@github.com:containous/traefik.git (push)
 
 	assert.Len(t, remotes, 2, "Wrong number of remotes: %v", remotes)
 	assert.Equal(t, "origin", remotes[0].Name)
+	assert.NotEmpty(t, remotes[0].URL)
 	assert.Equal(t, "upstream", remotes[1].Name)
+	assert.NotEmpty(t, remotes[1].URL)
+}
+
+func Test_parseRemotes_mix_spaces(t *testing.T) {
+	output := `
+origin  git@github.com:ldez/test.git (fetch)
+origin  git@github.com:ldez/test.git (push)
+upstream        https://github.com/ldez/test.git (fetch)
+upstream	https://github.com/ldez/test.git (push)
+`
+
+	remotes := parseRemotes(output)
+
+	assert.Len(t, remotes, 2, "Wrong number of remotes: %v", remotes)
+	assert.Equal(t, "origin", remotes[0].Name)
+	assert.NotEmpty(t, remotes[0].URL)
+	assert.Equal(t, "upstream", remotes[1].Name)
+	assert.NotEmpty(t, remotes[1].URL)
 }
 
 func Test_parseRemotes_empty_output(t *testing.T) {
