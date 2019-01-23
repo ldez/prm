@@ -7,6 +7,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"unicode"
 
 	"github.com/ldez/go-git-cmd-wrapper/git"
 	"github.com/ldez/go-git-cmd-wrapper/remote"
@@ -111,8 +112,7 @@ func parseRemotes(output string) Remotes {
 
 	for _, line := range lines {
 		if len(line) != 0 {
-			exp := regexp.MustCompile(`[\t|\s{2,}]`)
-			elt := exp.Split(line, 3)
+			elt := strings.FieldsFunc(line, unicode.IsSpace)
 
 			name := elt[0]
 			rmt := Remote{
