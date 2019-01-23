@@ -25,6 +25,16 @@ builds:
       - goos: openbsd
         goarch: arm
 
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^doc:'
+      - '^chore:'
+      - '^test:'
+      - '^tests:'
+
 archive:
   name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm}}v{{ .Arm }}{{ end }}'
   format: tar.gz
@@ -58,5 +68,5 @@ scoop:
   description: Pull Request Manager for Maintainers
   license: APACHE
 
-release:
-  disable: true
+#release:
+#  disable: true
