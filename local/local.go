@@ -112,9 +112,7 @@ func parseRemotes(output string) Remotes {
 
 	for _, line := range lines {
 		if len(line) != 0 {
-			elt := strings.FieldsFunc(line, func(c rune) bool {
-				return unicode.IsSpace(c)
-			})
+			elt := strings.FieldsFunc(line, unicode.IsSpace)
 
 			name := elt[0]
 			rmt := Remote{
