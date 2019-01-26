@@ -14,17 +14,17 @@ type Repository struct {
 	Name  string
 }
 
-func newRepository(URL string) (*Repository, error) {
+func newRepository(uri string) (*Repository, error) {
 	exp := regexp.MustCompile(`(?:git@github.com:|https://github.com/)([^/]+)/(.+)`)
 
-	if !exp.MatchString(URL) {
-		return nil, fmt.Errorf("invalid URL: %s", URL)
+	if !exp.MatchString(uri) {
+		return nil, fmt.Errorf("invalid URL: %s", uri)
 	}
 
-	parts := exp.FindStringSubmatch(URL)
+	parts := exp.FindStringSubmatch(uri)
 
 	if len(parts) < 3 {
-		return nil, fmt.Errorf("invalid URL: %s", URL)
+		return nil, fmt.Errorf("invalid URL: %s", uri)
 	}
 
 	name := strings.TrimSuffix(strings.TrimSuffix(parts[2], ".git"), "/")
