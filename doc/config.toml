@@ -1,0 +1,28 @@
+baseURL = "https://ldez.github.io/prm/"
+languageCode = "en-us"
+title = "PRM - Pull Request Manager"
+theme = "docuapi"
+
+# Code higlighting settings
+pygmentsCodefences = true
+pygmentsCodeFencesGuesSsyntax = false
+pygmentsOptions = ""
+pygmentsStyle = "monokai"
+# The monokai stylesheet is included in the base template.
+pygmentsUseClasses = true
+
+defaultContentLanguage = "en"
+
+[params]
+search = true
+
+[languages.en]
+toc_footers = [
+  "[Github](https://github.com/ldez/prm)",
+  "Created by [ldez](https://github.com/ldez)",
+]
+
+[languages.en.blackfriday]
+angledQuotes = false
+hrefTargetBlank = false
+# plainIDAnchors = true

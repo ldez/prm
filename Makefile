@@ -28,3 +28,19 @@ checks: check-fmt
 check-fmt: SHELL := /bin/bash
 check-fmt:
 	diff -u <(echo -n) <(gofmt -d $(GOFILES))
+
+## Documentation tool
+
+hugo-theme: hugo-theme-clean
+	mkdir -p doc/themes/docuapi
+	git clone --depth=1 https://github.com/bep/docuapi.git doc/themes/docuapi
+	rm -rf doc/themes/docuapi/.git doc/themes/docuapi/*.go
+
+hugo-theme-clean:
+	rm -rf doc/themes
+
+hugo-build: hugo-theme
+	hugo --enableGitInfo --source doc
+
+hugo:
+	hugo server --enableGitInfo --watch --source doc

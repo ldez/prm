@@ -51,7 +51,7 @@ Available for: Linux, MacOS, Windows, FreeBSD, OpenBSD.
 
 ### From a Package Manager
 
-- [ArchLinux (AUR)](https://aur.archlinux.org/packages/prm/):
+- [ArchLinux (AUR)](https://aur.archlinux.org/packages/prm/)
 ```bash
 yay -S prm
 ```
