@@ -11,7 +11,7 @@ This tool allow to easily manage PR branches and remotes.
 
 [![prm](https://asciinema.org/a/176222.png)](https://asciinema.org/a/176222)
 
-[![PRM](doc/static/images/logo.png)](https://ldez.github.io/prm/)
+[![PRM](doc/static/images/logo-stroke.png)](https://ldez.github.io/prm/)
 
 :briefcase: Features:
 
