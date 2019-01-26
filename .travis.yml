@@ -22,7 +22,8 @@ before_install:
   - golangci-lint --version
 
   # Hugo - documentation
-  - curl -sfL https://install.goreleaser.com/github.com/gohugoio/hugo.sh | sh
+  - wget -O /tmp/hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.53/hugo_0.53_Linux-64bit.deb
+  - sudo dpkg -i /tmp/hugo.deb
 
 install:
   - echo "TRAVIS_GO_VERSION=$TRAVIS_GO_VERSION"

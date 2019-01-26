@@ -185,15 +185,9 @@ Important - `/path/to/my/token/secret.txt` contains only the value of the token.
 
 # 📦 How to Install
 
-## From Binaries
-
-* To get the binary just download the latest release for your OS/Arch from [the releases page](https://github.com/ldez/prm/releases)
-* Unzip the archive.
-* Add `prm` in your `PATH`.
-
-Available for: Linux, MacOS, Windows, FreeBSD, OpenBSD.
-
 ## Linux
+
+### From Package Manager
 
 > [ArchLinux (AUR)](https://aur.archlinux.org/packages/prm/)
 
@@ -201,7 +195,21 @@ Available for: Linux, MacOS, Windows, FreeBSD, OpenBSD.
 yay -S prm
 ```
 
+You can use a package manager:
+
+* [ArchLinux (AUR)](https://aur.archlinux.org/packages/prm/)
+
+### From Binaries
+
+You can use pre-compiled binaries:
+
+* To get the binary just download the latest release for your OS/Arch from [the releases page](https://github.com/ldez/prm/releases)
+* Unzip the archive.
+* Add `prm` in your `PATH`.
+
 ## MacOS
+
+### From Package Manager
 
 > [Homebrew Taps](https://github.com/ldez/homebrew-tap)
 
@@ -211,7 +219,21 @@ brew update
 brew install prm
 ```
 
+You can use a package manager:
+
+* [Homebrew Taps](https://github.com/ldez/homebrew-tap)
+
+### From Binaries
+
+You can use pre-compiled binaries:
+
+* To get the binary just download the latest release for your OS/Arch from [the releases page](https://github.com/ldez/prm/releases)
+* Unzip the archive.
+* Add `prm` in your `PATH`.
+
 ## Windows
+
+### From Package Manager
 
 > [Scoop main bucket](https://github.com/lukesampson/scoop)
 
@@ -225,6 +247,19 @@ scoop install prm
 scoop bucket add prm https://github.com/ldez/scoop-bucket.git
 scoop install prm
 ```
+
+You can use a package manager:
+
+* [Scoop main bucket](https://github.com/lukesampson/scoop)
+* [Scoop Bucket](https://github.com/ldez/scoop-bucket)
+
+### From Binaries
+
+You can use pre-compiled binaries:
+
+* To get the binary just download the latest release for your OS/Arch from [the releases page](https://github.com/ldez/prm/releases)
+* Unzip the archive.
+* Add `prm` in your `PATH`.
 
 ## From Sources
 
