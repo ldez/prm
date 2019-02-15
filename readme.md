@@ -1,17 +1,22 @@
+[![PRM](doc/static/images/logo-stroke.png)](https://ldez.github.io/prm/)
+
 # PRM - Pull Request Manager
+
+[![ArchLinux (AUR)](https://img.shields.io/aur/version/prm.svg?style=flat)](https://aur.archlinux.org/packages/prm)
+[![Homebrew Taps](https://img.shields.io/github/release/ldez/prm.svg?label=Homebrew%20Taps&style=flat)](https://github.com/ldez/homebrew-tap)
+[![Scoop Main Bucket](https://img.shields.io/github/release/ldez/prm.svg?label=Scoop%20Main%20Bucket&style=flat)](https://github.com/lukesampson/scoop)
+[![Scoop Bucket](https://img.shields.io/github/release/ldez/prm.svg?label=Scoop%20Bucket&style=flat)](https://github.com/ldez/scoop-bucket)
+[![release](https://img.shields.io/github/release/ldez/prm.svg?style=flat)](https://github.com/ldez/prm/releases)
 
 [![Build Status](https://travis-ci.org/ldez/prm.svg?branch=master)](https://travis-ci.org/ldez/prm)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ldez/prm)](https://goreportcard.com/report/github.com/ldez/prm)
-
 
 If you are a maintainer of Open Source Software, you need to review a lot of PR, this tool is made for you.
 
 With the GitHub feature ["repository maintainer permissions on existing pull requests"](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/), now we can edit real PR branch.
 This tool allow to easily manage PR branches and remotes.
 
-[![prm](https://asciinema.org/a/176222.png)](https://asciinema.org/a/176222)
-
-[![PRM](doc/static/images/logo-stroke.png)](https://ldez.github.io/prm/)
+[![PRM](https://asciinema.org/a/176222.png)](https://asciinema.org/a/176222)
 
 :briefcase: Features:
 
