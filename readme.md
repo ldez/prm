@@ -1,5 +1,3 @@
-[![PRM](doc/static/images/logo-stroke.png)](https://ldez.github.io/prm/)
-
 # PRM - Pull Request Manager
 
 [![ArchLinux (AUR)](https://img.shields.io/aur/version/prm.svg?style=flat)](https://aur.archlinux.org/packages/prm)
@@ -10,6 +8,8 @@
 
 [![Build Status](https://travis-ci.org/ldez/prm.svg?branch=master)](https://travis-ci.org/ldez/prm)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ldez/prm)](https://goreportcard.com/report/github.com/ldez/prm)
+
+[![PRM](doc/static/images/logo-stroke.png)](https://ldez.github.io/prm/)
 
 If you are a maintainer of Open Source Software, you need to review a lot of PR, this tool is made for you.
 
