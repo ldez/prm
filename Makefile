@@ -1,4 +1,4 @@
-.PHONY: all
+.PHONY: clean check test build dependencies checks fmt imports hugo-theme hugo-theme-clean hugo-build hugo
 
 GOFILES := $(shell go list -f '{{range $$index, $$element := .GoFiles}}{{$$.Dir}}/{{$$element}}{{"\n"}}{{end}}' ./... | grep -v '/vendor/')
 
@@ -7,10 +7,7 @@ SHA := $(shell git rev-parse --short HEAD)
 VERSION := $(if $(TAG_NAME),$(TAG_NAME),$(SHA))
 BUILD_DATE := $(shell date -u '+%Y-%m-%d_%I:%M:%S%p')
 
-default: clean checks test build
-
-test: clean
-	go test -v -cover ./...
+default: clean check test build
 
 dependencies:
 	dep ensure -v
@@ -18,16 +15,21 @@ dependencies:
 clean:
 	rm -rf dist/ cover.out
 
+test: clean
+	go test -v -cover ./...
+
 build: clean
 	@echo Version: $(VERSION) $(BUILD_DATE)
 	go build -v -ldflags '-X "github.com/ldez/prm/meta.version=${VERSION}" -X "github.com/ldez/prm/meta.commit=${SHA}" -X "github.com/ldez/prm/meta.date=${BUILD_DATE}"'
 
-checks: check-fmt
+check:
 	golangci-lint run
 
-check-fmt: SHELL := /bin/bash
-check-fmt:
-	diff -u <(echo -n) <(gofmt -d $(GOFILES))
+fmt:
+	@gofmt -s -l -w $(GOFILES)
+
+imports:
+	@goimports -w $(GOFILES)
 
 ## Documentation tool
 
