@@ -41,11 +41,15 @@ func main() {
 		DefaultPointersConfig: &types.CheckoutOptions{},
 	}
 	checkoutCmd.Run = safe(func() error {
-		err := requirePRNumber(checkoutOptions.Number, checkoutCmd.Name)
+		if checkoutOptions.Number != 0 {
+			return cmd.Checkout(checkoutOptions)
+		}
+
+		conf, err := config.Get()
 		if err != nil {
 			return err
 		}
-		return cmd.Checkout(checkoutOptions)
+		return cmd.InteractiveCheckout(conf)
 	})
 
 	flag.AddCommand(checkoutCmd)
