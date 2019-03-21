@@ -256,13 +256,6 @@ func initProject() error {
 	return config.Save(confs)
 }
 
-func requirePRNumber(number int, action string) error {
-	if number <= 0 {
-		return fmt.Errorf("you must provide a PR number. ex: 'prm %s -n 1235'", action)
-	}
-	return nil
-}
-
 func requirePRNumbers(numbers types.PRNumbers, action string) error {
 	if len(numbers) == 0 {
 		return fmt.Errorf("you must provide a PR number. ex: 'prm %s -n 1235'", action)
