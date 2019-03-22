@@ -43,7 +43,7 @@ deploy:
     provider: pages
     skip_cleanup: true
     github_token: $GITHUB_TOKEN
-    local_dir: doc/public
+    local_dir: docs/public
     verbose: true
     on:
       condition: $TRAVIS_GO_VERSION =~ ^1\.x$

@@ -35,10 +35,10 @@ imports:
 .PHONY: docs-build docs-serve docs-themes
 
 docs-serve:
-	@make -C ./doc hugo
+	@make -C ./docs hugo
 
 docs-build:
-	@make -C ./doc hugo-build
+	@make -C ./docs hugo-build
 
 docs-themes:
-	@make -C ./doc hugo-themes
+	@make -C ./docs hugo-themes
