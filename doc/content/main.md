@@ -31,6 +31,10 @@ This tool allow to easily manage PR branches and remotes.
 ```bash
 prm
 # item "checkout"
+
+# or #
+
+prm c
 ```
 
 * Display the last 50 PRs from GitHub.
