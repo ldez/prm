@@ -18,6 +18,7 @@ search = true
 
 [languages.en]
 toc_footers = [
+  "[Say Thanks](https://saythanks.io/to/ldez)",
   "[Github](https://github.com/ldez/prm)",
   "Created by [ldez](https://github.com/ldez)",
 ]
