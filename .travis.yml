@@ -30,7 +30,7 @@ install:
   - make dependencies
 
 after_success:
-  - make hugo-build
+  - make docs-build
 
 deploy:
   - provider: script

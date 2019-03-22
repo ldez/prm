@@ -31,18 +31,14 @@ fmt:
 imports:
 	@goimports -w $(GOFILES)
 
-## Documentation tool
+## Docs
+.PHONY: docs-build docs-serve docs-themes
 
-hugo-theme: hugo-theme-clean
-	mkdir -p doc/themes/docuapi
-	git clone --depth=1 https://github.com/bep/docuapi.git doc/themes/docuapi
-	rm -rf doc/themes/docuapi/.git doc/themes/docuapi/*.go
+docs-serve:
+	@make -C ./doc hugo
 
-hugo-theme-clean:
-	rm -rf doc/themes
+docs-build:
+	@make -C ./doc hugo-build
 
-hugo-build: hugo-theme
-	hugo --enableGitInfo --source doc
-
-hugo:
-	hugo server --enableGitInfo --watch --source doc
+docs-themes:
+	@make -C ./doc hugo-themes
