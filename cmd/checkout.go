@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/google/go-github/github"
+	"github.com/google/go-github/v26/github"
 	"github.com/ldez/prm/choose"
 	"github.com/ldez/prm/config"
 	"github.com/ldez/prm/local"

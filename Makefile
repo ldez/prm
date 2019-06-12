@@ -1,4 +1,4 @@
-.PHONY: clean check test build dependencies checks fmt imports hugo-theme hugo-theme-clean hugo-build hugo
+.PHONY: clean check test build dependencies fmt imports hugo-theme hugo-theme-clean hugo-build hugo
 
 GOFILES := $(shell git ls-files '*.go' | grep -v '^vendor/')
 
@@ -10,7 +10,7 @@ BUILD_DATE := $(shell date -u '+%Y-%m-%d_%I:%M:%S%p')
 default: clean check test build
 
 dependencies:
-	dep ensure -v
+	go mod download
 
 clean:
 	rm -rf dist/ cover.out

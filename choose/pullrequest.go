@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/google/go-github/github"
+	"github.com/google/go-github/v26/github"
 	"github.com/ldez/prm/types"
 	survey "gopkg.in/AlecAivazis/survey.v1"
 )
