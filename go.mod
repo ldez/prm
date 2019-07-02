@@ -5,7 +5,7 @@ go 1.12
 require (
 	github.com/containous/flaeg v1.4.1
 	github.com/davecgh/go-spew v1.1.1
-	github.com/golang/protobuf v1.2.0
+	github.com/golang/protobuf v1.3.1
 	github.com/google/go-github/v26 v26.0.2
 	github.com/google/go-querystring v1.0.0
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51
