@@ -20,6 +20,6 @@ require (
 	golang.org/x/net v0.0.0-20190311183353-d8887717615a
 	golang.org/x/oauth2 v0.0.0-20181203162652-d668ce993890
 	golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a
-	google.golang.org/appengine v1.4.0
+	google.golang.org/appengine v1.6.1
 	gopkg.in/AlecAivazis/survey.v1 v1.8.5
 )
