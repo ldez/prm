@@ -11,7 +11,7 @@ require (
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51
 	github.com/ldez/go-git-cmd-wrapper v1.2.0
 	github.com/mattn/go-colorable v0.0.9
-	github.com/mattn/go-isatty v0.0.4
+	github.com/mattn/go-isatty v0.0.8
 	github.com/mgutz/ansi v0.0.0-20170206155736-9520e82c474b
 	github.com/ogier/pflag v0.0.0-20160129220114-45c278ab3607
 	github.com/pkg/errors v0.8.1
