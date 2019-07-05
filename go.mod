@@ -6,7 +6,7 @@ require (
 	github.com/containous/flaeg v1.4.1
 	github.com/davecgh/go-spew v1.1.1
 	github.com/golang/protobuf v1.3.1
-	github.com/google/go-github/v26 v26.0.9
+	github.com/google/go-github/v26 v26.0.10
 	github.com/google/go-querystring v1.0.0
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51
 	github.com/ldez/go-git-cmd-wrapper v1.2.0
