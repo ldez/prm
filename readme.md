@@ -9,6 +9,7 @@
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/ldez)
 [![Build Status](https://travis-ci.org/ldez/prm.svg?branch=master)](https://travis-ci.org/ldez/prm)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ldez/prm)](https://goreportcard.com/report/github.com/ldez/prm)
+![astro](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fastronomer.ullaakut.eu%2Fshields%3Fowner%3Dldez%26name%3Dprm)
 
 [![PRM](docs/static/images/logo-stroke.png)](https://ldez.github.io/prm/)
 
