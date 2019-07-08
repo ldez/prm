@@ -53,6 +53,46 @@ func TestNewRepository(t *testing.T) {
 				Name:  "prm",
 			},
 		},
+		{
+			desc: "GitHub Enterprise: HTTPS",
+			url:  "https://github.mycompany.com/ldez/prm.git",
+			expected: &Repository{
+				Owner: "ldez",
+				Name:  "prm",
+			},
+		},
+		{
+			desc: "GitHub Enterprise: HTTPS without suffix",
+			url:  "https://github.mycompany.com/ldez/prm",
+			expected: &Repository{
+				Owner: "ldez",
+				Name:  "prm",
+			},
+		},
+		{
+			desc: "GitHub Enterprise: HTTPS without suffix ending with /",
+			url:  "https://github.mycompany.com/ldez/prm/",
+			expected: &Repository{
+				Owner: "ldez",
+				Name:  "prm",
+			},
+		},
+		{
+			desc: "GitHub Enterprise: SSH",
+			url:  "git@github.mycompany.com:ldez/prm.git",
+			expected: &Repository{
+				Owner: "ldez",
+				Name:  "prm",
+			},
+		},
+		{
+			desc: "GitHub Enterprise: SSH without suffix",
+			url:  "git@github.mycompany.com:ldez/prm",
+			expected: &Repository{
+				Owner: "ldez",
+				Name:  "prm",
+			},
+		},
 	}
 
 	for _, test := range testCases {

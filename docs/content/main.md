@@ -187,6 +187,35 @@ Important - `/path/to/my/token/secret.txt` contains only the value of the token.
 </aside>
 
 
+# 🔒 GitHub Enterprise
+
+## PRM_GITHUB_API_BASE_URL
+
+To use `prm` with GitHub Enterprise,
+
+```bash
+export PRM_GITHUB_API_BASE_URL=xxxxxxx
+```
+
+Set the environment variable `PRM_GITHUB_API_BASE_URL` with the URL of the domain endpoint of your GitHub Enterprise instance.
+
+<aside class="notice">
+You must replace `xxxxxxx` with the URL of the domain endpoint.
+</aside>
+
+## PRM_GITHUB_API_BASE_URL_FILE
+
+Set the environment variable `PRM_GITHUB_API_BASE_URL_FILE` with a path to file that contains the URL of the domain endpoint of your GitHub Enterprise instance.
+
+```bash
+export PRM_GITHUB_API_BASE_URL_FILE=/path/to/my/token/secret.txt
+```
+
+<aside class="notice">
+Important - `/path/to/my/token/secret.txt` contains only the URL of the domain endpoint.
+</aside>
+
+
 # 📦 How to Install
 
 ## Linux

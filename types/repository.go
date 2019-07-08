@@ -2,10 +2,10 @@ package types
 
 import (
 	"fmt"
-	"regexp"
 	"strings"
 
 	"github.com/ldez/prm/local"
+	giturls "github.com/whilp/git-urls"
 )
 
 // Repository Git repository model.
@@ -15,20 +15,18 @@ type Repository struct {
 }
 
 func newRepository(uri string) (*Repository, error) {
-	exp := regexp.MustCompile(`(?:git@github.com:|https://github.com/)([^/]+)/(.+)`)
+	u, err := giturls.Parse(uri)
+	if err != nil {
+		return nil, fmt.Errorf("invalid URL: %s: %v", uri, err)
+	}
 
-	if !exp.MatchString(uri) {
+	parts := strings.Split(strings.TrimSuffix(strings.TrimSuffix(u.Path, "/"), ".git"), "/")
+
+	if len(parts) < 2 {
 		return nil, fmt.Errorf("invalid URL: %s", uri)
 	}
 
-	parts := exp.FindStringSubmatch(uri)
-
-	if len(parts) < 3 {
-		return nil, fmt.Errorf("invalid URL: %s", uri)
-	}
-
-	name := strings.TrimSuffix(strings.TrimSuffix(parts[2], ".git"), "/")
-	return &Repository{Owner: parts[1], Name: name}, nil
+	return &Repository{Owner: parts[len(parts)-2], Name: parts[len(parts)-1]}, nil
 }
 
 // GetRepository get repository information by remote name.

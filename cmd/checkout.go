@@ -2,9 +2,12 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"log"
+	"net/url"
 	"os"
+	"strings"
 
 	"github.com/google/go-github/v26/github"
 	"github.com/ldez/prm/choose"
@@ -167,6 +170,16 @@ func newGitHubClient(ctx context.Context) *github.Client {
 		tc := oauth2.NewClient(ctx, ts)
 		client = github.NewClient(tc)
 	}
+
+	baseURL := getOrFile("PRM_GITHUB_API_BASE_URL")
+	if baseURL != "" {
+		var err error
+		client.BaseURL, err = url.Parse(strings.TrimSuffix(baseURL, "/") + "/")
+		if err != nil {
+			panic(fmt.Sprintf("invalid domain endpoint: %v", err))
+		}
+	}
+
 	return client
 }
 
