@@ -204,5 +204,5 @@ func getOrFile(envVar string) string {
 		return ""
 	}
 
-	return string(fileContents)
+	return strings.TrimSpace(string(fileContents))
 }
