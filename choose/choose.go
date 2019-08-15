@@ -3,8 +3,8 @@ package choose
 import (
 	"math"
 
+	survey "github.com/AlecAivazis/survey/v2"
 	"github.com/ldez/prm/config"
-	survey "gopkg.in/AlecAivazis/survey.v1"
 )
 
 const (

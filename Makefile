@@ -1,5 +1,7 @@
 .PHONY: clean check test build dependencies fmt imports hugo-theme hugo-theme-clean hugo-build hugo
 
+export GO111MODULE=on
+
 GOFILES := $(shell git ls-files '*.go' | grep -v '^vendor/')
 
 TAG_NAME := $(shell git tag -l --contains HEAD)

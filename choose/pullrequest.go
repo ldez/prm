@@ -6,9 +6,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/google/go-github/v26/github"
+	survey "github.com/AlecAivazis/survey/v2"
+	"github.com/google/go-github/v27/github"
 	"github.com/ldez/prm/types"
-	survey "gopkg.in/AlecAivazis/survey.v1"
 )
 
 type answersPR struct {

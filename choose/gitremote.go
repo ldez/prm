@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
+	survey "github.com/AlecAivazis/survey/v2"
 	"github.com/ldez/prm/local"
-	survey "gopkg.in/AlecAivazis/survey.v1"
 )
 
 type answersGitRemote struct {
