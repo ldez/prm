@@ -36,27 +36,28 @@ changelog:
       - '^test:'
       - '^tests:'
 
-archive:
-  name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm}}v{{ .Arm }}{{ end }}'
-  format: tar.gz
-  format_overrides:
-    - goos: windows
-      format: zip
-  files:
-    - LICENSE
+archives:
+  - id: prm
+    name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm}}v{{ .Arm }}{{ end }}'
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - LICENSE
 
-brew:
-  github:
-    owner: ldez
-    name: homebrew-tap
-  commit_author:
-    name: ldez
-    email: ldez@users.noreply.github.com
-  folder: Formula
-  homepage: https://github.com/ldez/prm
-  description: Pull Request Manager for Maintainers
-  test: |
-    system "#{bin}/prm version"
+brews:
+  - github:
+      owner: ldez
+      name: homebrew-tap
+    commit_author:
+      name: ldez
+      email: ldez@users.noreply.github.com
+    folder: Formula
+    homepage: https://github.com/ldez/prm
+    description: Pull Request Manager for Maintainers
+    test: |
+      system "#{bin}/prm version"
 
 scoop:
   bucket:
