@@ -1,4 +1,4 @@
-.PHONY: clean check test build dependencies fmt imports hugo-theme hugo-theme-clean hugo-build hugo
+.PHONY: clean check test build fmt imports hugo-theme hugo-theme-clean hugo-build hugo
 
 export GO111MODULE=on
 
@@ -10,9 +10,6 @@ VERSION := $(if $(TAG_NAME),$(TAG_NAME),$(SHA))
 BUILD_DATE := $(shell date -u '+%Y-%m-%d_%I:%M:%S%p')
 
 default: clean check test build
-
-dependencies:
-	go mod download
 
 clean:
 	rm -rf dist/ cover.out
