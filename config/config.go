@@ -83,7 +83,6 @@ func Get() (*Configuration, error) {
 
 // Find find a configuration by directory name.
 func Find(configurations []Configuration, directory string) (*Configuration, error) {
-
 	for i, config := range configurations {
 		if config.Directory == directory {
 			return &configurations[i], nil
@@ -95,7 +94,6 @@ func Find(configurations []Configuration, directory string) (*Configuration, err
 
 // ReadFile read or create the configuration file and load the configuration into an array.
 func ReadFile() ([]Configuration, error) {
-
 	var configs []Configuration
 
 	filePath, err := getPathFunc()

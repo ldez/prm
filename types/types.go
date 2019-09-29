@@ -65,7 +65,6 @@ func (c *PRNumbers) SetValue(val interface{}) {
 }
 
 func (c *PRNumbers) String() string {
-
 	var stringNumbers []string
 	for _, number := range *c {
 		stringNumbers = append(stringNumbers, strconv.Itoa(number))

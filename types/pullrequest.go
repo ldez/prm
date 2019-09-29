@@ -107,7 +107,6 @@ func (pr *PullRequest) Pull(force bool) error {
 
 // Checkout checkout the branch related to the pull request into the local git repository.
 func (pr *PullRequest) Checkout(newBranch bool) error {
-
 	if newBranch {
 		// git remote get-url $remote
 		_, err := git.Remote(remote.GetURL(pr.Owner))

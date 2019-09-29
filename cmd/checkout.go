@@ -82,46 +82,38 @@ func Checkout(options *types.CheckoutOptions) error {
 		log.Println("PR already exists.")
 
 		// simple checkout
-		err = pr.Checkout(false)
-		if err != nil {
-			return err
-		}
-	} else {
-		log.Println("New Pull Request.")
-
-		baseRepository, err := types.GetRepository(conf.BaseRemote)
-		if err != nil {
-			return err
-		}
-
-		pr, err = getPullRequest(baseRepository, options.Number)
-		if err != nil {
-			return err
-		}
-
-		err = pr.Checkout(true)
-		if err != nil {
-			// Remove remote if needed
-			errRemote := removeRemote(conf, pr)
-			if errRemote != nil {
-				log.Println(errRemote)
-			}
-			return err
-		}
-
-		// add PR to config
-		if conf.PullRequests == nil {
-			conf.PullRequests = make(map[string][]types.PullRequest)
-		}
-		conf.PullRequests[pr.Owner] = append(conf.PullRequests[pr.Owner], *pr)
-
-		err = config.Save(confs)
-		if err != nil {
-			return err
-		}
+		return pr.Checkout(false)
 	}
 
-	return nil
+	log.Println("New Pull Request.")
+
+	baseRepository, err := types.GetRepository(conf.BaseRemote)
+	if err != nil {
+		return err
+	}
+
+	pr, err = getPullRequest(baseRepository, options.Number)
+	if err != nil {
+		return err
+	}
+
+	err = pr.Checkout(true)
+	if err != nil {
+		// Remove remote if needed
+		errRemote := removeRemote(conf, pr)
+		if errRemote != nil {
+			log.Println(errRemote)
+		}
+		return err
+	}
+
+	// add PR to config
+	if conf.PullRequests == nil {
+		conf.PullRequests = make(map[string][]types.PullRequest)
+	}
+	conf.PullRequests[pr.Owner] = append(conf.PullRequests[pr.Owner], *pr)
+
+	return config.Save(confs)
 }
 
 // removeRemote if needed

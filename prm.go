@@ -31,121 +31,25 @@ func main() {
 	flag.AddParser(reflect.TypeOf(types.PRNumbers{}), &types.PRNumbers{})
 
 	// Checkout
-
-	checkoutOptions := &types.CheckoutOptions{}
-
-	checkoutCmd := &flaeg.Command{
-		Name:                  "c",
-		Description:           "Checkout a PR (create a local branch and add remote).",
-		Config:                checkoutOptions,
-		DefaultPointersConfig: &types.CheckoutOptions{},
-	}
-	checkoutCmd.Run = safe(func() error {
-		if checkoutOptions.Number != 0 {
-			return cmd.Checkout(checkoutOptions)
-		}
-
-		conf, err := config.Get()
-		if err != nil {
-			return err
-		}
-		return cmd.InteractiveCheckout(conf)
-	})
-
-	flag.AddCommand(checkoutCmd)
+	flag.AddCommand(createCheckout())
 
 	// Remove
-
-	removeOptions := &types.RemoveOptions{}
-
-	removeCmd := &flaeg.Command{
-		Name:                  "rm",
-		Description:           "Remove one or more PRs from the current local repository.",
-		Config:                removeOptions,
-		DefaultPointersConfig: &types.RemoveOptions{},
-	}
-	removeCmd.Run = safe(removeRun(removeCmd.Name, removeOptions))
-
-	flag.AddCommand(removeCmd)
+	flag.AddCommand(createRemove())
 
 	// Push Force
-
-	pushForceOptions := &types.PushOptions{Force: true}
-
-	pushForceCmd := &flaeg.Command{
-		Name:                  "pf",
-		Description:           "Push force to the PR branch.",
-		Config:                pushForceOptions,
-		DefaultPointersConfig: &types.PushOptions{},
-	}
-	pushForceCmd.Run = safe(func() error {
-		return cmd.Push(pushForceOptions)
-	})
-
-	flag.AddCommand(pushForceCmd)
+	flag.AddCommand(createPushForce())
 
 	// Push
-
-	pushOptions := &types.PushOptions{}
-
-	pushCmd := &flaeg.Command{
-		Name:                  "push",
-		Description:           "Push to the PR branch.",
-		Config:                pushOptions,
-		DefaultPointersConfig: &types.PushOptions{},
-	}
-	pushCmd.Run = safe(func() error {
-		return cmd.Push(pushOptions)
-	})
-
-	flag.AddCommand(pushCmd)
+	flag.AddCommand(createPush())
 
 	// Pull
-
-	pullOptions := &types.PullOptions{}
-
-	pullCmd := &flaeg.Command{
-		Name:                  "pull",
-		Description:           "Pull to the PR branch.",
-		Config:                pullOptions,
-		DefaultPointersConfig: &types.PullOptions{},
-	}
-	pullCmd.Run = safe(func() error {
-		return cmd.Pull(pullOptions)
-	})
-
-	flag.AddCommand(pullCmd)
+	flag.AddCommand(createPull())
 
 	// List
-
-	listOptions := &types.ListOptions{}
-
-	listCmd := &flaeg.Command{
-		Name:                  "list",
-		Description:           "Display all current PRs.",
-		Config:                listOptions,
-		DefaultPointersConfig: &types.ListOptions{},
-		Run: safe(func() error {
-			return cmd.List(listOptions)
-		}),
-	}
-
-	flag.AddCommand(listCmd)
+	flag.AddCommand(createList())
 
 	// version
-
-	versionCmd := &flaeg.Command{
-		Name:                  "version",
-		Description:           "Display the version.",
-		Config:                &types.NoOption{},
-		DefaultPointersConfig: &types.NoOption{},
-		Run: func() error {
-			meta.DisplayVersion()
-			return nil
-		},
-	}
-
-	flag.AddCommand(versionCmd)
+	flag.AddCommand(createVersion())
 
 	// Run command
 	err := flag.Run()
@@ -179,6 +83,44 @@ func rootRun() error {
 	return nil
 }
 
+func createCheckout() *flaeg.Command {
+	checkoutOptions := &types.CheckoutOptions{}
+
+	checkoutCmd := &flaeg.Command{
+		Name:                  "c",
+		Description:           "Checkout a PR (create a local branch and add remote).",
+		Config:                checkoutOptions,
+		DefaultPointersConfig: &types.CheckoutOptions{},
+	}
+	checkoutCmd.Run = safe(func() error {
+		if checkoutOptions.Number != 0 {
+			return cmd.Checkout(checkoutOptions)
+		}
+
+		conf, err := config.Get()
+		if err != nil {
+			return err
+		}
+		return cmd.InteractiveCheckout(conf)
+	})
+
+	return checkoutCmd
+}
+
+func createRemove() *flaeg.Command {
+	removeOptions := &types.RemoveOptions{}
+
+	removeCmd := &flaeg.Command{
+		Name:                  "rm",
+		Description:           "Remove one or more PRs from the current local repository.",
+		Config:                removeOptions,
+		DefaultPointersConfig: &types.RemoveOptions{},
+	}
+	removeCmd.Run = safe(removeRun(removeCmd.Name, removeOptions))
+
+	return removeCmd
+}
+
 func removeRun(action string, removeOptions *types.RemoveOptions) func() error {
 	return func() error {
 		if removeOptions.All {
@@ -201,6 +143,87 @@ func removeRun(action string, removeOptions *types.RemoveOptions) func() error {
 
 		return cmd.Remove(removeOptions)
 	}
+}
+
+func createPushForce() *flaeg.Command {
+	pushForceOptions := &types.PushOptions{Force: true}
+
+	pushForceCmd := &flaeg.Command{
+		Name:                  "pf",
+		Description:           "Push force to the PR branch.",
+		Config:                pushForceOptions,
+		DefaultPointersConfig: &types.PushOptions{},
+	}
+	pushForceCmd.Run = safe(func() error {
+		return cmd.Push(pushForceOptions)
+	})
+
+	return pushForceCmd
+}
+
+func createPush() *flaeg.Command {
+	pushOptions := &types.PushOptions{}
+
+	pushCmd := &flaeg.Command{
+		Name:                  "push",
+		Description:           "Push to the PR branch.",
+		Config:                pushOptions,
+		DefaultPointersConfig: &types.PushOptions{},
+	}
+	pushCmd.Run = safe(func() error {
+		return cmd.Push(pushOptions)
+	})
+
+	return pushCmd
+}
+
+func createPull() *flaeg.Command {
+	pullOptions := &types.PullOptions{}
+	pullCmd := &flaeg.Command{
+		Name:                  "pull",
+		Description:           "Pull to the PR branch.",
+		Config:                pullOptions,
+		DefaultPointersConfig: &types.PullOptions{},
+	}
+	pullCmd.Run = safe(func() error {
+		return cmd.Pull(pullOptions)
+	})
+	return pullCmd
+}
+
+func createList() *flaeg.Command {
+	listOptions := &types.ListOptions{}
+	listCmd := &flaeg.Command{
+		Name:                  "list",
+		Description:           "Display all current PRs.",
+		Config:                listOptions,
+		DefaultPointersConfig: &types.ListOptions{},
+		Run: safe(func() error {
+			return cmd.List(listOptions)
+		}),
+	}
+	return listCmd
+}
+
+func createVersion() *flaeg.Command {
+	versionCmd := &flaeg.Command{
+		Name:                  "version",
+		Description:           "Display the version.",
+		Config:                &types.NoOption{},
+		DefaultPointersConfig: &types.NoOption{},
+		Run: func() error {
+			meta.DisplayVersion()
+			return nil
+		},
+	}
+	return versionCmd
+}
+
+func requirePRNumbers(numbers types.PRNumbers, action string) error {
+	if len(numbers) == 0 {
+		return fmt.Errorf("you must provide a PR number. ex: 'prm %s -n 1235'", action)
+	}
+	return nil
 }
 
 func safe(fn func() error) func() error {
@@ -254,11 +277,4 @@ func initProject() error {
 	})
 
 	return config.Save(confs)
-}
-
-func requirePRNumbers(numbers types.PRNumbers, action string) error {
-	if len(numbers) == 0 {
-		return fmt.Errorf("you must provide a PR number. ex: 'prm %s -n 1235'", action)
-	}
-	return nil
 }
