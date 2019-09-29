@@ -12,7 +12,7 @@ cache:
 matrix:
   fast_finish: true
   include:
-    - go: 1.12.x
+    - go: 1.13.x
       env: STABLE=true
     - go: 1.x
     - go: tip
@@ -25,7 +25,7 @@ env:
 
 before_install:
   # Install linters and misspell
-  - curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin v1.17.1
+  - curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin ${GOLANGCI_LINT_VERSION}
   - golangci-lint --version
 
   # Hugo - documentation
@@ -33,6 +33,9 @@ before_install:
   - sudo dpkg -i /tmp/hugo.deb
 
 install:
+  - go mod tidy
+  - git diff --exit-code go.mod
+  - git diff --exit-code go.sum
   - go mod download
 
 after_success:

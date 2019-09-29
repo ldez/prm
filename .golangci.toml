@@ -35,10 +35,13 @@
   exclude-use-default = false
   max-per-linter = 0
   max-same-issues = 0
-  exclude = [ ]
+  exclude = ["ST1000: at least one file in a package should have a package comment"]
   [[issues.exclude-rules]]
     path = "version.go"
     text = "`(version|date|commit)` is a global variable"
   [[issues.exclude-rules]]
     path = "config/config.go"
     text = "`getPathFunc` is a global variable"
+ [[issues.exclude-rules]]
+    path = "(.+)_test.go"
+    linters = ["funlen"]
