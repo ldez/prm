@@ -3,7 +3,7 @@ module github.com/ldez/prm
 go 1.12
 
 require (
-	github.com/AlecAivazis/survey/v2 v2.0.4
+	github.com/AlecAivazis/survey/v2 v2.0.5
 	github.com/containous/flaeg v1.4.1
 	github.com/google/go-github/v28 v28.1.1
 	github.com/ldez/go-git-cmd-wrapper v1.2.0
