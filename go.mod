@@ -10,6 +10,6 @@ require (
 	github.com/ogier/pflag v0.0.2-0.20160129220114-45c278ab3607
 	github.com/pkg/errors v0.8.1
 	github.com/stretchr/testify v1.4.0
-	github.com/whilp/git-urls v0.0.0-20160530060445-31bac0d230fa
-	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
+	github.com/whilp/git-urls v0.0.0-20191001220047-6db9661140c0
+	golang.org/x/oauth2 v0.0.0-20191202225959-858c2ad4c8b6
 )
