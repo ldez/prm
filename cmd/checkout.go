@@ -192,7 +192,7 @@ func getOrFile(envVar string) string {
 
 	fileContents, err := ioutil.ReadFile(fileVarValue)
 	if err != nil {
-		log.Printf("Failed to read the file %s (defined by env var %s): %s", fileVarValue, fileVar, err)
+		log.Printf("Failed to read the file %q (defined by env var %q): %v", fileVarValue, fileVar, err)
 		return ""
 	}
 

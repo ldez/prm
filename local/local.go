@@ -30,7 +30,8 @@ func (r Remotes) Find(remoteName string) (*Remote, error) {
 			return &rmt, nil
 		}
 	}
-	return nil, fmt.Errorf("unable to find remote: %s", remoteName)
+
+	return nil, fmt.Errorf("unable to find remote %q in %v", remoteName, r)
 }
 
 // ByRemoteName sort remote by name.
