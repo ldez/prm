@@ -29,6 +29,8 @@
     "dupl",
     "prealloc",
     "scopelint",
+    "wsl", # Too strict
+    "gomnd", # Too strict
   ]
 
 [issues]
