@@ -1,0 +1,46 @@
+service:
+  golangci-lint-version: 1.22.x
+
+run:
+  deadline: 2m
+  skip-files: []
+
+linters-settings:
+  govet:
+    check-shadowing: true
+  gocyclo:
+    min-complexity: 12
+  maligned:
+    suggest-new: true
+  goconst:
+    min-len: 3
+    min-occurrences: 3
+  misspell:
+    locale: US
+
+linters:
+  enable-all: true
+  disable:
+    - maligned
+    - lll
+    - gas
+    - dupl
+    - prealloc
+    - scopelint
+    - wsl
+    - gomnd
+
+issues:
+  exclude-use-default: false
+  max-per-linter: 0
+  max-same-issues: 0
+  exclude:
+    - 'ST1000: at least one file in a package should have a package comment'
+  exclude-rules:
+    - path: version.go
+      text: '`(version|date|commit)` is a global variable'
+    - path: config/config.go
+      text: '`getPathFunc` is a global variable'
+    - path: (.+)_test.go
+      linters:
+        - funlen
