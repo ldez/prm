@@ -32,10 +32,15 @@ func GitRemote(remotes []local.Remote) (string, error) {
 				Options: surveyOpts,
 				Help:    "The remote must be the repository where are the Pull Requests.",
 			},
-			Transform: survey.TransformString(func(value string) string {
-				parts := strings.SplitN(value, "]:", 2)
-				return strings.TrimPrefix(parts[0], "[")
-			}),
+			Transform: func(ans interface{}) interface{} {
+				answer, ok := ans.(survey.OptionAnswer)
+				if !ok {
+					return nil
+				}
+				parts := strings.SplitN(answer.Value, "]:", 2)
+				answer.Value = strings.TrimPrefix(parts[0], "[")
+				return answer
+			},
 		},
 	}
 
