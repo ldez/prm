@@ -44,14 +44,14 @@ after_success:
 
 deploy:
   - provider: script
-    cleanup: false
+    skip_cleanup: true
     script: curl -sL https://git.io/goreleaser | bash
     on:
       tags: true
       condition: $STABLE = true
   - deploy:
     provider: pages
-    cleanup: false
+    skip_cleanup: true
     token: $GITHUB_TOKEN
     local_dir: docs/public
     verbose: true
