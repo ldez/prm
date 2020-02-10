@@ -1,4 +1,5 @@
 language: go
+os: linux
 
 notifications:
   email:
@@ -9,7 +10,7 @@ cache:
   directories:
     - $GOPATH/pkg/mod
 
-matrix:
+jobs:
   fast_finish: true
   include:
     - go: 1.13.x
@@ -43,15 +44,15 @@ after_success:
 
 deploy:
   - provider: script
-    skip_cleanup: true
+    cleanup: false
     script: curl -sL https://git.io/goreleaser | bash
     on:
       tags: true
       condition: $STABLE = true
   - deploy:
     provider: pages
-    skip_cleanup: true
-    github_token: $GITHUB_TOKEN
+    cleanup: false
+    token: $GITHUB_TOKEN
     local_dir: docs/public
     verbose: true
     on:
