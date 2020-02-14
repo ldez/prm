@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -14,7 +15,6 @@ import (
 	"github.com/ldez/prm/config"
 	"github.com/ldez/prm/local"
 	"github.com/ldez/prm/types"
-	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
 )
 
@@ -52,7 +52,7 @@ func getPRNumberFromGitHub(baseRepository *types.Repository) (int, error) {
 
 	prs, _, err := client.PullRequests.List(ctx, baseRepository.Owner, baseRepository.Name, opt)
 	if err != nil {
-		return 0, errors.Wrap(err, "fail to retrieve pull request from GitHub")
+		return 0, fmt.Errorf("fail to retrieve pull request from GitHub: %w", err)
 	}
 
 	return choose.RemotePulRequest(prs)

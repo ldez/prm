@@ -12,7 +12,6 @@ import (
 	"github.com/ldez/go-git-cmd-wrapper/push"
 	"github.com/ldez/go-git-cmd-wrapper/remote"
 	"github.com/ldez/prm/local"
-	"github.com/pkg/errors"
 )
 
 // PullRequest the pull request model.
@@ -39,7 +38,7 @@ func (pr *PullRequest) Remove() error {
 
 	currentBranchName, err := local.GetCurrentBranchName()
 	if err != nil {
-		return errors.Wrapf(err, "[PR %d] unable to find current local branch name", pr.Number)
+		return fmt.Errorf("[PR %d] unable to find current local branch name: %w", pr.Number, err)
 	}
 
 	if currentBranchName == branchName {
@@ -47,7 +46,7 @@ func (pr *PullRequest) Remove() error {
 		out, err = git.Checkout(checkout.Branch(defaultInitialBranch), git.Debug)
 		if err != nil {
 			log.Println(out)
-			return errors.Wrapf(err, "[PR %d] unable to checkout initial branch (%s)", pr.Number, defaultInitialBranch)
+			return fmt.Errorf("[PR %d] unable to checkout initial branch (%s): %w", pr.Number, defaultInitialBranch, err)
 		}
 	}
 
@@ -55,7 +54,7 @@ func (pr *PullRequest) Remove() error {
 	out, err = git.Branch(branch.DeleteForce, branch.BranchName(branchName), git.Debug)
 	if err != nil {
 		log.Println(out)
-		return errors.Wrapf(err, "[PR %d] unable to checkout PR", pr.Number)
+		return fmt.Errorf("[PR %d] unable to checkout PR: %w", pr.Number, err)
 	}
 
 	return nil
@@ -74,7 +73,7 @@ func (pr *PullRequest) RemoveRemote() error {
 	out, err = git.Remote(remote.Remove(pr.Owner), git.Debug)
 	if err != nil {
 		log.Println(out)
-		return errors.Wrapf(err, "[PR %d] unable to remove remote", pr.Number)
+		return fmt.Errorf("[PR %d] unable to remove remote: %w", pr.Number, err)
 	}
 
 	return nil
@@ -87,7 +86,7 @@ func (pr *PullRequest) Push(force bool) error {
 	out, err := git.Push(push.NoFollowTags, git.Cond(force, push.ForceWithLease), push.Remote(pr.Owner), push.RefSpec(ref), git.Debug)
 	if err != nil {
 		log.Println(out)
-		return errors.Wrapf(err, "[PR %d] unable to push", pr.Number)
+		return fmt.Errorf("[PR %d] unable to push: %w", pr.Number, err)
 	}
 
 	return nil
@@ -99,7 +98,7 @@ func (pr *PullRequest) Pull(force bool) error {
 	out, err := git.Pull(git.Cond(force, pull.Force), pull.Repository(pr.Owner), pull.Refspec(pr.BranchName), git.Debug)
 	if err != nil {
 		log.Println(out)
-		return errors.Wrapf(err, "[PR %d] unable to pull", pr.Number)
+		return fmt.Errorf("[PR %d] unable to pull: %w", pr.Number, err)
 	}
 
 	return nil
@@ -119,7 +118,7 @@ func (pr *PullRequest) Checkout(newBranch bool) error {
 			out, errRemote := git.Remote(remote.Add(pr.Owner, cloneURL), git.Debug)
 			if errRemote != nil {
 				log.Println(out)
-				return errors.Wrapf(errRemote, "[PR %d] unable to add remote", pr.Number)
+				return fmt.Errorf("[PR %d] unable to add remote: %w", pr.Number, errRemote)
 			}
 		}
 
@@ -127,7 +126,7 @@ func (pr *PullRequest) Checkout(newBranch bool) error {
 		out, errFetch := git.Fetch(fetch.Remote(pr.Owner), fetch.RefSpec(pr.BranchName), git.Debug)
 		if errFetch != nil {
 			log.Println(out)
-			return errors.Wrapf(errFetch, "[PR %d] unable to fetch", pr.Number)
+			return fmt.Errorf("[PR %d] unable to fetch: %w", pr.Number, errFetch)
 		}
 	}
 
@@ -140,7 +139,7 @@ func (pr *PullRequest) Checkout(newBranch bool) error {
 		git.Debug)
 	if err != nil {
 		log.Println(out)
-		return errors.Wrapf(err, "[PR %d] unable to checkout", pr.Number)
+		return fmt.Errorf("[PR %d] unable to checkout: %w", pr.Number, err)
 	}
 
 	return nil

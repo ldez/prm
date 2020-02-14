@@ -17,7 +17,7 @@ type Repository struct {
 func newRepository(uri string) (*Repository, error) {
 	u, err := giturls.Parse(uri)
 	if err != nil {
-		return nil, fmt.Errorf("invalid URL: %s: %v", uri, err)
+		return nil, fmt.Errorf("invalid URL: %s: %w", uri, err)
 	}
 
 	parts := strings.Split(strings.TrimSuffix(strings.TrimSuffix(u.Path, "/"), ".git"), "/")

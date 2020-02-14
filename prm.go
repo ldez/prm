@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -14,7 +15,6 @@ import (
 	"github.com/ldez/prm/meta"
 	"github.com/ldez/prm/types"
 	"github.com/ogier/pflag"
-	"github.com/pkg/errors"
 )
 
 func main() {
