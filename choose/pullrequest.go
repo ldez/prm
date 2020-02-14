@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	survey "github.com/AlecAivazis/survey/v2"
-	"github.com/google/go-github/v28/github"
+	"github.com/google/go-github/v29/github"
 	"github.com/ldez/prm/types"
 )
 

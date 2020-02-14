@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/google/go-github/v28/github"
+	"github.com/google/go-github/v29/github"
 	"github.com/ldez/prm/choose"
 	"github.com/ldez/prm/config"
 	"github.com/ldez/prm/local"
