@@ -22,8 +22,8 @@ const (
 	apiBaseURLEnvVar = "PRM_GITHUB_API_BASE_URL"
 )
 
-// HasToken checks if the GitHub token is present.
-func HasToken() bool {
+// hasToken checks if the GitHub token is present.
+func hasToken() bool {
 	return getOrFile(tokenEnvVar) != ""
 }
 

@@ -86,7 +86,7 @@ func newCloner(ctx context.Context) cloner {
 }
 
 func (c cloner) getForkUser(ctx context.Context) (string, error) {
-	if HasToken() {
+	if hasToken() {
 		authUser, _, err := c.client.Users.Get(ctx, "")
 		if err != nil {
 			return "", err
@@ -139,7 +139,7 @@ func (c cloner) searchFork(ctx context.Context, me string, user, repoName string
 }
 
 func (c cloner) createFork(ctx context.Context, user, repo string) (*github.Repository, error) {
-	if !HasToken() {
+	if !hasToken() {
 		fmt.Println("---------------------------------------------------------")
 		fmt.Printf("Set %s or %s to allow to fork automatically:\n", tokenEnvVar, tokenEnvVar+fileSuffixEnvVar)
 		fmt.Println("- https://ldez.github.io/prm/#prm-github-token")
