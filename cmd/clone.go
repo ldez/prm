@@ -37,31 +37,136 @@ func Clone(options types.CloneOptions) error {
 	}
 
 	if options.NoFork {
-		return simpleClone(options)
+		return cloneSimple(options)
 	}
 
+	ctx := context.Background()
+	cl := newCloner(ctx)
+
+	forkUsername, err := cl.getForkUser(ctx)
+	if err != nil {
+		return err
+	}
+
+	if forkUsername == "" {
+		return cloneSimple(options)
+	}
+
+	fork, err := cl.searchFork(ctx, forkUsername, user, repoName)
+	if err != nil {
+		return err
+	}
+
+	// fork already exists
+	if fork != nil {
+		log.Println("fork founded:", fork.GetFullName())
+		return cloneFork(fork, repoName, options)
+	}
+
+	fork, err = cl.createFork(ctx, user, repoName)
+	if err != nil {
+		return err
+	}
+
+	if fork == nil {
+		return cloneSimple(options)
+	}
+
+	return cloneFork(fork, repoName, options)
+}
+
+type cloner struct {
+	client *github.Client
+}
+
+func newCloner(ctx context.Context) cloner {
+	return cloner{
+		client: newGitHubClient(ctx),
+	}
+}
+
+func (c cloner) getForkUser(ctx context.Context) (string, error) {
+	if HasToken() {
+		authUser, _, err := c.client.Users.Get(ctx, "")
+		if err != nil {
+			return "", err
+		}
+
+		return authUser.GetLogin(), nil
+	}
+
+	fmt.Println("---------------------------------------------------------")
+	fmt.Printf("Set %s or %s to allow PRM to detect automatically your username:\n", tokenEnvVar, tokenEnvVar+fileSuffixEnvVar)
+	fmt.Println("- https://ldez.github.io/prm/#prm-github-token")
+	fmt.Println("- https://ldez.github.io/prm/#prm-github-token-file")
+	fmt.Println("---------------------------------------------------------")
+
+	return choose.Username()
+}
+
+func (c cloner) searchFork(ctx context.Context, me string, user, repoName string) (*github.Repository, error) {
+	query := fmt.Sprintf("user:%s fork:only in:name %s", me, repoName)
+
+	searchResult, _, err := c.client.Search.Repositories(ctx, query, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if searchResult.GetTotal() == 0 {
+		return nil, nil
+	}
+
+	for _, repository := range searchResult.Repositories {
+		if repository.GetFork() {
+			repo, _, err := c.client.Repositories.Get(ctx, me, repository.GetName())
+			if err != nil {
+				return nil, err
+			}
+
+			srcRepoFullName := fmt.Sprintf("%s/%s", user, repoName)
+
+			if repo.GetParent().GetFullName() == srcRepoFullName {
+				return repo, nil
+			}
+
+			if repo.GetSource().GetFullName() == srcRepoFullName {
+				return repo, nil
+			}
+		}
+	}
+
+	return nil, nil
+}
+
+func (c cloner) createFork(ctx context.Context, user, repo string) (*github.Repository, error) {
 	if !HasToken() {
 		fmt.Println("---------------------------------------------------------")
 		fmt.Printf("Set %s or %s to allow to fork automatically:\n", tokenEnvVar, tokenEnvVar+fileSuffixEnvVar)
 		fmt.Println("- https://ldez.github.io/prm/#prm-github-token")
 		fmt.Println("- https://ldez.github.io/prm/#prm-github-token-file")
 		fmt.Println("---------------------------------------------------------")
-		return simpleClone(options)
+		return nil, nil
 	}
 
-	fork, err := getFork(user, repoName)
+	fmt.Println("No existing fork found: creating a new fork.")
+
+	yes, err := choose.Fork()
+	if err != nil || !yes {
+		return nil, err
+	}
+
+	newFork, resp, err := c.client.Repositories.CreateFork(ctx, user, repo, nil)
 	if err != nil {
-		return err
+		_, ok := err.(*github.AcceptedError)
+		if !ok || resp == nil || resp.StatusCode != http.StatusAccepted {
+			return nil, fmt.Errorf("failed to create a fork: %w", err)
+		}
 	}
 
-	if fork == nil {
-		return simpleClone(options)
-	}
-
-	return cloneFork(fork, repoName, options)
+	return newFork, nil
 }
 
-func simpleClone(options types.CloneOptions) error {
+func cloneSimple(options types.CloneOptions) error {
 	// git clone  git@github.com:src/repo.git
 	output, err := git.Clone(clone.Repository(options.Repo), git.Debug)
 	if err != nil {
@@ -100,57 +205,6 @@ func cloneFork(fork *github.Repository, repoName string, options types.CloneOpti
 	}
 
 	return nil
-}
-
-func getFork(user, repo string) (*github.Repository, error) {
-	ctx := context.Background()
-	client := newGitHubClient(ctx)
-
-	authUser, _, err := client.Users.Get(ctx, "")
-	if err != nil {
-		return nil, err
-	}
-	forkUser := authUser.GetLogin()
-
-	fork, _, err := client.Repositories.Get(ctx, forkUser, repo)
-	if err != nil {
-		v, ok := err.(*github.ErrorResponse)
-		if !ok || v != nil && v.Response.StatusCode != http.StatusNotFound {
-			return nil, err
-		}
-	}
-
-	if fork == nil {
-		return createFork(ctx, client, user, repo)
-	}
-
-	// fork already exists
-	log.Println("fork founded:", fork.GetFullName())
-
-	if !fork.GetFork() {
-		return nil, fmt.Errorf("the repository %s is not fork", fork.GetFullName())
-	}
-
-	return fork, nil
-}
-
-func createFork(ctx context.Context, client *github.Client, user, repo string) (*github.Repository, error) {
-	fmt.Println("No existing fork found.")
-
-	yes, err := choose.Fork()
-	if err != nil || !yes {
-		return nil, err
-	}
-
-	newFork, resp, err := client.Repositories.CreateFork(ctx, user, repo, nil)
-	if err != nil {
-		_, ok := err.(*github.AcceptedError)
-		if !ok || resp == nil || resp.StatusCode != http.StatusAccepted {
-			return nil, fmt.Errorf("failed to create a fork: %w", err)
-		}
-	}
-
-	return newFork, nil
 }
 
 func splitUserRepo(rawURL string) (string, string, error) {

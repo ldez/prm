@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"context"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -22,4 +23,28 @@ func Test_splitUserRepo(t *testing.T) {
 		assert.Equal(t, "ldez", user)
 		assert.Equal(t, "prm", repo)
 	}
+}
+
+func Test_searchFork(t *testing.T) {
+	t.Skip("e2e")
+
+	ctx := context.Background()
+	cl := newCloner(ctx)
+
+	// Special cases when the repository name of the fork is not the same as the parent repository name.
+
+	// vdemeester/docker-cli forked from docker/cli
+	// vdemeester/openshift-release forked from openshift/release
+
+	repo, err := cl.searchFork(ctx, "vdemeester", "docker", "cli")
+	require.NoError(t, err)
+
+	require.NotNil(t, repo.Parent)
+	assert.Equal(t, "docker/cli", repo.GetParent().GetFullName())
+
+	repo, err = cl.searchFork(ctx, "vdemeester", "openshift", "release")
+	require.NoError(t, err)
+
+	require.NotNil(t, repo.Parent)
+	assert.Equal(t, "openshift/release", repo.GetParent().GetFullName())
 }

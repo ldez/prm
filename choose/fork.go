@@ -16,3 +16,15 @@ func Fork() (bool, error) {
 
 	return yes, nil
 }
+
+// Username Asking for the GitHub username.
+func Username() (string, error) {
+	prompt := &survey.Input{
+		Message: "Your GitHub username",
+	}
+
+	username := ""
+	err := survey.AskOne(prompt, &username)
+
+	return username, err
+}
