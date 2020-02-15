@@ -5,7 +5,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	giturls "github.com/whilp/git-urls"
 )
 
 func Test_splitUserRepo(t *testing.T) {
@@ -17,10 +16,7 @@ func Test_splitUserRepo(t *testing.T) {
 	}
 
 	for _, test := range testCases {
-		u, err := giturls.Parse(test)
-		require.NoError(t, err)
-
-		user, repo, err := splitUserRepo(u)
+		user, repo, err := splitUserRepo(test)
 		require.NoError(t, err)
 
 		assert.Equal(t, "ldez", user)

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
@@ -22,12 +21,7 @@ import (
 
 // Clone clone and fork a repository.
 func Clone(options types.CloneOptions) error {
-	srcRepoURL, err := giturls.Parse(options.Repo)
-	if err != nil {
-		return err
-	}
-
-	user, repoName, err := splitUserRepo(srcRepoURL)
+	user, repoName, err := splitUserRepo(options.Repo)
 	if err != nil {
 		return err
 	}
@@ -64,7 +58,7 @@ func Clone(options types.CloneOptions) error {
 		return simpleClone(options)
 	}
 
-	return forkCloner(fork, repoName, options)
+	return cloneFork(fork, repoName, options)
 }
 
 func simpleClone(options types.CloneOptions) error {
@@ -78,7 +72,7 @@ func simpleClone(options types.CloneOptions) error {
 	return nil
 }
 
-func forkCloner(fork *github.Repository, repoName string, options types.CloneOptions) error {
+func cloneFork(fork *github.Repository, repoName string, options types.CloneOptions) error {
 	// git clone git@github.com:src/repo.git
 	output, err := git.Clone(clone.Repository(fork.GetSSHURL()), git.Debug)
 	if err != nil {
@@ -112,12 +106,13 @@ func getFork(user, repo string) (*github.Repository, error) {
 	ctx := context.Background()
 	client := newGitHubClient(ctx)
 
-	ghUser, _, err := client.Users.Get(ctx, "")
+	authUser, _, err := client.Users.Get(ctx, "")
 	if err != nil {
 		return nil, err
 	}
+	forkUser := authUser.GetLogin()
 
-	fork, _, err := client.Repositories.Get(ctx, ghUser.GetLogin(), repo)
+	fork, _, err := client.Repositories.Get(ctx, forkUser, repo)
 	if err != nil {
 		v, ok := err.(*github.ErrorResponse)
 		if !ok || v != nil && v.Response.StatusCode != http.StatusNotFound {
@@ -139,7 +134,7 @@ func getFork(user, repo string) (*github.Repository, error) {
 	return fork, nil
 }
 
-func createFork(ctx context.Context, client *github.Client, user string, repo string) (*github.Repository, error) {
+func createFork(ctx context.Context, client *github.Client, user, repo string) (*github.Repository, error) {
 	fmt.Println("No existing fork found.")
 
 	yes, err := choose.Fork()
@@ -158,12 +153,17 @@ func createFork(ctx context.Context, client *github.Client, user string, repo st
 	return newFork, nil
 }
 
-func splitUserRepo(u *url.URL) (string, string, error) {
+func splitUserRepo(rawURL string) (string, string, error) {
+	u, err := giturls.Parse(rawURL)
+	if err != nil {
+		return "", "", fmt.Errorf("unable to get user and repositoy name from URL (%s): %w", rawURL, err)
+	}
+
 	clean := strings.TrimPrefix(strings.TrimSuffix(u.Path, ".git"), "/")
 	parts := strings.Split(clean, "/")
 
 	if len(parts) != 2 {
-		return "", "", fmt.Errorf("unable to get user and repositoy name from URL: %v", u)
+		return "", "", fmt.Errorf("unable to get user and repositoy name from URL: %s", rawURL)
 	}
 
 	return parts[0], parts[1], nil
