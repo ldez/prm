@@ -151,6 +151,23 @@ Display local branches related to PR for:
 * current project
 * all projects
 
+# 💫 Clone
+
+```bash
+# clone and fork (if needed) a repository.
+prm clone git@github.com:user/repo.git
+
+# clone (don't create fork on GitHub and add a fork to remote.)
+prm clone -n git@github.com:user/repo.git
+
+# clone and fork (if needed) a repository, and use the username as root directory.
+prm clone -r git@github.com:user/repo.git
+```
+
+Clone a repository:
+* create a fork if needed
+* add the remotes to the repository
+
 # 💫 Help
 
 ```bash

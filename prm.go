@@ -23,6 +23,7 @@ func main() {
 	rootCmd.AddCommand(createPushCmd())
 	rootCmd.AddCommand(createPushForceCmd())
 	rootCmd.AddCommand(createListCmd())
+	rootCmd.AddCommand(createCloneCmd())
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
@@ -194,6 +195,37 @@ func createListCmd() *cobra.Command {
 	listCmd.Flags().BoolVarP(&listCfg.All, "all", "a", false, "All pull requests.")
 
 	return listCmd
+}
+
+func createCloneCmd() *cobra.Command {
+	cloneCfg := types.CloneOptions{}
+
+	cloneCmd := &cobra.Command{
+		Use:   "clone [URL]",
+		Short: "Clone a repository and create a fork if needed.",
+		Long:  "Clone a repository and create a fork if needed.",
+		Args: func(cmd *cobra.Command, args []string) error {
+			if err := cobra.ExactArgs(1)(cmd, args); err != nil {
+				return err
+			}
+
+			cloneCfg.Repo = args[0]
+
+			return nil
+		},
+		RunE: func(_ *cobra.Command, args []string) error {
+			return cmd.Clone(cloneCfg)
+		},
+		Example: `$ prm clone git@github.com:user/repo.git
+$ prm clone https://github.com/user/repo.git
+$ prm clone -n git@github.com:user/repo.git
+$ prm clone -r git@github.com:user/repo.git`,
+	}
+
+	cloneCmd.Flags().BoolVarP(&cloneCfg.NoFork, "no-fork", "n", false, "Don't create fork on GitHub and add a fork to remote.")
+	cloneCmd.Flags().BoolVarP(&cloneCfg.UserAsRootDir, "user-as-root-dir", "r", false, "Username as root directory.")
+
+	return cloneCmd
 }
 
 func rootRun() error {
