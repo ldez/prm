@@ -165,6 +165,7 @@ prm clone -r git@github.com:user/repo.git
 ```
 
 Clone a repository:
+
 * create a fork if needed
 * add the remotes to the repository
 
