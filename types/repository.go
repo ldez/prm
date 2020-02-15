@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ldez/prm/local"
+	"github.com/ldez/prm/v3/local"
 	giturls "github.com/whilp/git-urls"
 )
 

@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"github.com/ldez/prm/config"
-	"github.com/ldez/prm/local"
-	"github.com/ldez/prm/types"
+	"github.com/ldez/prm/v3/config"
+	"github.com/ldez/prm/v3/local"
+	"github.com/ldez/prm/v3/types"
 )
 
 // Pull pull the PR branch.

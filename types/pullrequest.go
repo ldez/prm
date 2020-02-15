@@ -11,7 +11,7 @@ import (
 	"github.com/ldez/go-git-cmd-wrapper/pull"
 	"github.com/ldez/go-git-cmd-wrapper/push"
 	"github.com/ldez/go-git-cmd-wrapper/remote"
-	"github.com/ldez/prm/local"
+	"github.com/ldez/prm/v3/local"
 )
 
 // PullRequest the pull request model.
@@ -112,9 +112,12 @@ func (pr *PullRequest) Checkout(newBranch bool) error {
 		if err != nil {
 			// git remote add $remote git@github.com:$remote/$project.git
 			cloneURL := pr.CloneURL
-			if cloneURL == "" { // backward-compatible with previous configurations
+
+			// backward-compatible with previous configurations
+			if cloneURL == "" {
 				cloneURL = fmt.Sprintf("git@github.com:%s/%s.git", pr.Owner, pr.Project)
 			}
+
 			out, errRemote := git.Remote(remote.Add(pr.Owner, cloneURL), git.Debug)
 			if errRemote != nil {
 				log.Println(out)

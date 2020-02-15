@@ -34,6 +34,10 @@ prm
 
 # or #
 
+prm checkout
+
+# or #
+
 prm c
 ```
 
@@ -56,11 +60,11 @@ ex: `1234--myBranch`
 ## By Number
 
 ```bash
-prm c -n 1234
+prm checkout 1234
 
 # or #
 
-prm c --number=1234
+prm c 1234
 ```
 
 * Add the user git remote named with the user login.
@@ -89,11 +93,11 @@ prm rm
 ## By Number
 
 ```bash
-prm rm -n 1234
+prm rm 1234
 
 # or #
 
-prm rm --number=1234
+prm remove 1234
 ```
 
 * Remove the local branch.
@@ -151,6 +155,10 @@ Display local branches related to PR for:
 
 ```bash
 prm -h
+
+# or #
+
+prm <command> -h
 ```
 
 Display PRM help
