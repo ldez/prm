@@ -28,6 +28,7 @@ func Action() (string, error) {
 			Prompt: &survey.Select{
 				Message: "Choose the action",
 				Options: surveyOpts,
+				Help:    "https://ldez.github.io/prm/",
 			},
 		},
 	}
