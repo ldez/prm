@@ -46,6 +46,15 @@ func Clone(options types.CloneOptions) error {
 		return simpleClone(options)
 	}
 
+	if !HasToken() {
+		fmt.Println("---------------------------------------------------------")
+		fmt.Printf("Set %s or %s to allow to fork automatically:\n", tokenEnvVar, tokenEnvVar+fileSuffixEnvVar)
+		fmt.Println("- https://ldez.github.io/prm/#prm-github-token")
+		fmt.Println("- https://ldez.github.io/prm/#prm-github-token-file")
+		fmt.Println("---------------------------------------------------------")
+		return simpleClone(options)
+	}
+
 	fork, err := getFork(user, repoName)
 	if err != nil {
 		return err

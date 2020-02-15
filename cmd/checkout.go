@@ -4,10 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"os"
-	"strings"
 
 	"github.com/google/go-github/v29/github"
 	"github.com/ldez/prm/v3/choose"
@@ -145,28 +142,4 @@ func getPullRequest(baseRepository *types.Repository, number int) (*types.PullRe
 		Number:     number,
 		CloneURL:   pr.Head.Repo.GetSSHURL(),
 	}, nil
-}
-
-// getOrFile Attempts to resolve 'key' as an environment variable.
-// Failing that, it will check to see if '<key>_FILE' exists.
-// If so, it will attempt to read from the referenced file to populate a value.
-func getOrFile(envVar string) string {
-	envVarValue := os.Getenv(envVar)
-	if envVarValue != "" {
-		return envVarValue
-	}
-
-	fileVar := envVar + "_FILE"
-	fileVarValue := os.Getenv(fileVar)
-	if fileVarValue == "" {
-		return envVarValue
-	}
-
-	fileContents, err := ioutil.ReadFile(fileVarValue)
-	if err != nil {
-		log.Printf("Failed to read the file %q (defined by env var %q): %v", fileVarValue, fileVar, err)
-		return ""
-	}
-
-	return strings.TrimSpace(string(fileContents))
 }
