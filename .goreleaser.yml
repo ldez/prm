@@ -3,7 +3,7 @@ project_name: prm
 builds:
   - binary: prm
     ldflags:
-      - -s -w -X github.com/ldez/prm/meta.version={{.Version}} -X github.com/ldez/prm/meta.commit={{.Commit}} -X github.com/ldez/prm/meta.date={{.Date}}
+      - -s -w -X github.com/ldez/prm/v3/meta.version={{.Version}} -X github.com/ldez/prm/v3/meta.commit={{.Commit}} -X github.com/ldez/prm/v3/meta.date={{.Date}}
 
     goos:
       - windows

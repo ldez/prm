@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	survey "github.com/AlecAivazis/survey/v2"
-	"github.com/ldez/prm/local"
+	"github.com/AlecAivazis/survey/v2"
+	"github.com/ldez/prm/v3/local"
 )
 
 type answersGitRemote struct {

@@ -4,9 +4,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ldez/prm/choose"
-	"github.com/ldez/prm/config"
-	"github.com/ldez/prm/types"
+	"github.com/ldez/prm/v3/choose"
+	"github.com/ldez/prm/v3/config"
+	"github.com/ldez/prm/v3/types"
 )
 
 // Switch from a list.

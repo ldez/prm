@@ -11,6 +11,11 @@ var (
 	date    = "I don't remember exactly"
 )
 
+// GetVersion returns the current version.
+func GetVersion() string {
+	return version
+}
+
 // DisplayVersion DisplayVersion PRM version
 func DisplayVersion() {
 	fmt.Printf(`prm:

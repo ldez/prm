@@ -6,16 +6,14 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"net/url"
 	"os"
 	"strings"
 
 	"github.com/google/go-github/v29/github"
-	"github.com/ldez/prm/choose"
-	"github.com/ldez/prm/config"
-	"github.com/ldez/prm/local"
-	"github.com/ldez/prm/types"
-	"golang.org/x/oauth2"
+	"github.com/ldez/prm/v3/choose"
+	"github.com/ldez/prm/v3/config"
+	"github.com/ldez/prm/v3/local"
+	"github.com/ldez/prm/v3/types"
 )
 
 // InteractiveCheckout checkout a PR.
@@ -147,32 +145,6 @@ func getPullRequest(baseRepository *types.Repository, number int) (*types.PullRe
 		Number:     number,
 		CloneURL:   pr.Head.Repo.GetSSHURL(),
 	}, nil
-}
-
-func newGitHubClient(ctx context.Context) *github.Client {
-	token := getOrFile("PRM_GITHUB_TOKEN")
-
-	var client *github.Client
-	if len(token) == 0 {
-		client = github.NewClient(nil)
-	} else {
-		ts := oauth2.StaticTokenSource(
-			&oauth2.Token{AccessToken: token},
-		)
-		tc := oauth2.NewClient(ctx, ts)
-		client = github.NewClient(tc)
-	}
-
-	baseURL := getOrFile("PRM_GITHUB_API_BASE_URL")
-	if baseURL != "" {
-		var err error
-		client.BaseURL, err = url.Parse(strings.TrimSuffix(baseURL, "/") + "/")
-		if err != nil {
-			panic(fmt.Sprintf("invalid domain endpoint: %v", err))
-		}
-	}
-
-	return client
 }
 
 // getOrFile Attempts to resolve 'key' as an environment variable.

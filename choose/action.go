@@ -1,6 +1,6 @@
 package choose
 
-import survey "github.com/AlecAivazis/survey/v2"
+import "github.com/AlecAivazis/survey/v2"
 
 // Action name
 const (

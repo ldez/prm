@@ -3,59 +3,197 @@ package main
 import (
 	"errors"
 	"fmt"
-	"log"
 	"os"
-	"reflect"
+	"strconv"
 
-	"github.com/containous/flaeg"
-	"github.com/ldez/prm/choose"
-	"github.com/ldez/prm/cmd"
-	"github.com/ldez/prm/config"
-	"github.com/ldez/prm/local"
-	"github.com/ldez/prm/meta"
-	"github.com/ldez/prm/types"
-	"github.com/ogier/pflag"
+	"github.com/ldez/prm/v3/choose"
+	"github.com/ldez/prm/v3/cmd"
+	"github.com/ldez/prm/v3/config"
+	"github.com/ldez/prm/v3/local"
+	"github.com/ldez/prm/v3/meta"
+	"github.com/ldez/prm/v3/types"
+	"github.com/spf13/cobra"
 )
 
 func main() {
-	rootCmd := &flaeg.Command{
-		Name:                  "prm",
-		Description:           "PRM - The Pull Request Manager.",
-		Run:                   safe(rootRun),
-		Config:                &types.NoOption{},
-		DefaultPointersConfig: &types.NoOption{},
+	rootCmd := createRootCmd()
+	rootCmd.AddCommand(createCheckoutCmd())
+	rootCmd.AddCommand(createRemoveCmd())
+	rootCmd.AddCommand(createPullCmd())
+	rootCmd.AddCommand(createPushCmd())
+	rootCmd.AddCommand(createPushForceCmd())
+	rootCmd.AddCommand(createListCmd())
+
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+}
+
+func createRootCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:     "prm",
+		Short:   "PRM - The Pull Request Manager.",
+		Long:    `PRM - The Pull Request Manager.`,
+		Version: meta.GetVersion(),
+		PreRunE: safe,
+		RunE: func(_ *cobra.Command, _ []string) error {
+			return rootRun()
+		},
+	}
+}
+
+func createCheckoutCmd() *cobra.Command {
+	checkoutCfg := types.CheckoutOptions{}
+
+	return &cobra.Command{
+		Use:     "checkout [PR number]",
+		Aliases: []string{"c"},
+		Short:   "Checkout a PR (create a local branch and add remote).",
+		Long:    "Checkout a PR (create a local branch and add remote).",
+		Args: func(cmd *cobra.Command, args []string) error {
+			if len(args) == 0 {
+				return nil
+			}
+
+			if err := cobra.MaximumNArgs(1)(cmd, args); err != nil {
+				return err
+			}
+
+			if len(args) == 1 {
+				val, err := strconv.Atoi(args[0])
+				if err != nil {
+					return fmt.Errorf("argument must be a valid number: %w", err)
+				}
+				checkoutCfg.Number = val
+			}
+
+			return nil
+		},
+		PreRunE: safe,
+		RunE: func(_ *cobra.Command, args []string) error {
+			if checkoutCfg.Number != 0 {
+				return cmd.Checkout(&checkoutCfg)
+			}
+
+			conf, err := config.Get()
+			if err != nil {
+				return err
+			}
+			return cmd.InteractiveCheckout(conf)
+		},
+		Example: `  $ prm checkout
+  $ prm checkout 1234
+  $ prm c
+  $ prm c 1234`,
+	}
+}
+
+func createRemoveCmd() *cobra.Command {
+	removeCfg := types.RemoveOptions{}
+
+	removeCmd := &cobra.Command{
+		Use:     "rm [PR numbers]",
+		Aliases: []string{"remove"},
+		Short:   "Remove one or more PRs from the current local repository.",
+		Long:    "Remove one or more PRs from the current local repository.",
+		Args: func(_ *cobra.Command, args []string) error {
+			if len(args) == 0 {
+				return nil
+			}
+
+			var values []int
+			for i, arg := range args {
+				val, err := strconv.Atoi(arg)
+				if err != nil {
+					return fmt.Errorf("argument %d must be a valid number: %w", i, err)
+				}
+				values = append(values, val)
+			}
+
+			removeCfg.Numbers = values
+
+			return nil
+		},
+		PreRunE: safe,
+		RunE: func(_ *cobra.Command, args []string) error {
+			return removeRun(&removeCfg)
+		},
+		Example: `  $ prm rm
+  $ prm rm 1234
+  $ prm rm 1234 4567
+  $ prm remove
+  $ prm remove 1234
+  $ prm remove 1234 4567`,
 	}
 
-	flag := flaeg.New(rootCmd, os.Args[1:])
+	removeCmd.Flags().BoolVarP(&removeCfg.All, "all", "a", false, "All pull requests.")
 
-	flag.AddParser(reflect.TypeOf(types.PRNumbers{}), &types.PRNumbers{})
+	return removeCmd
+}
 
-	// Checkout
-	flag.AddCommand(createCheckout())
+func createPullCmd() *cobra.Command {
+	pullCfg := types.PullOptions{}
 
-	// Remove
-	flag.AddCommand(createRemove())
-
-	// Push Force
-	flag.AddCommand(createPushForce())
-
-	// Push
-	flag.AddCommand(createPush())
-
-	// Pull
-	flag.AddCommand(createPull())
-
-	// List
-	flag.AddCommand(createList())
-
-	// version
-	flag.AddCommand(createVersion())
-
-	// Run command
-	err := flag.Run()
-	if err != nil && err != pflag.ErrHelp {
-		log.Printf("Error: %v\n", err)
+	pullCmd := &cobra.Command{
+		Use:   "pull",
+		Short: "Pull to the PR branch.",
+		Long:  "Pull to the PR branch.",
+		RunE: func(_ *cobra.Command, _ []string) error {
+			return cmd.Pull(&pullCfg)
+		},
 	}
+
+	pullCmd.Flags().BoolVarP(&pullCfg.Force, "force", "f", false, "Force the pull.")
+
+	return pullCmd
+}
+
+func createPushCmd() *cobra.Command {
+	pushCfg := types.PushOptions{}
+
+	pushCmd := &cobra.Command{
+		Use:   "push",
+		Short: "Push to the PR branch.",
+		Long:  "Push to the PR branch.",
+		RunE: func(_ *cobra.Command, _ []string) error {
+			return cmd.Push(&pushCfg)
+		},
+	}
+
+	pushCmd.Flags().BoolVarP(&pushCfg.Force, "force", "f", false, "Force the push.")
+
+	return pushCmd
+}
+
+func createPushForceCmd() *cobra.Command {
+	pushForceCfg := types.PushOptions{Force: true}
+
+	return &cobra.Command{
+		Use:   "pf",
+		Short: "Push force to the PR branch.",
+		Long:  "Push force to the PR branch.",
+		RunE: func(_ *cobra.Command, _ []string) error {
+			return cmd.Push(&pushForceCfg)
+		},
+	}
+}
+
+func createListCmd() *cobra.Command {
+	listCfg := types.ListOptions{}
+
+	listCmd := &cobra.Command{
+		Use:   "list",
+		Short: "Display all current PRs.",
+		Long:  "Display all current PRs.",
+		RunE: func(_ *cobra.Command, _ []string) error {
+			return cmd.List(&listCfg)
+		},
+	}
+
+	listCmd.Flags().BoolVarP(&listCfg.All, "all", "a", false, "All pull requests.")
+
+	return listCmd
 }
 
 func rootRun() error {
@@ -83,161 +221,30 @@ func rootRun() error {
 	return nil
 }
 
-func createCheckout() *flaeg.Command {
-	checkoutOptions := &types.CheckoutOptions{}
-
-	checkoutCmd := &flaeg.Command{
-		Name:                  "c",
-		Description:           "Checkout a PR (create a local branch and add remote).",
-		Config:                checkoutOptions,
-		DefaultPointersConfig: &types.CheckoutOptions{},
+func removeRun(removeOptions *types.RemoveOptions) error {
+	if removeOptions.All {
+		return cmd.Remove(removeOptions)
 	}
-	checkoutCmd.Run = safe(func() error {
-		if checkoutOptions.Number != 0 {
-			return cmd.Checkout(checkoutOptions)
-		}
 
+	if len(removeOptions.Numbers) == 0 {
 		conf, err := config.Get()
 		if err != nil {
 			return err
 		}
-		return cmd.InteractiveCheckout(conf)
-	})
 
-	return checkoutCmd
+		return cmd.InteractiveRemove(conf)
+	}
+
+	return cmd.Remove(removeOptions)
 }
 
-func createRemove() *flaeg.Command {
-	removeOptions := &types.RemoveOptions{}
-
-	removeCmd := &flaeg.Command{
-		Name:                  "rm",
-		Description:           "Remove one or more PRs from the current local repository.",
-		Config:                removeOptions,
-		DefaultPointersConfig: &types.RemoveOptions{},
+func safe(_ *cobra.Command, _ []string) error {
+	_, err := config.Get()
+	if err == nil {
+		return nil
 	}
-	removeCmd.Run = safe(removeRun(removeCmd.Name, removeOptions))
 
-	return removeCmd
-}
-
-func removeRun(action string, removeOptions *types.RemoveOptions) func() error {
-	return func() error {
-		if removeOptions.All {
-			return cmd.Remove(removeOptions)
-		}
-
-		if !removeOptions.NoPrompt && len(removeOptions.Numbers) == 0 {
-			conf, err := config.Get()
-			if err != nil {
-				return err
-			}
-
-			return cmd.InteractiveRemove(conf)
-		}
-
-		err := requirePRNumbers(removeOptions.Numbers, action)
-		if err != nil {
-			return err
-		}
-
-		return cmd.Remove(removeOptions)
-	}
-}
-
-func createPushForce() *flaeg.Command {
-	pushForceOptions := &types.PushOptions{Force: true}
-
-	pushForceCmd := &flaeg.Command{
-		Name:                  "pf",
-		Description:           "Push force to the PR branch.",
-		Config:                pushForceOptions,
-		DefaultPointersConfig: &types.PushOptions{},
-	}
-	pushForceCmd.Run = safe(func() error {
-		return cmd.Push(pushForceOptions)
-	})
-
-	return pushForceCmd
-}
-
-func createPush() *flaeg.Command {
-	pushOptions := &types.PushOptions{}
-
-	pushCmd := &flaeg.Command{
-		Name:                  "push",
-		Description:           "Push to the PR branch.",
-		Config:                pushOptions,
-		DefaultPointersConfig: &types.PushOptions{},
-	}
-	pushCmd.Run = safe(func() error {
-		return cmd.Push(pushOptions)
-	})
-
-	return pushCmd
-}
-
-func createPull() *flaeg.Command {
-	pullOptions := &types.PullOptions{}
-	pullCmd := &flaeg.Command{
-		Name:                  "pull",
-		Description:           "Pull to the PR branch.",
-		Config:                pullOptions,
-		DefaultPointersConfig: &types.PullOptions{},
-	}
-	pullCmd.Run = safe(func() error {
-		return cmd.Pull(pullOptions)
-	})
-	return pullCmd
-}
-
-func createList() *flaeg.Command {
-	listOptions := &types.ListOptions{}
-	listCmd := &flaeg.Command{
-		Name:                  "list",
-		Description:           "Display all current PRs.",
-		Config:                listOptions,
-		DefaultPointersConfig: &types.ListOptions{},
-		Run: safe(func() error {
-			return cmd.List(listOptions)
-		}),
-	}
-	return listCmd
-}
-
-func createVersion() *flaeg.Command {
-	versionCmd := &flaeg.Command{
-		Name:                  "version",
-		Description:           "Display the version.",
-		Config:                &types.NoOption{},
-		DefaultPointersConfig: &types.NoOption{},
-		Run: func() error {
-			meta.DisplayVersion()
-			return nil
-		},
-	}
-	return versionCmd
-}
-
-func requirePRNumbers(numbers types.PRNumbers, action string) error {
-	if len(numbers) == 0 {
-		return fmt.Errorf("you must provide a PR number. ex: 'prm %s -n 1235'", action)
-	}
-	return nil
-}
-
-func safe(fn func() error) func() error {
-	return func() error {
-		_, err := config.Get()
-		if err != nil {
-			err = initProject()
-			if err != nil {
-				return err
-			}
-		}
-
-		return fn()
-	}
+	return initProject()
 }
 
 func initProject() error {
@@ -266,6 +273,7 @@ func initProject() error {
 		if err != nil {
 			return err
 		}
+
 		if len(remoteName) == 0 || remoteName == choose.ExitLabel {
 			return errors.New("no remote chosen: exit")
 		}

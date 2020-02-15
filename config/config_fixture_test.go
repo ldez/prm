@@ -1,6 +1,6 @@
 package config
 
-import "github.com/ldez/prm/types"
+import "github.com/ldez/prm/v3/types"
 
 const (
 	defaultTestBaseRemote = "remoteA"

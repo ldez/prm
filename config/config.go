@@ -8,8 +8,8 @@ import (
 	"os"
 	"path"
 
-	"github.com/ldez/prm/local"
-	"github.com/ldez/prm/types"
+	"github.com/ldez/prm/v3/local"
+	"github.com/ldez/prm/v3/types"
 )
 
 // Configuration is the global application configuration model.
