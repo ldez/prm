@@ -26,3 +26,10 @@ type PullOptions struct {
 type ListOptions struct {
 	All bool
 }
+
+// CloneOptions "clone" command options.
+type CloneOptions struct {
+	NoFork        bool
+	Repo          string
+	UserAsRootDir bool
+}
