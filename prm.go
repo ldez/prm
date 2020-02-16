@@ -26,7 +26,6 @@ func main() {
 	rootCmd.AddCommand(createCloneCmd())
 
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
 		os.Exit(1)
 	}
 }
@@ -233,7 +232,7 @@ $ prm clone -o myorg git@github.com:user/repo.git`,
 func rootRun() error {
 	conf, err := config.Get()
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to get configuration: %w", err)
 	}
 
 	action, err := choose.Action()
@@ -263,7 +262,7 @@ func removeRun(removeOptions *types.RemoveOptions) error {
 	if len(removeOptions.Numbers) == 0 {
 		conf, err := config.Get()
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to get configuration: %w", err)
 		}
 
 		return cmd.InteractiveRemove(conf)
@@ -278,25 +277,30 @@ func safe(_ *cobra.Command, _ []string) error {
 		return nil
 	}
 
-	return initProject()
+	err = initProject()
+	if err != nil {
+		return fmt.Errorf("failed to init projet: %w", err)
+	}
+
+	return nil
 }
 
 func initProject() error {
 	// Get all remotes
 	remotes, err := local.GetRemotes()
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to get remotes: %w", err)
 	}
 
 	// get global configuration
 	confs, err := config.ReadFile()
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to read configuration file: %w", err)
 	}
 
 	repoDir, err := local.GetGitRepoRoot()
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to get git root directory: %w", err)
 	}
 
 	var remoteName string

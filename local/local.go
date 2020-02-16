@@ -51,23 +51,23 @@ func GetCurrentPRNumber(manualNumber int) (int, error) {
 
 // GetCurrentBranchPRNumber get the current branch PR number.
 func GetCurrentBranchPRNumber() (int, error) {
-	out, err := GetCurrentBranchName()
+	output, err := GetCurrentBranchName()
 	if err != nil {
-		log.Println(out)
+		log.Print(output)
 		return 0, err
 	}
 
-	return parsePRNumber(out)
+	return parsePRNumber(output)
 }
 
 // GetCurrentBranchName get the current branch name.
 func GetCurrentBranchName() (string, error) {
-	out, err := git.RevParse(revparse.AbbrevRef(""), revparse.Args("HEAD"))
+	output, err := git.RevParse(revparse.AbbrevRef(""), revparse.Args("HEAD"))
 	if err != nil {
-		log.Println(out)
+		log.Print(output)
 		return "", err
 	}
-	return strings.TrimSpace(out), nil
+	return strings.TrimSpace(output), nil
 }
 
 func parsePRNumber(out string) (int, error) {
@@ -92,6 +92,7 @@ func GetGitRepoRoot() (string, error) {
 	if err != nil {
 		return "", err
 	}
+
 	return strings.TrimSpace(output), nil
 }
 
@@ -99,7 +100,7 @@ func GetGitRepoRoot() (string, error) {
 func GetRemotes() (Remotes, error) {
 	output, err := git.Remote(remote.Verbose, git.Debug)
 	if err != nil {
-		log.Println(output)
+		log.Print(output)
 		return nil, err
 	}
 
