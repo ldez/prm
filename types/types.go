@@ -32,4 +32,5 @@ type CloneOptions struct {
 	NoFork        bool
 	Repo          string
 	UserAsRootDir bool
+	Organization  string
 }

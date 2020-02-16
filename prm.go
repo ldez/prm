@@ -219,11 +219,13 @@ func createCloneCmd() *cobra.Command {
 		Example: `$ prm clone git@github.com:user/repo.git
 $ prm clone https://github.com/user/repo.git
 $ prm clone -n git@github.com:user/repo.git
-$ prm clone -r git@github.com:user/repo.git`,
+$ prm clone -r git@github.com:user/repo.git
+$ prm clone -o myorg git@github.com:user/repo.git`,
 	}
 
-	cloneCmd.Flags().BoolVarP(&cloneCfg.NoFork, "no-fork", "n", false, "Don't create fork on GitHub and add a fork to remote.")
+	cloneCmd.Flags().BoolVarP(&cloneCfg.NoFork, "no-fork", "n", false, "Don't create fork on GitHub.")
 	cloneCmd.Flags().BoolVarP(&cloneCfg.UserAsRootDir, "user-as-root-dir", "r", false, "Username as root directory.")
+	cloneCmd.Flags().StringVarP(&cloneCfg.Organization, "org", "o", "", "The organization in which to create the fork instead of the user account.")
 
 	return cloneCmd
 }

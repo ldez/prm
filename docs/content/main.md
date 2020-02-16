@@ -157,16 +157,21 @@ Display local branches related to PR for:
 # clone and fork (if needed) a repository.
 prm clone git@github.com:user/repo.git
 
-# clone (don't create fork on GitHub and add a fork to remote.)
+# clone (don't create fork on GitHub).
 prm clone -n git@github.com:user/repo.git
 
-# clone and fork (if needed) a repository, and use the username as root directory.
+# clone and fork (if needed) a repository,
+# and use the username as root directory.
 prm clone -r git@github.com:user/repo.git
+
+# clone and fork (if needed) a repository.
+The fork will be created in an organization.
+prm clone -o myorg git@github.com:user/repo.git
 ```
 
 Clone a repository:
 
-* create a fork if needed
+* create a fork if needed (can be created to an organization)
 * add the remotes to the repository
 
 # 💫 Help

@@ -63,7 +63,7 @@ func Clone(options types.CloneOptions) error {
 		return cloneFork(fork, repoName, options)
 	}
 
-	fork, err = cl.createFork(ctx, user, repoName)
+	fork, err = cl.createFork(ctx, user, repoName, options.Organization)
 	if err != nil {
 		return err
 	}
@@ -138,7 +138,7 @@ func (c cloner) searchFork(ctx context.Context, me string, user, repoName string
 	return nil, nil
 }
 
-func (c cloner) createFork(ctx context.Context, user, repo string) (*github.Repository, error) {
+func (c cloner) createFork(ctx context.Context, user, repo string, org string) (*github.Repository, error) {
 	if !hasToken() {
 		fmt.Println("---------------------------------------------------------")
 		fmt.Printf("Set %s or %s to allow to fork automatically:\n", tokenEnvVar, tokenEnvVar+fileSuffixEnvVar)
@@ -155,7 +155,12 @@ func (c cloner) createFork(ctx context.Context, user, repo string) (*github.Repo
 		return nil, err
 	}
 
-	newFork, resp, err := c.client.Repositories.CreateFork(ctx, user, repo, nil)
+	var opt *github.RepositoryCreateForkOptions
+	if org == "" {
+		opt = &github.RepositoryCreateForkOptions{Organization: org}
+	}
+
+	newFork, resp, err := c.client.Repositories.CreateFork(ctx, user, repo, opt)
 	if err != nil {
 		_, ok := err.(*github.AcceptedError)
 		if !ok || resp == nil || resp.StatusCode != http.StatusAccepted {
