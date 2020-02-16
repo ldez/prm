@@ -68,7 +68,7 @@ func copyConfigFile(src, dst string, info os.FileInfo) error {
 		return err
 	}
 
-	s, err := os.Open(src)
+	s, err := os.Open(filepath.Clean(src))
 	if err != nil {
 		return err
 	}

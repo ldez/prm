@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/google/go-github/v29/github"
@@ -68,7 +69,7 @@ func getOrFile(envVar string) string {
 		return envVarValue
 	}
 
-	fileContents, err := ioutil.ReadFile(fileVarValue)
+	fileContents, err := ioutil.ReadFile(filepath.Clean(fileVarValue))
 	if err != nil {
 		log.Printf("Failed to read the file %q (defined by env var %q): %v", fileVarValue, fileVar, err)
 		return ""

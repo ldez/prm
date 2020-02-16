@@ -1,5 +1,5 @@
-service:
-  golangci-lint-version: 1.22.x
+#service:
+#  golangci-lint-version: 1.23.x
 
 run:
   deadline: 2m
@@ -10,8 +10,6 @@ linters-settings:
     check-shadowing: true
   gocyclo:
     min-complexity: 12
-  maligned:
-    suggest-new: true
   goconst:
     min-len: 3
     min-occurrences: 3
@@ -23,7 +21,6 @@ linters:
   disable:
     - maligned
     - lll
-    - gas
     - dupl
     - prealloc
     - scopelint
@@ -36,6 +33,8 @@ issues:
   max-same-issues: 0
   exclude:
     - 'ST1000: at least one file in a package should have a package comment'
+    - 'G101'
+    - 'G301'
   exclude-rules:
     - path: version.go
       text: '`(version|date|commit)` is a global variable'

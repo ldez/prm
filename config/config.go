@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"path/filepath"
 
 	"github.com/ldez/prm/v3/local"
 	"github.com/ldez/prm/v3/types"
@@ -132,7 +133,7 @@ func ReadFile() ([]Configuration, error) {
 		}
 	}
 
-	file, err := ioutil.ReadFile(filePath)
+	file, err := ioutil.ReadFile(filepath.Clean(filePath))
 	if err != nil {
 		return nil, err
 	}
