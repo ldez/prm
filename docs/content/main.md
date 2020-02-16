@@ -19,6 +19,7 @@ This tool allow to easily manage PR branches and remotes.
 * Remove all "checkouted" PRs for a project.
 * Push on a PR.
 * Display all "checkouted" PR (for a project or for all projects)
+* Clone and fork automatically a repository
 * Manage all your repositories.
 * Save your configuration: `config/prm` (or `~/.prm` on Windows)
 * Only works with GitHub.
@@ -165,7 +166,7 @@ prm clone -n git@github.com:user/repo.git
 prm clone -r git@github.com:user/repo.git
 
 # clone and fork (if needed) a repository.
-The fork will be created in an organization.
+# The fork will be created in an organization.
 prm clone -o myorg git@github.com:user/repo.git
 ```
 
