@@ -145,6 +145,9 @@ prm list
 
 # display local branches related to PR. (all projects)
 prm list --all
+
+# display local branches related to PR. (add projects without 0 related PR)
+prm list --all --skip-empty=false
 ```
 
 Display local branches related to PR for:

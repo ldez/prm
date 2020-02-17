@@ -24,7 +24,8 @@ type PullOptions struct {
 
 // ListOptions "list" command options.
 type ListOptions struct {
-	All bool
+	All       bool
+	SkipEmpty bool
 }
 
 // CloneOptions "clone" command options.

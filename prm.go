@@ -201,9 +201,13 @@ func createListCmd() *cobra.Command {
 		RunE: func(_ *cobra.Command, _ []string) error {
 			return cmd.List(&listCfg)
 		},
+		Example: `$ prm list
+$ prm list --all
+$ prm list --all --skip-empty=false`,
 	}
 
 	listCmd.Flags().BoolVarP(&listCfg.All, "all", "a", false, "All pull requests.")
+	listCmd.Flags().BoolVarP(&listCfg.SkipEmpty, "skip-empty", "s", true, "Skip project with no PR. (only when --all option is used)")
 
 	return listCmd
 }

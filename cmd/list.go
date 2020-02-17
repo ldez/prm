@@ -17,7 +17,7 @@ func List(options *types.ListOptions) error {
 	}
 
 	if options.All {
-		displayProjects(configs)
+		displayProjects(configs, options.SkipEmpty)
 	} else {
 		repoDir, err := local.GetGitRepoRoot()
 		if err != nil {
@@ -47,9 +47,11 @@ func displayPullRequests(pulls map[string][]types.PullRequest) {
 	}
 }
 
-func displayProjects(configs []config.Configuration) {
+func displayProjects(configs []config.Configuration, skipEmpty bool) {
 	for _, conf := range configs {
-		fmt.Println(conf.Directory)
-		displayPullRequests(conf.PullRequests)
+		if len(conf.PullRequests) > 0 || !skipEmpty {
+			fmt.Println(conf.Directory)
+			displayPullRequests(conf.PullRequests)
+		}
 	}
 }
