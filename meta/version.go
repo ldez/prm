@@ -6,9 +6,9 @@ import (
 )
 
 var (
-	version = "dev"
-	commit  = "I don't remember exactly"
-	date    = "I don't remember exactly"
+	version = "devel"
+	commit  = "-"
+	date    = "-"
 )
 
 // GetVersion returns the current version.
@@ -16,7 +16,7 @@ func GetVersion() string {
 	return version
 }
 
-// DisplayVersion DisplayVersion PRM version
+// DisplayVersion Display version information.
 func DisplayVersion() {
 	fmt.Printf(`prm:
  version     : %s

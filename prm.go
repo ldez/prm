@@ -17,6 +17,7 @@ import (
 
 func main() {
 	rootCmd := createRootCmd()
+	rootCmd.AddCommand(createVersionCmd())
 	rootCmd.AddCommand(createCheckoutCmd())
 	rootCmd.AddCommand(createRemoveCmd())
 	rootCmd.AddCommand(createPullCmd())
@@ -39,6 +40,17 @@ func createRootCmd() *cobra.Command {
 		PreRunE: safe,
 		RunE: func(_ *cobra.Command, _ []string) error {
 			return rootRun()
+		},
+	}
+}
+
+func createVersionCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "version",
+		Short: "Display version information.",
+		Long:  `Display version information.`,
+		Run: func(_ *cobra.Command, _ []string) {
+			meta.DisplayVersion()
 		},
 	}
 }
