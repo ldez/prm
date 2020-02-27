@@ -3,7 +3,7 @@ module github.com/ldez/prm/v3
 go 1.13
 
 require (
-	github.com/AlecAivazis/survey/v2 v2.0.6
+	github.com/AlecAivazis/survey/v2 v2.0.7
 	github.com/google/go-github/v29 v29.0.3
 	github.com/ldez/go-git-cmd-wrapper v1.2.0
 	github.com/spf13/cobra v0.0.6
