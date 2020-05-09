@@ -26,6 +26,9 @@ linters:
     - scopelint
     - wsl
     - gomnd
+    - goerr113
+    - testpackage
+    - nestif
 
 issues:
   exclude-use-default: false
@@ -35,6 +38,7 @@ issues:
     - 'ST1000: at least one file in a package should have a package comment'
     - 'G101'
     - 'G301'
+    - 'G306' # Expect WriteFile permissions to be 0600 or less
   exclude-rules:
     - path: version.go
       text: '`(version|date|commit)` is a global variable'

@@ -34,7 +34,7 @@ func (a answersPR) getPRNumber() (int, error) {
 	return number, nil
 }
 
-// PullRequest Choose a PR in the list
+// PullRequest Choose a PR in the list.
 func PullRequest(pulls map[string][]types.PullRequest, all bool) (int, error) {
 	if len(pulls) == 0 {
 		fmt.Println("* 0 PR.")
@@ -80,7 +80,7 @@ func PullRequest(pulls map[string][]types.PullRequest, all bool) (int, error) {
 	return answers.getPRNumber()
 }
 
-// RemotePulRequest Choose a PR in the list from GitHub
+// RemotePulRequest Choose a PR in the list from GitHub.
 func RemotePulRequest(prs []*github.PullRequest) (int, error) {
 	surveyOpts := []string{ExitLabel}
 	for _, pr := range prs {

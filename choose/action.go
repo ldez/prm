@@ -2,7 +2,7 @@ package choose
 
 import "github.com/AlecAivazis/survey/v2"
 
-// Action name
+// Action name.
 const (
 	ActionList     = "list"
 	ActionCheckout = "checkout"
@@ -18,7 +18,7 @@ func (a answersAction) isExit() bool {
 	return a.Action == ExitLabel
 }
 
-// Action get PRM action
+// Action get PRM action.
 func Action() (string, error) {
 	surveyOpts := []string{ActionList, ActionCheckout, ActionRemove, ActionProjects, ExitLabel}
 

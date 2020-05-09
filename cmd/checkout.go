@@ -111,7 +111,7 @@ func Checkout(options *types.CheckoutOptions) error {
 	return config.Save(confs)
 }
 
-// removeRemote if needed
+// removeRemote if needed.
 func removeRemote(conf *config.Configuration, pr *types.PullRequest) error {
 	if len(conf.PullRequests[pr.Owner]) == 0 {
 		errRemote := pr.RemoveRemote()

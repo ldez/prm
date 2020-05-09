@@ -25,7 +25,7 @@ func (a answersProject) isExit() bool {
 	return a.Directory == ExitLabel
 }
 
-// Project Choose a project in the list
+// Project Choose a project in the list.
 func Project(configs []config.Configuration) (*config.Configuration, error) {
 	var surveyOpts []string
 	for _, conf := range configs {

@@ -16,7 +16,7 @@ func (a answersGitRemote) isExit() bool {
 	return a.Remote == ExitLabel
 }
 
-// GitRemote Choose the remote related to PRs (main remote)
+// GitRemote Choose the remote related to PRs (main remote).
 func GitRemote(remotes []local.Remote) (string, error) {
 	var surveyOpts []string
 	for _, remote := range remotes {

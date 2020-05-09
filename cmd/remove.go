@@ -65,23 +65,26 @@ func Remove(options *types.RemoveOptions) error {
 }
 
 func removePR(conf *config.Configuration, prNumber int) error {
-	if pr, err := conf.FindPullRequests(prNumber); err == nil {
-		log.Println("remove", pr)
+	pr, err := conf.FindPullRequests(prNumber)
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
 
-		err = pr.Remove()
+	log.Println("remove", pr)
+
+	err = pr.Remove()
+	if err != nil {
+		return err
+	}
+
+	if conf.RemovePullRequest(pr) == 0 {
+		err = pr.RemoveRemote()
 		if err != nil {
 			return err
 		}
-
-		if conf.RemovePullRequest(pr) == 0 {
-			err = pr.RemoveRemote()
-			if err != nil {
-				return err
-			}
-		}
-	} else {
-		log.Println(err)
 	}
+
 	return nil
 }
 

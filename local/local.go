@@ -20,10 +20,10 @@ type Remote struct {
 	URL  string
 }
 
-// Remotes a list of Remote
+// Remotes a list of Remote.
 type Remotes []Remote
 
-// Find a remote by name
+// Find a remote by name.
 func (r Remotes) Find(remoteName string) (*Remote, error) {
 	for _, rmt := range r {
 		if rmt.Name == remoteName {
@@ -96,7 +96,7 @@ func GetGitRepoRoot() (string, error) {
 	return strings.TrimSpace(output), nil
 }
 
-// GetRemotes get git remotes
+// GetRemotes get git remotes.
 func GetRemotes() (Remotes, error) {
 	output, err := git.Remote(remote.Verbose, git.Debug)
 	if err != nil {

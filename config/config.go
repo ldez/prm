@@ -67,7 +67,7 @@ func (c *Configuration) FindPullRequests(number int) (*types.PullRequest, error)
 	return nil, fmt.Errorf("unable to find PR: %d", number)
 }
 
-// Get configuration for the current directory
+// Get configuration for the current directory.
 func Get() (*Configuration, error) {
 	confs, err := ReadFile()
 	if err != nil {
