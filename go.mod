@@ -6,7 +6,7 @@ require (
 	github.com/AlecAivazis/survey/v2 v2.0.7
 	github.com/google/go-github/v30 v30.1.0
 	github.com/ldez/go-git-cmd-wrapper v1.2.0
-	github.com/spf13/cobra v0.0.7
+	github.com/spf13/cobra v1.0.0
 	github.com/stretchr/testify v1.5.1
 	github.com/whilp/git-urls v0.0.0-20191001220047-6db9661140c0
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
