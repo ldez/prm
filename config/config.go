@@ -163,13 +163,13 @@ func Save(configs []Configuration) error {
 		return err
 	}
 
-	return ioutil.WriteFile(filePath, confJSON, 0644)
+	return ioutil.WriteFile(filePath, confJSON, 0o644)
 }
 
 func createDirectory(filePath string) error {
 	baseDir := path.Dir(filePath)
 	if _, errDirStat := os.Stat(baseDir); errDirStat != nil {
-		errDir := os.MkdirAll(baseDir, 0700)
+		errDir := os.MkdirAll(baseDir, 0o700)
 		if errDir != nil {
 			return errDir
 		}

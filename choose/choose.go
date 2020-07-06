@@ -33,7 +33,7 @@ func Project(configs []config.Configuration) (*config.Configuration, error) {
 	}
 	surveyOpts = append(surveyOpts, ExitLabel)
 
-	var qs = []*survey.Question{
+	qs := []*survey.Question{
 		{
 			Name: "directory",
 			Prompt: &survey.Select{

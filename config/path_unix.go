@@ -53,7 +53,7 @@ func GetPath() (string, error) {
 
 func copyConfigFile(src, dst string, info os.FileInfo) error {
 	baseDir := path.Dir(dst)
-	err := os.MkdirAll(baseDir, 0700)
+	err := os.MkdirAll(baseDir, 0o700)
 	if err != nil {
 		return err
 	}

@@ -22,7 +22,7 @@ func (a answersAction) isExit() bool {
 func Action() (string, error) {
 	surveyOpts := []string{ActionList, ActionCheckout, ActionRemove, ActionProjects, ExitLabel}
 
-	var qs = []*survey.Question{
+	qs := []*survey.Question{
 		{
 			Name: "action",
 			Prompt: &survey.Select{

@@ -27,7 +27,7 @@ func Clone(options types.CloneOptions) error {
 	}
 
 	if options.UserAsRootDir {
-		if err = os.MkdirAll(filepath.Clean(user), 0755); err != nil {
+		if err = os.MkdirAll(filepath.Clean(user), 0o755); err != nil {
 			return err
 		}
 
@@ -104,7 +104,7 @@ func (c cloner) getForkUser(ctx context.Context) (string, error) {
 	return choose.Username()
 }
 
-func (c cloner) searchFork(ctx context.Context, me string, user, repoName string) (*github.Repository, error) {
+func (c cloner) searchFork(ctx context.Context, me, user, repoName string) (*github.Repository, error) {
 	query := fmt.Sprintf("user:%s fork:only in:name %s", me, repoName)
 
 	searchResult, _, err := c.client.Search.Repositories(ctx, query, nil)
@@ -138,7 +138,7 @@ func (c cloner) searchFork(ctx context.Context, me string, user, repoName string
 	return nil, nil
 }
 
-func (c cloner) createFork(ctx context.Context, user, repo string, org string) (*github.Repository, error) {
+func (c cloner) createFork(ctx context.Context, user, repo, org string) (*github.Repository, error) {
 	if !hasToken() {
 		fmt.Println("---------------------------------------------------------")
 		fmt.Printf("Set %s or %s to allow to fork automatically:\n", tokenEnvVar, tokenEnvVar+fileSuffixEnvVar)

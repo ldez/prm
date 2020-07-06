@@ -24,7 +24,7 @@ func GitRemote(remotes []local.Remote) (string, error) {
 	}
 	surveyOpts = append(surveyOpts, ExitLabel)
 
-	var qs = []*survey.Question{
+	qs := []*survey.Question{
 		{
 			Name: "remote",
 			Prompt: &survey.Select{

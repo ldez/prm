@@ -53,7 +53,7 @@ func PullRequest(pulls map[string][]types.PullRequest, all bool) (int, error) {
 	}
 	surveyOpts = append(surveyOpts, ExitLabel)
 
-	var qs = []*survey.Question{
+	qs := []*survey.Question{
 		{
 			Name: "pr",
 			Prompt: &survey.Select{
@@ -87,7 +87,7 @@ func RemotePulRequest(prs []*github.PullRequest) (int, error) {
 		surveyOpts = append(surveyOpts, fmt.Sprintf("%d: %s - %s", pr.GetNumber(), pr.User.GetLogin(), pr.GetTitle()))
 	}
 
-	var qs = []*survey.Question{
+	qs := []*survey.Question{
 		{
 			Name: "pr",
 			Prompt: &survey.Select{
