@@ -9,11 +9,11 @@ import (
 
 const (
 	allLabel = "all"
-	// ExitLabel name
+	// ExitLabel name.
 	ExitLabel = "exit"
-	// ExitValue representation
+	// ExitValue representation.
 	ExitValue = 0
-	// AllValue representation
+	// AllValue representation.
 	AllValue = math.MaxInt32
 )
 
