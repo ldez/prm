@@ -5,7 +5,7 @@ go 1.13
 require (
 	github.com/AlecAivazis/survey/v2 v2.1.0
 	github.com/google/go-github/v32 v32.1.0
-	github.com/ldez/go-git-cmd-wrapper v1.2.0
+	github.com/ldez/go-git-cmd-wrapper v1.3.0
 	github.com/spf13/cobra v1.0.0
 	github.com/stretchr/testify v1.6.1
 	github.com/whilp/git-urls v0.0.0-20191001220047-6db9661140c0
