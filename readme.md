@@ -31,7 +31,7 @@ This tool allow to easily manage PR branches and remotes.
 * Display all "checkouted" PR (for a project or for all projects)
 * Clone and fork automatically a repository
 * Manage all your repositories.
-* Save your configuration: `config/prm` (or `~/.prm` on Windows)
+* Save your configuration: `~/.config/prm` (or `~/.prm` on Windows)
 * Only works with GitHub.
 
 ---
