@@ -1,8 +1,6 @@
-.PHONY: clean check test build fmt imports hugo-theme hugo-theme-clean hugo-build hugo
+.PHONY: clean check test build
 
 export GO111MODULE=on
-
-GOFILES := $(shell git ls-files '*.go' | grep -v '^vendor/')
 
 TAG_NAME := $(shell git tag -l --contains HEAD)
 SHA := $(shell git rev-parse --short HEAD)
@@ -19,16 +17,10 @@ test: clean
 
 build: clean
 	@echo Version: $(VERSION) $(BUILD_DATE)
-	go build -v -ldflags '-X "github.com/ldez/prm/v3/meta.version=${VERSION}" -X "github.com/ldez/prm/v3/meta.commit=${SHA}" -X "github.com/ldez/prm/v3/meta.date=${BUILD_DATE}"'
+	go build -v -ldflags '-X "github.com/ldez/prm/v3/meta.version=${VERSION}" -X "github.com/ldez/prm/v3/meta.commit=${SHA}" -X "github.com/ldez/prm/v3/meta.date=${BUILD_DATE}"' -trimpath
 
 check:
 	golangci-lint run
-
-fmt:
-	@gofmt -s -l -w $(GOFILES)
-
-imports:
-	@goimports -w $(GOFILES)
 
 ## Docs
 .PHONY: docs-build docs-serve docs-themes

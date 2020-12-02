@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -162,8 +163,8 @@ func (c cloner) createFork(ctx context.Context, user, repo, org string) (*github
 
 	newFork, resp, err := c.client.Repositories.CreateFork(ctx, user, repo, opt)
 	if err != nil {
-		_, ok := err.(*github.AcceptedError)
-		if !ok || resp == nil || resp.StatusCode != http.StatusAccepted {
+		var ae *github.AcceptedError
+		if !errors.As(err, &ae) || resp == nil || resp.StatusCode != http.StatusAccepted {
 			return nil, fmt.Errorf("failed to create a fork: %w", err)
 		}
 	}

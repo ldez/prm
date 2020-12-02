@@ -22,11 +22,15 @@ linters:
     - prealloc
     - scopelint
     - wsl
+    - nlreturn
     - gomnd
     - goerr113
+    - wrapcheck
     - testpackage
+    - paralleltest
+    - tparallel
     - nestif
-    - nlreturn
+    - exhaustivestruct
 
 issues:
   exclude-use-default: false
@@ -38,10 +42,10 @@ issues:
     - 'G301'
     - 'G306' # Expect WriteFile permissions to be 0600 or less
   exclude-rules:
-    - path: version.go
-      text: '`(version|date|commit)` is a global variable'
+    - path: meta/version.go
+      text: '(version|date|commit) is a global variable'
     - path: config/config.go
-      text: '`getPathFunc` is a global variable'
+      text: 'getPathFunc is a global variable'
     - path: (.+)_test.go
       linters:
         - funlen

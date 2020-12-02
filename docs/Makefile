@@ -1,4 +1,4 @@
-.PHONY: default clean hugo hugo-build
+.PHONY: default clean hugo hugo-build hugo-themes hugo-theme-clean
 
 default: hugo
 
