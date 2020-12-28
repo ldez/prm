@@ -31,6 +31,7 @@ linters:
     - tparallel
     - nestif
     - exhaustivestruct
+    - forbidigo
 
 issues:
   exclude-use-default: false
