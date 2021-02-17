@@ -1,6 +1,6 @@
 module github.com/ldez/prm/v3
 
-go 1.13
+go 1.16
 
 require (
 	github.com/AlecAivazis/survey/v2 v2.2.7

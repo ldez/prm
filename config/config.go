@@ -3,7 +3,6 @@ package config
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path"
@@ -133,7 +132,7 @@ func ReadFile() ([]Configuration, error) {
 		}
 	}
 
-	file, err := ioutil.ReadFile(filepath.Clean(filePath))
+	file, err := os.ReadFile(filepath.Clean(filePath))
 	if err != nil {
 		return nil, err
 	}
@@ -163,7 +162,7 @@ func Save(configs []Configuration) error {
 		return err
 	}
 
-	return ioutil.WriteFile(filePath, confJSON, 0o644)
+	return os.WriteFile(filePath, confJSON, 0o644)
 }
 
 func createDirectory(filePath string) error {

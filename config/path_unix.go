@@ -79,8 +79,7 @@ func copyConfigFile(src, dst string, info os.FileInfo) error {
 }
 
 func safeClose(fn func() error) {
-	err := fn()
-	if err != nil {
+	if err := fn(); err != nil {
 		log.Println(err)
 	}
 }

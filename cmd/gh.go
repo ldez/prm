@@ -3,7 +3,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/url"
 	"os"
@@ -69,7 +68,7 @@ func getOrFile(envVar string) string {
 		return envVarValue
 	}
 
-	fileContents, err := ioutil.ReadFile(filepath.Clean(fileVarValue))
+	fileContents, err := os.ReadFile(filepath.Clean(fileVarValue))
 	if err != nil {
 		log.Printf("Failed to read the file %q (defined by env var %q): %v", fileVarValue, fileVar, err)
 		return ""
