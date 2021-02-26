@@ -1,10 +1,11 @@
 run:
-  deadline: 2m
+  timeout: 2m
   skip-files: []
+  skip-dirs: []
 
 linters-settings:
   govet:
-    check-shadowing: true
+    enable-all: true
   gocyclo:
     min-complexity: 12
   goconst:
@@ -12,6 +13,14 @@ linters-settings:
     min-occurrences: 3
   misspell:
     locale: US
+  forbidigo:
+    forbid:
+      # - ^panic$
+      - ^print(ln)?$
+      # - ^fmt\.Print(ln|f)?$
+      - ^spew\.Print(f|ln)?$
+      - ^spew\.Dump$
+      - ^spew\.(F|S)dump(f|ln)?$
 
 linters:
   enable-all: true
@@ -30,8 +39,9 @@ linters:
     - paralleltest
     - tparallel
     - nestif
+    - exhaustive
     - exhaustivestruct
-    - forbidigo
+    - cyclop
 
 issues:
   exclude-use-default: false

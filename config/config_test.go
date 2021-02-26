@@ -1,10 +1,6 @@
 package config
 
 import (
-	"fmt"
-	"io/ioutil"
-	"log"
-	"os"
 	"path"
 	"testing"
 
@@ -73,16 +69,7 @@ func TestConfiguration_FindPullRequests_should_fail_when_pr_not_exist(t *testing
 }
 
 func TestReadFile_should_return_empty_configuration_list_when_file_not_exist(t *testing.T) {
-	dir, err := ioutil.TempDir("", "prm")
-	defer func() {
-		errRemove := os.RemoveAll(dir)
-		if errRemove != nil {
-			log.Println(errRemove)
-		}
-	}()
-	require.NoError(t, err)
-
-	fmt.Println(dir)
+	dir := t.TempDir()
 
 	// Mock GetPath function
 	getPathFunc = func() (string, error) {
@@ -108,14 +95,7 @@ func TestReadFile_should_return_configuration_list_when_file_exist(t *testing.T)
 }
 
 func TestSave_should_save_configuration(t *testing.T) {
-	dir, err := ioutil.TempDir("", "prm")
-	defer func() {
-		errRemove := os.RemoveAll(dir)
-		if errRemove != nil {
-			log.Println(errRemove)
-		}
-	}()
-	require.NoError(t, err)
+	dir := t.TempDir()
 
 	// Mock GetPath function
 	getPathFunc = func() (string, error) {
@@ -129,7 +109,7 @@ func TestSave_should_save_configuration(t *testing.T) {
 		aConfiguration(withPullRequest("hubert", withNumber(2), branchB)),
 	}
 
-	err = Save(cfs)
+	err := Save(cfs)
 
 	require.NoError(t, err)
 }
