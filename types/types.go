@@ -30,8 +30,8 @@ type ListOptions struct {
 
 // CloneOptions "clone" command options.
 type CloneOptions struct {
-	NoFork        bool
-	UserAsRootDir bool
 	Repo          string
 	Organization  string
+	NoFork        bool
+	UserAsRootDir bool
 }

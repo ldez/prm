@@ -18,9 +18,9 @@ import (
 type PullRequest struct {
 	Owner      string `json:"owner,omitempty"`
 	BranchName string `json:"branch_name,omitempty"`
-	Number     int    `json:"number,omitempty"`
 	Project    string `json:"project,omitempty"`
 	CloneURL   string `json:"clone_url,omitempty"`
+	Number     int    `json:"number,omitempty"`
 }
 
 const defaultInitialBranch = "master"

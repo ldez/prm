@@ -113,7 +113,7 @@ func parseRemotes(output string) Remotes {
 	remoteMap := make(map[string]Remote)
 
 	for _, line := range lines {
-		if len(line) != 0 {
+		if line != "" {
 			elt := strings.FieldsFunc(line, unicode.IsSpace)
 
 			name := elt[0]

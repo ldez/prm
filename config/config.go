@@ -14,9 +14,9 @@ import (
 
 // Configuration is the global application configuration model.
 type Configuration struct {
+	PullRequests map[string][]types.PullRequest `json:"pull_requests,omitempty"`
 	Directory    string                         `json:"directory,omitempty"`
 	BaseRemote   string                         `json:"base_remote,omitempty"`
-	PullRequests map[string][]types.PullRequest `json:"pull_requests,omitempty"`
 }
 
 var getPathFunc = GetPath

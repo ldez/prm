@@ -6,6 +6,8 @@ run:
 linters-settings:
   govet:
     enable-all: true
+#    disable:
+#      - fieldalignment
   gocyclo:
     min-complexity: 12
   goconst:
@@ -13,6 +15,30 @@ linters-settings:
     min-occurrences: 3
   misspell:
     locale: US
+  gofumpt:
+    extra-rules: true
+  depguard:
+    list-type: blacklist
+    include-go-root: false
+    packages:
+      - github.com/pkg/errors
+  godox:
+    keywords:
+      - FIXME
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+    disabled-checks:
+      - unnamedResult
+      - sloppyReassign
+      - rangeValCopy
+      - octalLiteral
+      - paramTypeCombine # already handle by gofumpt.extra-rules
+    settings:
+      hugeParam:
+        sizeThreshold: 100
   forbidigo:
     forbid:
       # - ^panic$
@@ -25,7 +51,8 @@ linters-settings:
 linters:
   enable-all: true
   disable:
-    - maligned
+    - interfacer # deprecated
+    - maligned # deprecated
     - lll
     - dupl
     - prealloc
@@ -60,3 +87,5 @@ issues:
     - path: (.+)_test.go
       linters:
         - funlen
+    - path: (.+)_test.go
+      text: 'fieldalignment: '

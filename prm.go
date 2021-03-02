@@ -328,7 +328,7 @@ func initProject() error {
 			return err
 		}
 
-		if len(remoteName) == 0 || remoteName == choose.ExitLabel {
+		if remoteName == "" || remoteName == choose.ExitLabel {
 			return errors.New("no remote chosen: exit")
 		}
 	}

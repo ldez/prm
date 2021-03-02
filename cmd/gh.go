@@ -31,7 +31,7 @@ func newGitHubClient(ctx context.Context) *github.Client {
 	token := getOrFile(tokenEnvVar)
 
 	var client *github.Client
-	if len(token) == 0 {
+	if token == "" {
 		client = github.NewClient(nil)
 	} else {
 		ts := oauth2.StaticTokenSource(

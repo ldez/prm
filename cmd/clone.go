@@ -118,21 +118,23 @@ func (c cloner) searchFork(ctx context.Context, me, user, repoName string) (*git
 	}
 
 	for _, repository := range searchResult.Repositories {
-		if repository.GetFork() {
-			repo, _, err := c.client.Repositories.Get(ctx, me, repository.GetName())
-			if err != nil {
-				return nil, err
-			}
+		if !repository.GetFork() {
+			continue
+		}
 
-			srcRepoFullName := fmt.Sprintf("%s/%s", user, repoName)
+		repo, _, err := c.client.Repositories.Get(ctx, me, repository.GetName())
+		if err != nil {
+			return nil, err
+		}
 
-			if repo.GetParent().GetFullName() == srcRepoFullName {
-				return repo, nil
-			}
+		srcRepoFullName := fmt.Sprintf("%s/%s", user, repoName)
 
-			if repo.GetSource().GetFullName() == srcRepoFullName {
-				return repo, nil
-			}
+		if repo.GetParent().GetFullName() == srcRepoFullName {
+			return repo, nil
+		}
+
+		if repo.GetSource().GetFullName() == srcRepoFullName {
+			return repo, nil
 		}
 	}
 
