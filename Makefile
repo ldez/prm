@@ -17,7 +17,7 @@ test: clean
 
 build: clean
 	@echo Version: $(VERSION) $(BUILD_DATE)
-	go build -v -ldflags '-X "github.com/ldez/prm/v3/meta.version=${VERSION}" -X "github.com/ldez/prm/v3/meta.commit=${SHA}" -X "github.com/ldez/prm/v3/meta.date=${BUILD_DATE}"' -trimpath
+	go build -ldflags '-X "github.com/ldez/prm/v3/meta.version=${VERSION}" -X "github.com/ldez/prm/v3/meta.commit=${SHA}" -X "github.com/ldez/prm/v3/meta.date=${BUILD_DATE}"' -trimpath
 
 check:
 	golangci-lint run
