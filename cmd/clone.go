@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/google/go-github/v32/github"
+	"github.com/google/go-github/v34/github"
 	"github.com/ldez/go-git-cmd-wrapper/clone"
 	"github.com/ldez/go-git-cmd-wrapper/fetch"
 	"github.com/ldez/go-git-cmd-wrapper/git"
