@@ -3,12 +3,13 @@ package meta
 import (
 	"fmt"
 	"runtime"
+	"runtime/debug"
 )
 
 var (
 	version = "devel"
 	commit  = "-"
-	date    = "-"
+	date    = ""
 )
 
 // GetVersion returns the current version.
@@ -18,6 +19,14 @@ func GetVersion() string {
 
 // DisplayVersion Display version information.
 func DisplayVersion() {
+	if info, available := debug.ReadBuildInfo(); available {
+		if date == "" {
+			version = info.Main.Version
+			commit = fmt.Sprintf("(unknown, mod sum: %q)", info.Main.Sum)
+			date = "(unknown)"
+		}
+	}
+
 	fmt.Printf(`prm:
  version     : %s
  commit      : %s
