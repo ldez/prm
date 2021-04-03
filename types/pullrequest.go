@@ -31,6 +31,7 @@ func (pr *PullRequest) Remove() error {
 	out, err := git.Remote(remote.GetURL(pr.Owner))
 	if err != nil {
 		log.Println(out)
+		// nolint:nilerr // ignore error
 		return nil
 	}
 
@@ -66,6 +67,7 @@ func (pr *PullRequest) RemoveRemote() error {
 	out, err := git.Remote(remote.GetURL(pr.Owner))
 	if err != nil {
 		log.Println(out)
+		// nolint:nilerr // ignore error
 		return nil
 	}
 

@@ -25,6 +25,11 @@ linters-settings:
   godox:
     keywords:
       - FIXME
+  nolintlint:
+    allow-unused: false
+    allow-leading-space: true
+    require-explanation: true
+    require-specific: true
   gocritic:
     enabled-tags:
       - diagnostic
@@ -36,6 +41,7 @@ linters-settings:
       - rangeValCopy
       - octalLiteral
       - paramTypeCombine # already handle by gofumpt.extra-rules
+      - whyNoLint # already handle by nolintlint
     settings:
       hugeParam:
         sizeThreshold: 100
@@ -53,10 +59,13 @@ linters:
   disable:
     - interfacer # deprecated
     - maligned # deprecated
+    - scopelint # deprecated
+    - sqlclosecheck # not relevant (SQL)
+    - rowserrcheck # not relevant (SQL)
+    - cyclop # duplicate of gocyclo
     - lll
     - dupl
     - prealloc
-    - scopelint
     - wsl
     - nlreturn
     - gomnd
@@ -68,7 +77,7 @@ linters:
     - nestif
     - exhaustive
     - exhaustivestruct
-    - cyclop
+    - ifshort
 
 issues:
   exclude-use-default: false
