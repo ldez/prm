@@ -9,9 +9,9 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/ldez/go-git-cmd-wrapper/git"
-	"github.com/ldez/go-git-cmd-wrapper/remote"
-	"github.com/ldez/go-git-cmd-wrapper/revparse"
+	"github.com/ldez/go-git-cmd-wrapper/v2/git"
+	"github.com/ldez/go-git-cmd-wrapper/v2/remote"
+	"github.com/ldez/go-git-cmd-wrapper/v2/revparse"
 )
 
 // Remote Git remote model.

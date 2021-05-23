@@ -3,8 +3,8 @@ package cmd
 import (
 	"log"
 
-	"github.com/ldez/go-git-cmd-wrapper/git"
-	"github.com/ldez/go-git-cmd-wrapper/remote"
+	"github.com/ldez/go-git-cmd-wrapper/v2/git"
+	"github.com/ldez/go-git-cmd-wrapper/v2/remote"
 	"github.com/ldez/prm/v3/choose"
 	"github.com/ldez/prm/v3/config"
 	"github.com/ldez/prm/v3/local"

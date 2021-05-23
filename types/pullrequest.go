@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ldez/go-git-cmd-wrapper/branch"
-	"github.com/ldez/go-git-cmd-wrapper/checkout"
-	"github.com/ldez/go-git-cmd-wrapper/fetch"
-	"github.com/ldez/go-git-cmd-wrapper/git"
-	"github.com/ldez/go-git-cmd-wrapper/pull"
-	"github.com/ldez/go-git-cmd-wrapper/push"
-	"github.com/ldez/go-git-cmd-wrapper/remote"
+	"github.com/ldez/go-git-cmd-wrapper/v2/branch"
+	"github.com/ldez/go-git-cmd-wrapper/v2/checkout"
+	"github.com/ldez/go-git-cmd-wrapper/v2/fetch"
+	"github.com/ldez/go-git-cmd-wrapper/v2/git"
+	"github.com/ldez/go-git-cmd-wrapper/v2/pull"
+	"github.com/ldez/go-git-cmd-wrapper/v2/push"
+	"github.com/ldez/go-git-cmd-wrapper/v2/remote"
 	"github.com/ldez/prm/v3/local"
 )
 
