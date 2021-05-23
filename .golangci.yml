@@ -53,6 +53,10 @@ linters-settings:
       - ^spew\.Print(f|ln)?$
       - ^spew\.Dump$
       - ^spew\.(F|S)dump(f|ln)?$
+  tagliatelle:
+    case:
+      rules:
+        json: snake
 
 linters:
   enable-all: true
@@ -60,6 +64,7 @@ linters:
     - interfacer # deprecated
     - maligned # deprecated
     - scopelint # deprecated
+    - golint # deprecated
     - sqlclosecheck # not relevant (SQL)
     - rowserrcheck # not relevant (SQL)
     - cyclop # duplicate of gocyclo
