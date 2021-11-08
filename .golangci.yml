@@ -83,6 +83,8 @@ linters:
     - exhaustive
     - exhaustivestruct
     - ifshort
+    - varnamelen
+    - nilnil
 
 issues:
   exclude-use-default: false
@@ -92,6 +94,7 @@ issues:
     - 'ST1000: at least one file in a package should have a package comment'
     - 'G101'
     - 'G301'
+    - 'G307' # Deferring unsafe method "Close" on type "*os.File"
     - 'G306' # Expect WriteFile permissions to be 0600 or less
   exclude-rules:
     - path: meta/version.go
