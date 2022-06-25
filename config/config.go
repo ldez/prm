@@ -81,7 +81,7 @@ func Get() (*Configuration, error) {
 	return Find(confs, repoDir)
 }
 
-// Find find a configuration by directory name.
+// Find finds a configuration by directory name.
 func Find(configurations []Configuration, directory string) (*Configuration, error) {
 	for i, config := range configurations {
 		if config.Directory == directory {
