@@ -17,6 +17,7 @@ type Configuration struct {
 	PullRequests map[string][]types.PullRequest `json:"pull_requests,omitempty"`
 	Directory    string                         `json:"directory,omitempty"`
 	BaseRemote   string                         `json:"base_remote,omitempty"`
+	MainBranch   string                         `json:"main_branch,omitempty"`
 }
 
 var getPathFunc = GetPath

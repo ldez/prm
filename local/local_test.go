@@ -9,7 +9,6 @@ import (
 
 func Test_parsePRNumber_should_return_number_when_branch_name_respect_pattern(t *testing.T) {
 	number, err := parsePRNumber("1234--branch")
-
 	require.NoError(t, err)
 
 	assert.Equal(t, 1234, number)
@@ -110,4 +109,59 @@ func TestRemotes_Find_should_thrown_error_when_not_exists(t *testing.T) {
 	_, err := remotes.Find(remoteName)
 
 	require.Error(t, err)
+}
+
+func Test_parseBranches(t *testing.T) {
+	testCases := []struct {
+		desc     string
+		output   string
+		expected []string
+	}{
+		{
+			desc: "simple",
+			output: `ccc
+aaa
+bbb
+`,
+			expected: []string{"ccc", "aaa", "bbb"},
+		},
+		{
+			desc: "with branch main",
+			output: `ccc
+main
+aaa
+bbb
+`,
+			expected: []string{"main", "ccc", "aaa", "bbb"},
+		},
+		{
+			desc: "with branch master",
+			output: `ccc
+master
+aaa
+bbb
+`,
+			expected: []string{"master", "ccc", "aaa", "bbb"},
+		},
+		{
+			desc: "with branches master and main",
+			output: `ccc
+master
+aaa
+main
+bbb
+`,
+			expected: []string{"main", "master", "ccc", "aaa", "bbb"},
+		},
+	}
+
+	for _, test := range testCases {
+		test := test
+		t.Run(test.desc, func(t *testing.T) {
+			t.Parallel()
+
+			branches := parseBranches(test.output)
+			assert.Equal(t, test.expected, branches)
+		})
+	}
 }

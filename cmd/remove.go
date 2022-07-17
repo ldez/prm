@@ -73,7 +73,7 @@ func removePR(conf *config.Configuration, prNumber int) error {
 
 	log.Println("remove", pr)
 
-	err = pr.Remove()
+	err = pr.Remove(conf.MainBranch)
 	if err != nil {
 		return err
 	}
@@ -93,7 +93,7 @@ func removeAll(conf *config.Configuration) error {
 		for _, pr := range prs {
 			log.Println("remove", pr)
 
-			err := pr.Remove()
+			err := pr.Remove(conf.MainBranch)
 			if err != nil {
 				return err
 			}

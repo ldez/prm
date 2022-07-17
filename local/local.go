@@ -9,6 +9,7 @@ import (
 	"strings"
 	"unicode"
 
+	"github.com/ldez/go-git-cmd-wrapper/v2/branch"
 	"github.com/ldez/go-git-cmd-wrapper/v2/git"
 	"github.com/ldez/go-git-cmd-wrapper/v2/remote"
 	"github.com/ldez/go-git-cmd-wrapper/v2/revparse"
@@ -34,14 +35,14 @@ func (r Remotes) Find(remoteName string) (*Remote, error) {
 	return nil, fmt.Errorf("unable to find remote %q in %v", remoteName, r)
 }
 
-// ByRemoteName sort remote by name.
+// ByRemoteName sorts remote by name.
 type ByRemoteName Remotes
 
 func (r ByRemoteName) Len() int           { return len(r) }
 func (r ByRemoteName) Swap(i, j int)      { r[i], r[j] = r[j], r[i] }
 func (r ByRemoteName) Less(i, j int) bool { return r[i].Name < r[j].Name }
 
-// GetCurrentPRNumber get the current PR number.
+// GetCurrentPRNumber gets the current PR number.
 func GetCurrentPRNumber(manualNumber int) (int, error) {
 	if manualNumber == 0 {
 		return GetCurrentBranchPRNumber()
@@ -49,7 +50,7 @@ func GetCurrentPRNumber(manualNumber int) (int, error) {
 	return manualNumber, nil
 }
 
-// GetCurrentBranchPRNumber get the current branch PR number.
+// GetCurrentBranchPRNumber gets the current branch PR number.
 func GetCurrentBranchPRNumber() (int, error) {
 	output, err := GetCurrentBranchName()
 	if err != nil {
@@ -60,7 +61,7 @@ func GetCurrentBranchPRNumber() (int, error) {
 	return parsePRNumber(output)
 }
 
-// GetCurrentBranchName get the current branch name.
+// GetCurrentBranchName gets the current branch name.
 func GetCurrentBranchName() (string, error) {
 	output, err := git.RevParse(revparse.AbbrevRef(""), revparse.Args("HEAD"))
 	if err != nil {
@@ -86,7 +87,7 @@ func parsePRNumber(out string) (int, error) {
 	return 0, fmt.Errorf("unable to parse: %s", out)
 }
 
-// GetGitRepoRoot get the root of the git repository.
+// GetGitRepoRoot gets the root of the git repository.
 func GetGitRepoRoot() (string, error) {
 	output, err := git.RevParse(revparse.ShowToplevel)
 	if err != nil {
@@ -96,7 +97,7 @@ func GetGitRepoRoot() (string, error) {
 	return strings.TrimSpace(output), nil
 }
 
-// GetRemotes get git remotes.
+// GetRemotes gets git remotes.
 func GetRemotes() (Remotes, error) {
 	output, err := git.Remote(remote.Verbose, git.Debug)
 	if err != nil {
@@ -105,6 +106,42 @@ func GetRemotes() (Remotes, error) {
 	}
 
 	return parseRemotes(output), nil
+}
+
+// GetBranches gets git branches.
+func GetBranches() ([]string, error) {
+	output, err := git.Branch(branch.Format("%(refname:short)"), branch.Sort("refname"), git.Debug)
+	if err != nil {
+		log.Print(output)
+		return nil, err
+	}
+
+	return parseBranches(output), nil
+}
+
+func parseBranches(output string) []string {
+	var branches []string
+	for _, name := range strings.Split(output, "\n") {
+		b := strings.TrimSpace(name)
+		if b == "" {
+			continue
+		}
+
+		branches = append(branches, b)
+	}
+
+	sort.Slice(branches, func(i, j int) bool {
+		if branches[i] == "main" {
+			return true
+		}
+		if branches[i] == "master" {
+			return true
+		}
+
+		return false
+	})
+
+	return branches
 }
 
 func parseRemotes(output string) Remotes {

@@ -14,6 +14,9 @@ import (
 	"github.com/ldez/prm/v3/local"
 )
 
+// defaultInitialBranch for compatibility.
+const defaultInitialBranch = "master"
+
 // PullRequest the pull request model.
 type PullRequest struct {
 	Owner      string `json:"owner,omitempty"`
@@ -23,15 +26,17 @@ type PullRequest struct {
 	Number     int    `json:"number,omitempty"`
 }
 
-const defaultInitialBranch = "master"
+// Remove removes the pull request from the local git repository.
+func (pr *PullRequest) Remove(mainBranch string) error {
+	if mainBranch == "" {
+		mainBranch = defaultInitialBranch
+	}
 
-// Remove remove the pull request from the local git repository.
-func (pr *PullRequest) Remove() error {
 	// git remote get-url $remote
 	out, err := git.Remote(remote.GetURL(pr.Owner))
 	if err != nil {
 		log.Println(out)
-		// nolint:nilerr // ignore error
+		//nolint:nilerr // ignore error
 		return nil
 	}
 
@@ -44,10 +49,10 @@ func (pr *PullRequest) Remove() error {
 
 	if currentBranchName == branchName {
 		// git checkout $initial
-		out, err = git.Checkout(checkout.Branch(defaultInitialBranch), git.Debug)
+		out, err = git.Checkout(checkout.Branch(mainBranch), git.Debug)
 		if err != nil {
 			log.Println(out)
-			return fmt.Errorf("[PR %d] unable to checkout initial branch (%s): %w", pr.Number, defaultInitialBranch, err)
+			return fmt.Errorf("[PR %d] unable to checkout initial branch (%s): %w", pr.Number, mainBranch, err)
 		}
 	}
 
@@ -61,13 +66,13 @@ func (pr *PullRequest) Remove() error {
 	return nil
 }
 
-// RemoveRemote remove the remote of the pull request from the local git repository.
+// RemoveRemote removes the remote of the pull request from the local git repository.
 func (pr *PullRequest) RemoveRemote() error {
 	// git remote get-url $remote
 	out, err := git.Remote(remote.GetURL(pr.Owner))
 	if err != nil {
 		log.Println(out)
-		// nolint:nilerr // ignore error
+		//nolint:nilerr // ignore error
 		return nil
 	}
 
@@ -81,7 +86,7 @@ func (pr *PullRequest) RemoveRemote() error {
 	return nil
 }
 
-// Push push the pull request to the remote git repository.
+// Push pushes the pull request to the remote git repository.
 func (pr *PullRequest) Push(force bool) error {
 	// git push --force-with-lease $remote $pr--$branch:$branch
 	ref := fmt.Sprintf("%s:%s", makeLocalBranchName(pr), pr.BranchName)
@@ -94,7 +99,7 @@ func (pr *PullRequest) Push(force bool) error {
 	return nil
 }
 
-// Pull pull the PR from the remote git repository.
+// Pull pulls the PR from the remote git repository.
 func (pr *PullRequest) Pull(force bool) error {
 	// git pull -f $remote $branch
 	out, err := git.Pull(git.Cond(force, pull.Force), pull.Repository(pr.Owner), pull.Refspec(pr.BranchName), git.Debug)
@@ -106,7 +111,7 @@ func (pr *PullRequest) Pull(force bool) error {
 	return nil
 }
 
-// Checkout checkout the branch related to the pull request into the local git repository.
+// Checkout checkouts the branch related to the pull request into the local git repository.
 func (pr *PullRequest) Checkout(newBranch bool) error {
 	if newBranch {
 		// git remote get-url $remote

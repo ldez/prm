@@ -319,6 +319,20 @@ func initProject() error {
 		return fmt.Errorf("failed to get git root directory: %w", err)
 	}
 
+	branches, err := local.GetBranches()
+	if err != nil {
+		return fmt.Errorf("failed to get git branch list: %w", err)
+	}
+
+	branch, err := choose.MainBranch(branches)
+	if err != nil {
+		return err
+	}
+
+	if branch == "" || branch == choose.ExitLabel {
+		return errors.New("no main branch chosen: exit")
+	}
+
 	var remoteName string
 	if len(remotes) == 1 {
 		remoteName = remotes[0].Name
@@ -336,6 +350,7 @@ func initProject() error {
 	confs = append(confs, config.Configuration{
 		Directory:  repoDir,
 		BaseRemote: remoteName,
+		MainBranch: branch,
 	})
 
 	return config.Save(confs)
