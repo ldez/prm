@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
@@ -74,5 +75,5 @@ func getOrFile(envVar string) string {
 		return ""
 	}
 
-	return strings.TrimSpace(string(fileContents))
+	return string(bytes.TrimSpace(fileContents))
 }

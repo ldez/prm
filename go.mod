@@ -1,6 +1,6 @@
 module github.com/ldez/prm/v3
 
-go 1.17
+go 1.19
 
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.5
@@ -9,7 +9,7 @@ require (
 	github.com/spf13/cobra v1.5.0
 	github.com/stretchr/testify v1.8.0
 	github.com/whilp/git-urls v1.0.1-0.20200917014145-4a18977c6eec
-	golang.org/x/oauth2 v0.0.0-20220630143837-2104d58473e0
+	golang.org/x/oauth2 v0.0.0-20220722155238-128564f6959c
 )
 
 require (
