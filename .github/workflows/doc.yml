@@ -1,0 +1,39 @@
+name: Documentation
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+
+  main:
+    name: Main Process
+    runs-on: ubuntu-latest
+    env:
+      HUGO_VERSION: 0.54.0
+
+    steps:
+
+      # https://github.com/marketplace/actions/checkout
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Hugo
+        run: |
+          wget -O /tmp/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.deb
+          sudo dpkg -i /tmp/hugo.deb
+
+      - name: Build Documentation
+        run: make docs-build
+
+      # https://github.com/marketplace/actions/github-pages
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: gh-pages
+          build_dir: docs/public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -130,7 +130,7 @@ func parseBranches(output string) []string {
 		branches = append(branches, b)
 	}
 
-	sort.Slice(branches, func(i, j int) bool {
+	sort.Slice(branches, func(i, _ int) bool {
 		if branches[i] == "main" {
 			return true
 		}

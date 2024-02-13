@@ -79,7 +79,7 @@ func Test_parseRemotes_empty_output(t *testing.T) {
 
 	remotes := parseRemotes(output)
 
-	assert.Len(t, remotes, 0, "Wrong number of remotes: %v", remotes)
+	assert.Emptyf(t, remotes, "Wrong number of remotes: %v", remotes)
 }
 
 func TestRemotes_Find_should_return_remote_when_exists(t *testing.T) {

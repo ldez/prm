@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	giturls "github.com/chainguard-dev/git-urls"
 	"github.com/google/go-github/v45/github"
 	"github.com/ldez/go-git-cmd-wrapper/v2/clone"
 	"github.com/ldez/go-git-cmd-wrapper/v2/fetch"
@@ -17,7 +18,6 @@ import (
 	"github.com/ldez/go-git-cmd-wrapper/v2/remote"
 	"github.com/ldez/prm/v3/choose"
 	"github.com/ldez/prm/v3/types"
-	giturls "github.com/whilp/git-urls"
 )
 
 // Clone clone and fork a repository.

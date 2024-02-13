@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
+	giturls "github.com/chainguard-dev/git-urls"
 	"github.com/ldez/prm/v3/local"
-	giturls "github.com/whilp/git-urls"
 )
 
 // Repository Git repository model.

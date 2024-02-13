@@ -83,7 +83,7 @@ func createCheckoutCmd() *cobra.Command {
 			return nil
 		},
 		PreRunE: safe,
-		RunE: func(_ *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			if checkoutCfg.Number != 0 {
 				return cmd.Checkout(&checkoutCfg)
 			}
@@ -128,7 +128,7 @@ func createRemoveCmd() *cobra.Command {
 			return nil
 		},
 		PreRunE: safe,
-		RunE: func(_ *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			return removeRun(&removeCfg)
 		},
 		Example: `  $ prm rm
@@ -228,7 +228,7 @@ func createCloneCmd() *cobra.Command {
 
 			return nil
 		},
-		RunE: func(_ *cobra.Command, args []string) error {
+		RunE: func(_ *cobra.Command, _ []string) error {
 			return cmd.Clone(cloneCfg)
 		},
 		Example: `$ prm clone git@github.com:user/repo.git

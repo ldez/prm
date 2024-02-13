@@ -79,7 +79,7 @@ func TestReadFile_should_return_empty_configuration_list_when_file_not_exist(t *
 	confs, err := ReadFile()
 
 	require.NoError(t, err)
-	assert.Len(t, confs, 0)
+	assert.Empty(t, confs)
 }
 
 func TestReadFile_should_return_configuration_list_when_file_exist(t *testing.T) {

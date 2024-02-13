@@ -47,7 +47,7 @@ archives:
       - LICENSE
 
 brews:
-  - tap:
+  - repository:
       owner: ldez
       name: homebrew-tap
     commit_author:
@@ -59,16 +59,13 @@ brews:
     test: |
       system "#{bin}/prm version"
 
-scoop:
-  bucket:
-    owner: ldez
-    name: scoop-bucket
-  commit_author:
-    name: ldez
-    email: ldez@users.noreply.github.com
-  homepage: https://github.com/ldez/prm
-  description: Pull Request Manager for Maintainers
-  license: APACHE
-
-#release:
-#  disable: true
+scoops:
+  - repository:
+      owner: ldez
+      name: scoop-bucket
+    commit_author:
+      name: ldez
+      email: ldez@users.noreply.github.com
+    homepage: https://github.com/ldez/prm
+    description: Pull Request Manager for Maintainers
+    license: APACHE
