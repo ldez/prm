@@ -1,7 +1,5 @@
 run:
   timeout: 2m
-  skip-files: []
-  skip-dirs: []
 
 linters-settings:
   govet:
@@ -102,6 +100,7 @@ linters:
     - ifshort
     - varnamelen
     - nilnil
+    - exportloopref
 
 issues:
   exclude-use-default: false
