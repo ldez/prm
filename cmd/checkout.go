@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/google/go-github/v45/github"
+	"github.com/google/go-github/v66/github"
 	"github.com/ldez/prm/v3/choose"
 	"github.com/ldez/prm/v3/config"
 	"github.com/ldez/prm/v3/local"
