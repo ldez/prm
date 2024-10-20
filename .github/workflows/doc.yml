@@ -29,11 +29,9 @@ jobs:
       - name: Build Documentation
         run: make docs-build
 
-      # https://github.com/marketplace/actions/github-pages
       - name: Deploy to GitHub Pages
-        uses: crazy-max/ghaction-github-pages@v4
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          target_branch: gh-pages
-          build_dir: docs/public
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_REPO }}
+          publish_dir: docs/public
+          force_orphan: true
+          github_token: ${{ secrets.GH_TOKEN_REPO }}
