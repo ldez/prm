@@ -1,11 +1,19 @@
 Output prm.gif
 
-Require echo
-
 Set Shell zsh
 Set FontSize 38
 Set Width 2000
 Set Height 900
+
+Set WindowBar Colorful
+Set WindowBarSize 75
+
+Set Padding 20
+
+Set MarginFill "#265076"
+Set Margin 20
+
+Set BorderRadius 30
 
 # PRM init + checkout
 
