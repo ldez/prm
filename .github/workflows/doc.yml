@@ -8,7 +8,7 @@ on:
 jobs:
 
   main:
-    name: Main Process
+    name: Publish Documentation
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: 0.54.0

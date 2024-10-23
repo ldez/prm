@@ -10,7 +10,7 @@ If you are a maintainer of Open Source Software, you need to review a lot of PR,
 With the GitHub feature ["repository maintainer permissions on existing pull requests"](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/), now we can edit real PR branch.
 This tool allow to easily manage PR branches and remotes.
 
-[![prm](https://asciinema.org/a/176222.png)](https://asciinema.org/a/176222)
+![prm](/prm/images/prm.gif)
 
 💼 Features:
 
