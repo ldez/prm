@@ -8,7 +8,7 @@ Set Height 900
 Set WindowBar Colorful
 Set WindowBarSize 75
 
-Set Padding 20
+Set Padding 40
 
 Set MarginFill "#265076"
 Set Margin 20
