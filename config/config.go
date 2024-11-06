@@ -7,6 +7,8 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"slices"
+	"strings"
 
 	"github.com/ldez/prm/v3/local"
 	"github.com/ldez/prm/v3/types"
@@ -22,7 +24,7 @@ type Configuration struct {
 
 var getPathFunc = GetPath
 
-// RemovePullRequest remove a pull request.
+// RemovePullRequest removes a pull request.
 func (c *Configuration) RemovePullRequest(pull *types.PullRequest) int {
 	prs := c.PullRequests[pull.Owner]
 
@@ -54,7 +56,7 @@ func (c *Configuration) findPullRequestIndex(pull *types.PullRequest) int {
 	return -1
 }
 
-// FindPullRequests find a pull request by number.
+// FindPullRequests finds a pull request by number.
 func (c *Configuration) FindPullRequests(number int) (*types.PullRequest, error) {
 	for _, prs := range c.PullRequests {
 		for _, pr := range prs {
@@ -93,7 +95,7 @@ func Find(configurations []Configuration, directory string) (*Configuration, err
 	return nil, fmt.Errorf("no existing configuration for: %s", directory)
 }
 
-// ReadFile read or create the configuration file and load the configuration into an array.
+// ReadFile reads or creates the configuration file and load the configuration into an array.
 func ReadFile() ([]Configuration, error) {
 	var configs []Configuration
 
@@ -146,12 +148,16 @@ func ReadFile() ([]Configuration, error) {
 	return configs, nil
 }
 
-// Save save the configuration into a file.
+// Save saves the configuration into a file.
 func Save(configs []Configuration) error {
 	filePath, err := getPathFunc()
 	if err != nil {
 		return err
 	}
+
+	slices.SortFunc(configs, func(a, b Configuration) int {
+		return strings.Compare(a.Directory, b.Directory)
+	})
 
 	confJSON, err := json.MarshalIndent(configs, "", "  ")
 	if err != nil {
