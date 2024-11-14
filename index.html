@@ -1,0 +1,357 @@
+<!doctype html>
+<html>
+<head>
+	<meta name="generator" content="Hugo 0.54.0" />
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>PRM - Pull Request Manager</title>
+    <link href='/prm/slate/stylesheets/monokai.css' rel="stylesheet" media="screen" />
+<link href='/prm/slate/stylesheets/screen.css' rel="stylesheet" media="screen" />
+<link href='/prm/slate/stylesheets/print.css' rel="stylesheet" media="print" />
+
+    
+<script src='/prm/slate/javascripts/all.js'></script>
+
+    
+</head>
+<body class="index" data-languages="">
+    <a href="#" id="nav-button">
+        <span>
+        NAV
+        <img src='/prm/slate/images/navbar.png'/>
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+        
+        <a id="logo" href="/prm"><img src='/prm/images/logo.png' alt="PRM" title="Pull Request Manager"/></a>
+
+         
+        
+        <div class="search">
+            <input type="search" class="search" id="input-search" placeholder='Search'>
+        </div>
+        <ul class="search-results"></ul>
+        
+        <div id="toc">
+        </div>
+         
+        
+        <ul class="toc-footer">
+            
+            <li><a href="https://github.com/sponsors/ldez">Sponsor me</a></li>
+            
+            <li><a href="https://github.com/ldez/prm">Github</a></li>
+            
+            <li>Created by <a href="https://github.com/ldez">ldez</a></li>
+            
+        </ul>
+        
+        
+    </div>
+    <div class="page-wrapper">
+        <div class="dark-box"></div>
+        <div class="content">
+            
+    
+        
+
+<h1 id="introduction">🌱 Introduction</h1>
+
+<p>If you are a maintainer of Open Source Software, you need to review a lot of PR, this tool is made for you.</p>
+
+<p>With the GitHub feature <a href="https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/">&ldquo;repository maintainer permissions on existing pull requests&rdquo;</a>, now we can edit real PR branch.
+This tool allow to easily manage PR branches and remotes.</p>
+
+<p><img src="/prm/images/prm.gif" alt="prm" /></p>
+
+<p>💼 Features:</p>
+
+<ul>
+<li>Checkout a PR (interactively or by its number)</li>
+<li>Remove a PR (interactively or by its number)</li>
+<li>Remove all &ldquo;checkouted&rdquo; PRs for a project.</li>
+<li>Push on a PR.</li>
+<li>Display all &ldquo;checkouted&rdquo; PR (for a project or for all projects)</li>
+<li>Clone and fork automatically a repository</li>
+<li>Manage all your repositories.</li>
+<li>Save your configuration: <code>config/prm</code> (or <code>~/.prm</code> on Windows)</li>
+<li>Only works with GitHub.</li>
+</ul>
+
+<h1 id="checkout">💫 Checkout</h1>
+
+<h2 id="interactive-remote">Interactive (Remote)</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">prm
+<span class="c1"># item &#34;checkout&#34;</span>
+
+<span class="c1"># or #</span>
+
+prm checkout
+
+<span class="c1"># or #</span>
+
+prm c</code></pre></div>
+<ul>
+<li>Display the last 50 PRs from GitHub.</li>
+<li>Add the user git remote named with the user login.</li>
+<li>Checkout the PR branch named like that: <code>&lt;PR_NUMBER&gt;--&lt;BRANCH_NAME&gt;</code><br />
+ex: <code>1234--myBranch</code></li>
+</ul>
+
+<h2 id="interactive-local">Interactive (Local)</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">prm
+<span class="c1"># item &#34;list&#34;</span></code></pre></div>
+<ul>
+<li>Choose a PR between all &ldquo;local&rdquo; PRs.</li>
+<li>Checkout the PR branch named like that: <code>&lt;PR_NUMBER&gt;--&lt;BRANCH_NAME&gt;</code><br />
+ex: <code>1234--myBranch</code></li>
+</ul>
+
+<h2 id="by-number">By Number</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">prm checkout <span class="m">1234</span>
+
+<span class="c1"># or #</span>
+
+prm c <span class="m">1234</span></code></pre></div>
+<ul>
+<li>Add the user git remote named with the user login.</li>
+<li>Checkout the PR branch named like that: <code>&lt;PR_NUMBER&gt;--&lt;BRANCH_NAME&gt;</code><br />
+ex: <code>1234--myBranch</code></li>
+</ul>
+
+<h1 id="remove">💫 Remove</h1>
+
+<h2 id="interactive">Interactive</h2>
+
+<p>Only for the current project.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">prm
+<span class="c1"># item &#34;remove&#34;</span>
+
+<span class="c1"># or #</span>
+
+prm rm</code></pre></div>
+<ul>
+<li>Display all &ldquo;local&rdquo; PRs.</li>
+<li>Remove by one or remove all.</li>
+</ul>
+
+<h2 id="by-number-1">By Number</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">prm rm <span class="m">1234</span>
+
+<span class="c1"># or #</span>
+
+prm remove <span class="m">1234</span></code></pre></div>
+<ul>
+<li>Remove the local branch.</li>
+<li>Remove the user git remote if necessary.</li>
+</ul>
+
+<h2 id="all">All</h2>
+
+<p>Only for the current project. (not all PR for all your projects)</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">prm rm --all</code></pre></div>
+<ul>
+<li>Remove all PR related local branches.</li>
+<li>Remove all PR related git remote.</li>
+</ul>
+
+<aside class="notice">
+It can be also done interactively with the item "remove".
+</aside>
+
+<h1 id="push">💫 Push</h1>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">prm push</code></pre></div>
+<ul>
+<li>Push to the PR related branch.</li>
+<li>Detect the PR number from the branch name.</li>
+</ul>
+
+<h2 id="push-force">Push Force</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">prm pf</code></pre></div>
+<ul>
+<li>Push force the PR related branch.</li>
+<li>Detect the PR number from the branch name.</li>
+</ul>
+
+<h1 id="list">💫 List</h1>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># display local branches related to PR. (current project only)</span>
+prm list
+
+<span class="c1"># display local branches related to PR. (all projects)</span>
+prm list --all
+
+<span class="c1"># display local branches related to PR. (add projects without 0 related PR)</span>
+prm list --all --skip-empty<span class="o">=</span>false</code></pre></div>
+<p>Display local branches related to PR for:</p>
+
+<ul>
+<li>current project</li>
+<li>all projects</li>
+</ul>
+
+<h1 id="clone">💫 Clone</h1>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># clone and fork (if needed) a repository.</span>
+prm clone git@github.com:user/repo.git
+
+<span class="c1"># clone (don&#39;t create fork on GitHub).</span>
+prm clone -n git@github.com:user/repo.git
+
+<span class="c1"># clone and fork (if needed) a repository,</span>
+<span class="c1"># and use the username as root directory.</span>
+prm clone -r git@github.com:user/repo.git
+
+<span class="c1"># clone and fork (if needed) a repository.</span>
+<span class="c1"># The fork will be created in an organization.</span>
+prm clone -o myorg git@github.com:user/repo.git</code></pre></div>
+<p>Clone a repository:</p>
+
+<ul>
+<li>create a fork if needed (can be created to an organization)</li>
+<li>add the remotes to the repository</li>
+</ul>
+
+<h1 id="help">💫 Help</h1>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">prm -h
+
+<span class="c1"># or #</span>
+
+prm &lt;command&gt; -h</code></pre></div>
+<p>Display PRM help</p>
+
+<h1 id="private-repositories">🔒 Private Repositories</h1>
+
+<p>If you need to use <code>prm</code> for a private repository:</p>
+
+<p>Create a <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">Github Token</a></p>
+
+<h2 id="prm-github-token">PRM_GITHUB_TOKEN</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">PRM_GITHUB_TOKEN</span><span class="o">=</span>xxxxxxx</code></pre></div>
+<p>Set the environment variable <code>PRM_GITHUB_TOKEN</code> with this token&rsquo;s value.</p>
+
+<aside class="notice">
+You must replace `xxxxxxx` with your GitHub token.
+</aside>
+
+<h2 id="prm-github-token-file">PRM_GITHUB_TOKEN_FILE</h2>
+
+<p>Set the environment variable <code>PRM_GITHUB_TOKEN_FILE</code> with a path to file that contains this token&rsquo;s value.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">PRM_GITHUB_TOKEN_FILE</span><span class="o">=</span>/path/to/my/token/secret.txt</code></pre></div>
+<aside class="notice">
+Important - `/path/to/my/token/secret.txt` contains only the value of the token.
+</aside>
+
+<h1 id="github-enterprise">🔒 GitHub Enterprise</h1>
+
+<h2 id="prm-github-api-base-url">PRM_GITHUB_API_BASE_URL</h2>
+
+<p>To use <code>prm</code> with GitHub Enterprise,</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">PRM_GITHUB_API_BASE_URL</span><span class="o">=</span>https://example.com/api/v3</code></pre></div>
+<p>Set the environment variable <code>PRM_GITHUB_API_BASE_URL</code> with the URL of the domain endpoint of your GitHub Enterprise instance.</p>
+
+<aside class="notice">
+You must replace `https://example.com/api/v3` with the URL of the domain endpoint.
+</aside>
+
+<h2 id="prm-github-api-base-url-file">PRM_GITHUB_API_BASE_URL_FILE</h2>
+
+<p>Set the environment variable <code>PRM_GITHUB_API_BASE_URL_FILE</code> with a path to file that contains the URL of the domain endpoint of your GitHub Enterprise instance.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">PRM_GITHUB_API_BASE_URL_FILE</span><span class="o">=</span>/path/to/my/token/secret.txt</code></pre></div>
+<aside class="notice">
+Important - `/path/to/my/token/secret.txt` contains only the URL of the domain endpoint.
+</aside>
+
+<h1 id="how-to-install">📦 How to Install</h1>
+
+<h2 id="linux">Linux</h2>
+
+<h3 id="from-package-manager">From Package Manager</h3>
+
+<blockquote>
+<p><a href="https://aur.archlinux.org/packages/prm/">ArchLinux (AUR)</a></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">yay -S prm</code></pre></div>
+<p>You can use a package manager:</p>
+
+<ul>
+<li><a href="https://aur.archlinux.org/packages/prm/">ArchLinux (AUR)</a></li>
+</ul>
+
+<h3 id="from-binaries">From Binaries</h3>
+
+<p>You can use pre-compiled binaries:</p>
+
+<ul>
+<li>To get the binary just download the latest release for your OS/Arch from <a href="https://github.com/ldez/prm/releases">the releases page</a></li>
+<li>Unzip the archive.</li>
+<li>Add <code>prm</code> in your <code>PATH</code>.</li>
+</ul>
+
+<h2 id="macos">MacOS</h2>
+
+<h3 id="from-package-manager-1">From Package Manager</h3>
+
+<blockquote>
+<p><a href="https://github.com/ldez/homebrew-tap">Homebrew Taps</a></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">brew tap ldez/tap
+brew update
+brew install prm</code></pre></div>
+<p>You can use a package manager:</p>
+
+<ul>
+<li><a href="https://github.com/ldez/homebrew-tap">Homebrew Taps</a></li>
+</ul>
+
+<h3 id="from-binaries-1">From Binaries</h3>
+
+<p>You can use pre-compiled binaries:</p>
+
+<ul>
+<li>To get the binary just download the latest release for your OS/Arch from <a href="https://github.com/ldez/prm/releases">the releases page</a></li>
+<li>Unzip the archive.</li>
+<li>Add <code>prm</code> in your <code>PATH</code>.</li>
+</ul>
+
+<h2 id="windows">Windows</h2>
+
+<h3 id="from-package-manager-2">From Package Manager</h3>
+
+<blockquote>
+<p><a href="https://github.com/lukesampson/scoop">Scoop main bucket</a></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">scoop install prm</code></pre></div>
+<blockquote>
+<p><a href="https://github.com/ldez/scoop-bucket">Scoop Bucket</a></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">scoop bucket add prm https://github.com/ldez/scoop-bucket.git
+scoop install prm</code></pre></div>
+<p>You can use a package manager:</p>
+
+<ul>
+<li><a href="https://github.com/lukesampson/scoop">Scoop main bucket</a></li>
+<li><a href="https://github.com/ldez/scoop-bucket">Scoop Bucket</a></li>
+</ul>
+
+<h3 id="from-binaries-2">From Binaries</h3>
+
+<p>You can use pre-compiled binaries:</p>
+
+<ul>
+<li>To get the binary just download the latest release for your OS/Arch from <a href="https://github.com/ldez/prm/releases">the releases page</a></li>
+<li>Unzip the archive.</li>
+<li>Add <code>prm</code> in your <code>PATH</code>.</li>
+</ul>
+
+<h2 id="from-sources">From Sources</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">go get -u github.com/ldez/prm</code></pre></div>
+    
+
+        </div>
+        <div class="dark-box">
+            
+        </div>
+    </div>
+    
+</body>
+</html>
