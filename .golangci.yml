@@ -1,5 +1,26 @@
-run:
-  timeout: 2m
+linters:
+  enable-all: true
+  disable:
+    - exportloopref # deprecated
+    - sqlclosecheck # not relevant (SQL)
+    - rowserrcheck # not relevant (SQL)
+    - cyclop # duplicate of gocyclo
+    - lll
+    - dupl
+    - prealloc
+    - wsl
+    - nlreturn
+    - err113
+    - mnd
+    - wrapcheck
+    - testpackage
+    - paralleltest
+    - tparallel
+    - nestif
+    - exhaustive
+    - exhaustruct
+    - varnamelen
+    - nilnil
 
 linters-settings:
   govet:
@@ -65,32 +86,6 @@ linters-settings:
       - 'G307' # Deferring unsafe method "Close" on type "*os.File"
       - 'G306' # Expect WriteFile permissions to be 0600 or less
 
-linters:
-  enable-all: true
-  disable:
-    - exportloopref # deprecated
-    - gomnd # deprecated
-    - execinquery # deprecated
-    - sqlclosecheck # not relevant (SQL)
-    - rowserrcheck # not relevant (SQL)
-    - cyclop # duplicate of gocyclo
-    - lll
-    - dupl
-    - prealloc
-    - wsl
-    - nlreturn
-    - err113
-    - mnd
-    - wrapcheck
-    - testpackage
-    - paralleltest
-    - tparallel
-    - nestif
-    - exhaustive
-    - exhaustruct
-    - varnamelen
-    - nilnil
-
 issues:
   exclude-use-default: false
   max-issues-per-linter: 0
@@ -108,3 +103,6 @@ issues:
         - funlen
     - path: (.+)_test.go
       text: 'fieldalignment: '
+
+run:
+  timeout: 2m
