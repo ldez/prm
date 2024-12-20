@@ -5,6 +5,7 @@ go 1.23.0
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.7
 	github.com/chainguard-dev/git-urls v1.0.2
+	github.com/google/go-github/v67 v67.0.0
 	github.com/ldez/go-git-cmd-wrapper/v2 v2.8.0
 	github.com/spf13/cobra v1.8.1
 	github.com/stretchr/testify v1.10.0
@@ -13,7 +14,6 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/google/go-github/v66 v66.0.0
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
