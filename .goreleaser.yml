@@ -111,7 +111,7 @@ aur_sources:
       - "Fernandez Ludovic <lfernandez dot dev at gmail dot com>"
     license: APACHE
     private_key: "{{ .Env.AUR_KEY }}"
-    git_url: "ssh://aur@aur.archlinux.org/prm-bin.git"
+    git_url: "ssh://aur@aur.archlinux.org/prm.git"
     commit_author:
       name: ldez
       email: ldez@users.noreply.github.com
