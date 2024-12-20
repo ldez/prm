@@ -50,7 +50,7 @@ archives:
 
 source:
   enabled: true
-  name_template: '{{ .ProjectName }}_{{ .Version }}_sources'
+  name_template: '{{ .ProjectName }}_v{{ .Version }}_sources'
 
 brews:
   - description: Pull Request Manager for Maintainers
