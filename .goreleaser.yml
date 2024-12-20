@@ -78,9 +78,7 @@ aurs:
   - description: Pull Request Manager for Maintainers
     skip_upload: false
     homepage: https://github.com/ldez/prm
-    name: 'prm'
-    provides:
-      - prm
+    name: 'prm-bin'
     maintainers:
       - "Fernandez Ludovic <lfernandez dot dev at gmail dot com>"
     license: APACHE
@@ -89,9 +87,57 @@ aurs:
     commit_author:
       name: ldez
       email: ldez@users.noreply.github.com
+    provides:
+      - prm
+    conflicts:
+      - prm
     package: |-
       # bin
       install -Dm755 "./prm" "${pkgdir}/usr/bin/prm"
 
       # license
       install -Dm644 "./LICENSE" "${pkgdir}/usr/share/licenses/prm/LICENSE"
+
+aur_sources:
+  - description: Pull Request Manager for Maintainers
+    skip_upload: false
+    homepage: https://github.com/ldez/prm
+    name: 'prm'
+    maintainers:
+      - "Fernandez Ludovic <lfernandez dot dev at gmail dot com>"
+    license: APACHE
+    private_key: "{{ .Env.AUR_KEY }}"
+    git_url: "ssh://aur@aur.archlinux.org/prm-bin.git"
+    commit_author:
+      name: ldez
+      email: ldez@users.noreply.github.com
+    provides:
+      - prm
+    conflicts:
+      - prm
+    depends:
+      - git
+    makedepends:
+      - go
+      - git
+    prepare: |-
+      cd "${pkgname}_${pkgver}"
+      go mod download
+    build: |-
+      cd "${pkgname}-${pkgver#v}"
+  
+      export CGO_CPPFLAGS="${CPPFLAGS}"
+      export CGO_CFLAGS="${CFLAGS}"
+      export CGO_CXXFLAGS="${CXXFLAGS}"
+      export CGO_LDFLAGS="${LDFLAGS}"
+      export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw"
+      go build -ldflags="-w -s -buildid='' -linkmode=external -X main.version=v${pkgver}" .
+      
+      ls -alF
+      chmod +x "./${pkgname}"
+    package: |-
+      cd "${pkgname}-${pkgver#v}"
+      ls -alF
+      
+      # Bin
+      install -Dsm755 "./${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
