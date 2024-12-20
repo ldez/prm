@@ -48,6 +48,10 @@ archives:
     files:
       - LICENSE
 
+source:
+  enabled: true
+  name_template: '{{ .ProjectName }}_{{ .Version }}_sources'
+
 brews:
   - description: Pull Request Manager for Maintainers
     skip_upload: false
