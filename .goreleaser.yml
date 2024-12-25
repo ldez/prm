@@ -125,11 +125,8 @@ aur_sources:
       - go
       - git
     prepare: |-
-      cd "${pkgname}_${pkgver}"
       go mod download
     build: |-
-      cd "${pkgname}-${pkgver#v}"
-  
       export CGO_CPPFLAGS="${CPPFLAGS}"
       export CGO_CFLAGS="${CFLAGS}"
       export CGO_CXXFLAGS="${CXXFLAGS}"
@@ -137,11 +134,7 @@ aur_sources:
       export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw"
       go build -ldflags="-w -s -buildid='' -linkmode=external -X main.version=v${pkgver}" .
       
-      ls -alF
       chmod +x "./${pkgname}"
     package: |-
-      cd "${pkgname}-${pkgver#v}"
-      ls -alF
-      
       # Bin
       install -Dsm755 "./${pkgname}" "${pkgdir}/usr/bin/${pkgname}"
