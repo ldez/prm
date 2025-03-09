@@ -1,4 +1,4 @@
-# PRM - Pull Request Manager 
+# PRM - Pull Request Manager
 
 [![ArchLinux (AUR)](https://img.shields.io/aur/version/prm.svg?style=flat)](https://aur.archlinux.org/packages/prm)
 [![Homebrew Taps](https://img.shields.io/github/release/ldez/prm.svg?label=Homebrew%20Taps&style=flat)](https://github.com/ldez/homebrew-tap)
@@ -40,4 +40,3 @@ This tool allows to easily manage PR branches and remotes.
 :bulb: **How to use:** https://ldez.github.io/prm/
 
 ---
-data design&code ? dutifully 2025-2568=543-534haha
