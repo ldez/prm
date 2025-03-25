@@ -34,6 +34,7 @@ func Switch(options *types.ListOptions) error {
 
 func changeProject(configs []config.Configuration) error {
 	var projectsConf []config.Configuration
+
 	for _, value := range configs {
 		if len(value.PullRequests) > 0 {
 			projectsConf = append(projectsConf, value)
@@ -61,6 +62,7 @@ func changeProject(configs []config.Configuration) error {
 			return err
 		}
 	}
+
 	return Checkout(&types.CheckoutOptions{Number: number})
 }
 
@@ -79,5 +81,6 @@ func changePR(configs []config.Configuration) error {
 	if err != nil || number == choose.ExitValue {
 		return err
 	}
+
 	return Checkout(&types.CheckoutOptions{Number: number})
 }

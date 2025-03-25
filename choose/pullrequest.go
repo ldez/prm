@@ -42,15 +42,19 @@ func PullRequest(pulls map[string][]types.PullRequest, all bool) (int, error) {
 	}
 
 	var surveyOpts []string
+
 	for _, prs := range pulls {
 		for _, pr := range prs {
 			surveyOpts = append(surveyOpts, fmt.Sprintf("%d: %s - %s", pr.Number, pr.Owner, pr.BranchName))
 		}
 	}
+
 	sort.Strings(surveyOpts)
+
 	if all {
 		surveyOpts = append(surveyOpts, allLabel)
 	}
+
 	surveyOpts = append(surveyOpts, ExitLabel)
 
 	qs := []*survey.Question{
@@ -64,6 +68,7 @@ func PullRequest(pulls map[string][]types.PullRequest, all bool) (int, error) {
 	}
 
 	answers := &answersPR{}
+
 	err := survey.Ask(qs, answers)
 	if err != nil {
 		return 0, err
@@ -98,6 +103,7 @@ func RemotePulRequest(prs []*github.PullRequest) (int, error) {
 	}
 
 	answers := &answersPR{}
+
 	err := survey.Ask(qs, answers)
 	if err != nil {
 		return 0, err

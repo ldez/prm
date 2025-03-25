@@ -30,6 +30,7 @@ func MainBranch(branches []string) (string, error) {
 	}
 
 	answers := &answersMainBranch{}
+
 	err := survey.Ask(qs, answers)
 	if err != nil {
 		return "", err

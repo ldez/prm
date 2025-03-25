@@ -1,108 +1,109 @@
+version: "2"
+
+formatters:
+  enable:
+    - gci
+    - gofumpt
+  settings:
+    gofumpt:
+      extra-rules: true
+
 linters:
-  enable-all: true
+  default: all
   disable:
-    - exportloopref # deprecated
-    - sqlclosecheck # not relevant (SQL)
-    - rowserrcheck # not relevant (SQL)
     - cyclop # duplicate of gocyclo
-    - lll
     - dupl
-    - prealloc
-    - wsl
-    - nlreturn
     - err113
-    - mnd
-    - wrapcheck
-    - testpackage
-    - paralleltest
-    - tparallel
-    - nestif
     - exhaustive
     - exhaustruct
-    - varnamelen
+    - lll
+    - mnd
+    - nestif
     - nilnil
+    - nlreturn
+    - paralleltest
+    - prealloc
+    - rowserrcheck # not relevant (SQL)
+    - sqlclosecheck # not relevant (SQL)
+    - testpackage
+    - tparallel
+    - varnamelen
+    - wrapcheck
 
-linters-settings:
-  govet:
-    enable-all: true
-    disable:
-      - fieldalignment
-  gocyclo:
-    min-complexity: 12
-  goconst:
-    min-len: 3
-    min-occurrences: 3
-  misspell:
-    locale: US
-  gofumpt:
-    extra-rules: true
-  depguard:
-    rules:
-      main:
-        deny:
-          - pkg: "github.com/instana/testify"
-            desc: not allowed
-          - pkg: "github.com/pkg/errors"
-            desc: Should be replaced by standard lib errors package
-  godox:
-    keywords:
-      - FIXME
-  nolintlint:
-    allow-unused: false
-    require-explanation: true
-    require-specific: true
-  gocritic:
-    enabled-tags:
-      - diagnostic
-      - style
-      - performance
-    disabled-checks:
-      - unnamedResult
-      - sloppyReassign
-      - rangeValCopy
-      - octalLiteral
-      - paramTypeCombine # already handle by gofumpt.extra-rules
-      - whyNoLint # already handle by nolintlint
-    settings:
-      hugeParam:
-        sizeThreshold: 100
-  forbidigo:
-    forbid:
-      # - ^panic$
-      - ^print(ln)?$
-      # - ^fmt\.Print(ln|f)?$
-      - ^spew\.Print(f|ln)?$
-      - ^spew\.Dump$
-      - ^spew\.(F|S)dump(f|ln)?$
-  tagliatelle:
-    case:
+  settings:
+    depguard:
       rules:
-        json: snake
-  gosec:
-    excludes:
-      - 'G101' # Potential hardcoded credentials
-      - 'G301' # Expect directory permissions to be 0750 or less
-      - 'G304' # Potential file inclusion via variable
-      - 'G307' # Deferring unsafe method "Close" on type "*os.File"
-      - 'G306' # Expect WriteFile permissions to be 0600 or less
+        main:
+          deny:
+            - pkg: github.com/instana/testify
+              desc: not allowed
+            - pkg: github.com/pkg/errors
+              desc: Should be replaced by standard lib errors package
+    forbidigo:
+      forbid:
+        - pattern: ^print(ln)?$
+        - pattern: ^spew\.Print(f|ln)?$
+        - pattern: ^spew\.Dump$
+        - pattern: ^spew\.(F|S)dump(f|ln)?$
+    goconst:
+      min-len: 3
+      min-occurrences: 3
+    gocritic:
+      disabled-checks:
+        - unnamedResult
+        - sloppyReassign
+        - rangeValCopy
+        - octalLiteral
+        - paramTypeCombine # already handle by gofumpt.extra-rules
+        - whyNoLint # already handle by nolintlint
+      enabled-tags:
+        - diagnostic
+        - style
+        - performance
+      settings:
+        hugeParam:
+          sizeThreshold: 100
+    gocyclo:
+      min-complexity: 12
+    godox:
+      keywords:
+        - FIXME
+    gosec:
+      excludes:
+        - 'G101' # Potential hardcoded credentials
+        - 'G301' # Expect directory permissions to be 0750 or less
+        - 'G304' # Potential file inclusion via variable
+        - 'G307' # Deferring unsafe method "Close" on type "*os.File"
+        - 'G306' # Expect WriteFile permissions to be 0600 or less
+    govet:
+      disable:
+        - fieldalignment
+      enable-all: true
+    misspell:
+      locale: US
+    nolintlint:
+      require-explanation: true
+      require-specific: true
+      allow-unused: false
+    tagliatelle:
+      case:
+        rules:
+          json: snake
+
+  exclusions:
+    warn-unused: true
+    presets:
+      - comments
+    rules:
+      - path: meta/version.go
+        text: (version|date|commit) is a global variable
+      - path: config/config.go
+        text: getPathFunc is a global variable
+      - linters:
+          - funlen
+        path: (.+)_test.go
+
 
 issues:
-  exclude-use-default: false
   max-issues-per-linter: 0
   max-same-issues: 0
-  exclude:
-    - 'ST1000: at least one file in a package should have a package comment'
-    - 'package-comments: should have a package comment'
-  exclude-rules:
-    - path: meta/version.go
-      text: '(version|date|commit) is a global variable'
-    - path: config/config.go
-      text: 'getPathFunc is a global variable'
-    - path: (.+)_test.go
-      linters:
-        - funlen
-    - path: (.+)_test.go
-      text: 'fieldalignment: '
-
-run:
-  timeout: 2m

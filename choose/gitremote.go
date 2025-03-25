@@ -22,6 +22,7 @@ func GitRemote(remotes []local.Remote) (string, error) {
 	for _, remote := range remotes {
 		surveyOpts = append(surveyOpts, fmt.Sprintf("[%s]: %s", remote.Name, remote.URL))
 	}
+
 	surveyOpts = append(surveyOpts, ExitLabel)
 
 	qs := []*survey.Question{
@@ -45,6 +46,7 @@ func GitRemote(remotes []local.Remote) (string, error) {
 	}
 
 	answers := &answersGitRemote{}
+
 	err := survey.Ask(qs, answers)
 	if err != nil {
 		return "", err

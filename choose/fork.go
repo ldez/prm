@@ -9,6 +9,7 @@ func Fork() (bool, error) {
 	}
 
 	yes := false
+
 	err := survey.AskOne(prompt, &yes)
 	if err != nil {
 		return false, err

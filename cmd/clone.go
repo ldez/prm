@@ -148,6 +148,7 @@ func (c cloner) createFork(ctx context.Context, user, repo, org string) (*github
 		fmt.Println("- https://ldez.github.io/prm/#prm-github-token")
 		fmt.Println("- https://ldez.github.io/prm/#prm-github-token-file")
 		fmt.Println("---------------------------------------------------------")
+
 		return nil, nil
 	}
 

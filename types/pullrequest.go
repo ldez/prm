@@ -90,6 +90,7 @@ func (pr *PullRequest) RemoveRemote() error {
 func (pr *PullRequest) Push(force bool) error {
 	// git push --force-with-lease $remote $pr--$branch:$branch
 	ref := fmt.Sprintf("%s:%s", makeLocalBranchName(pr), pr.BranchName)
+
 	out, err := git.Push(push.NoFollowTags, git.Cond(force, push.ForceWithLease), push.Remote(pr.Owner), push.RefSpec(ref), git.Debug)
 	if err != nil {
 		log.Println(out)
@@ -143,6 +144,7 @@ func (pr *PullRequest) Checkout(newBranch bool) error {
 	// git checkout -t -b "$pr--$branch" $remote/$branch
 	localBranchName := makeLocalBranchName(pr)
 	startPoint := fmt.Sprintf("%s/%s", pr.Owner, pr.BranchName)
+
 	out, err := git.Checkout(
 		git.Cond(newBranch, checkout.Track, checkout.NewBranch(localBranchName), checkout.StartPoint(startPoint)),
 		git.Cond(!newBranch, checkout.Branch(localBranchName)),

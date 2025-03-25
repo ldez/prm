@@ -30,9 +30,8 @@ func InteractiveCheckout(conf *config.Configuration) error {
 		return nil
 	}
 
-	checkoutOptions := &types.CheckoutOptions{
-		Number: number,
-	}
+	checkoutOptions := &types.CheckoutOptions{Number: number}
+
 	return Checkout(checkoutOptions)
 }
 
@@ -99,6 +98,7 @@ func Checkout(options *types.CheckoutOptions) error {
 		if errRemote != nil {
 			log.Println(errRemote)
 		}
+
 		return err
 	}
 
@@ -106,6 +106,7 @@ func Checkout(options *types.CheckoutOptions) error {
 	if conf.PullRequests == nil {
 		conf.PullRequests = make(map[string][]types.PullRequest)
 	}
+
 	conf.PullRequests[pr.Owner] = append(conf.PullRequests[pr.Owner], *pr)
 
 	return config.Save(confs)
@@ -119,6 +120,7 @@ func removeRemote(conf *config.Configuration, pr *types.PullRequest) error {
 			return errRemote
 		}
 	}
+
 	return nil
 }
 

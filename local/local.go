@@ -47,6 +47,7 @@ func GetCurrentPRNumber(manualNumber int) (int, error) {
 	if manualNumber == 0 {
 		return GetCurrentBranchPRNumber()
 	}
+
 	return manualNumber, nil
 }
 
@@ -68,6 +69,7 @@ func GetCurrentBranchName() (string, error) {
 		log.Print(output)
 		return "", err
 	}
+
 	return strings.TrimSpace(output), nil
 }
 
@@ -121,6 +123,7 @@ func GetBranches() ([]string, error) {
 
 func parseBranches(output string) []string {
 	var branches []string
+
 	for _, name := range strings.Split(output, "\n") {
 		b := strings.TrimSpace(name)
 		if b == "" {
@@ -131,14 +134,13 @@ func parseBranches(output string) []string {
 	}
 
 	sort.Slice(branches, func(i, _ int) bool {
-		if branches[i] == "main" {
+		switch branches[i] {
+		case "main", "master":
 			return true
-		}
-		if branches[i] == "master" {
-			return true
-		}
 
-		return false
+		default:
+			return false
+		}
 	})
 
 	return branches

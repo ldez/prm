@@ -31,6 +31,7 @@ func Project(configs []config.Configuration) (*config.Configuration, error) {
 	for _, conf := range configs {
 		surveyOpts = append(surveyOpts, conf.Directory)
 	}
+
 	surveyOpts = append(surveyOpts, ExitLabel)
 
 	qs := []*survey.Question{
@@ -44,6 +45,7 @@ func Project(configs []config.Configuration) (*config.Configuration, error) {
 	}
 
 	answers := &answersProject{}
+
 	err := survey.Ask(qs, answers)
 	if err != nil {
 		return nil, err
@@ -52,5 +54,6 @@ func Project(configs []config.Configuration) (*config.Configuration, error) {
 	if answers.isExit() {
 		return nil, nil
 	}
+
 	return config.Find(configs, answers.Directory)
 }

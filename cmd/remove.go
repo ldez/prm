@@ -51,6 +51,7 @@ func Remove(options *types.RemoveOptions) error {
 		if err != nil {
 			return err
 		}
+
 		conf.PullRequests = make(map[string][]types.PullRequest)
 	} else {
 		for _, prNumber := range options.Numbers {
@@ -100,11 +101,13 @@ func removeAll(conf *config.Configuration) error {
 		}
 
 		log.Println("remove remote", remoteName)
+
 		out, errRemote := git.Remote(remote.Remove(remoteName), git.Debug)
 		if errRemote != nil {
 			log.Println(out)
 			return errRemote
 		}
 	}
+
 	return nil
 }

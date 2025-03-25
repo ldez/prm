@@ -1,8 +1,8 @@
 name: Documentation
+
 on:
   push:
     branches:
-      - master
       - main
 
 jobs:
@@ -31,4 +31,4 @@ jobs:
         with:
           publish_dir: docs/public
           force_orphan: true
-          github_token: ${{ secrets.GH_TOKEN_REPO }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}

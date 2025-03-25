@@ -45,6 +45,7 @@ func newGitHubClient(ctx context.Context) *github.Client {
 	baseURL := getOrFile(apiBaseURLEnvVar)
 	if baseURL != "" {
 		var err error
+
 		client.BaseURL, err = url.Parse(strings.TrimSuffix(baseURL, "/") + "/")
 		if err != nil {
 			panic(fmt.Sprintf("invalid domain endpoint: %v", err))
@@ -64,6 +65,7 @@ func getOrFile(envVar string) string {
 	}
 
 	fileVar := envVar + fileSuffixEnvVar
+
 	fileVarValue := os.Getenv(fileVar)
 	if fileVarValue == "" {
 		return envVarValue

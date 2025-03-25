@@ -43,16 +43,19 @@ func (c *Configuration) RemovePullRequest(pull *types.PullRequest) int {
 			c.PullRequests[pull.Owner] = b
 		}
 	}
+
 	return len(b)
 }
 
 func (c *Configuration) findPullRequestIndex(pull *types.PullRequest) int {
 	prs := c.PullRequests[pull.Owner]
+
 	for i, pr := range prs {
 		if pr.Number == pull.Number {
 			return i
 		}
 	}
+
 	return -1
 }
 
@@ -174,11 +177,13 @@ func Save(configs []Configuration) error {
 
 func createDirectory(filePath string) error {
 	baseDir := path.Dir(filePath)
+
 	if _, errDirStat := os.Stat(baseDir); errDirStat != nil {
 		errDir := os.MkdirAll(baseDir, 0o700)
 		if errDir != nil {
 			return errDir
 		}
 	}
+
 	return nil
 }

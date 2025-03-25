@@ -32,6 +32,7 @@ func GetPath() (string, error) {
 		if os.IsNotExist(err) {
 			return pathTwo, nil
 		}
+
 		return "", err
 	}
 
@@ -54,6 +55,7 @@ func GetPath() (string, error) {
 
 func copyConfigFile(src, dst string, info os.FileInfo) error {
 	baseDir := path.Dir(dst)
+
 	err := os.MkdirAll(baseDir, 0o700)
 	if err != nil {
 		return err
@@ -63,6 +65,7 @@ func copyConfigFile(src, dst string, info os.FileInfo) error {
 	if err != nil {
 		return err
 	}
+
 	defer safeClose(f.Close)
 
 	if err = os.Chmod(f.Name(), info.Mode()); err != nil {
@@ -73,9 +76,11 @@ func copyConfigFile(src, dst string, info os.FileInfo) error {
 	if err != nil {
 		return err
 	}
+
 	defer safeClose(s.Close)
 
 	_, err = io.Copy(f, s)
+
 	return err
 }
 

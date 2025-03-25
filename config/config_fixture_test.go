@@ -31,20 +31,19 @@ func directoryC(conf *Configuration) {
 
 func withPullRequest(owner string, builders ...func(*types.PullRequest)) func(*Configuration) {
 	return func(conf *Configuration) {
-		pr := &types.PullRequest{
-			Owner: owner,
-		}
+		pr := &types.PullRequest{Owner: owner}
+
 		for _, builder := range builders {
 			builder(pr)
 		}
+
 		conf.PullRequests[owner] = append(conf.PullRequests[owner], *pr)
 	}
 }
 
 func aPullRequest(owner string, builders ...func(pr *types.PullRequest)) types.PullRequest {
-	pr := &types.PullRequest{
-		Owner: owner,
-	}
+	pr := &types.PullRequest{Owner: owner}
+
 	for _, builder := range builders {
 		builder(pr)
 	}

@@ -34,6 +34,7 @@ func Action() (string, error) {
 	}
 
 	answers := &answersAction{}
+
 	err := survey.Ask(qs, answers)
 	if err != nil {
 		return "", err
