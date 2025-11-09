@@ -15,6 +15,7 @@ func (a answersMainBranch) isExit() bool {
 // MainBranch Choose the main branch of the repository.
 func MainBranch(branches []string) (string, error) {
 	var surveyOpts []string
+
 	surveyOpts = append(surveyOpts, branches...)
 	surveyOpts = append(surveyOpts, ExitLabel)
 

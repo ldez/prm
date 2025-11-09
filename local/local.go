@@ -124,7 +124,7 @@ func GetBranches() ([]string, error) {
 func parseBranches(output string) []string {
 	var branches []string
 
-	for _, name := range strings.Split(output, "\n") {
+	for name := range strings.SplitSeq(output, "\n") {
 		b := strings.TrimSpace(name)
 		if b == "" {
 			continue

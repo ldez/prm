@@ -77,6 +77,7 @@ func createCheckoutCmd() *cobra.Command {
 				if err != nil {
 					return fmt.Errorf("argument must be a valid number: %w", err)
 				}
+
 				checkoutCfg.Number = val
 			}
 
@@ -92,6 +93,7 @@ func createCheckoutCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
+
 			return cmd.InteractiveCheckout(conf)
 		},
 		Example: `  $ prm checkout
@@ -115,11 +117,13 @@ func createRemoveCmd() *cobra.Command {
 			}
 
 			var values []int
+
 			for i, arg := range args {
 				val, err := strconv.Atoi(arg)
 				if err != nil {
 					return fmt.Errorf("argument %d must be a valid number: %w", i, err)
 				}
+
 				values = append(values, val)
 			}
 

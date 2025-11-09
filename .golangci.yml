@@ -21,6 +21,7 @@ linters:
     - nestif
     - nilnil
     - nlreturn
+    - noinlineerr
     - paralleltest
     - prealloc
     - rowserrcheck # not relevant (SQL)
@@ -29,6 +30,7 @@ linters:
     - tparallel
     - varnamelen
     - wrapcheck
+    - wsl # deprecated
 
   settings:
     depguard:
@@ -95,14 +97,21 @@ linters:
     presets:
       - comments
     rules:
+      - path: (.+)_test.go
+        linters:
+          - funlen
       - path: meta/version.go
         text: (version|date|commit) is a global variable
+        linters:
+          - gochecknoglobals
       - path: config/config.go
         text: getPathFunc is a global variable
-      - linters:
-          - funlen
-        path: (.+)_test.go
-
+        linters:
+          - gochecknoglobals
+      - path: types/.+
+        text: "var-naming: avoid meaningless package name"
+        linters:
+          - revive
 
 issues:
   max-issues-per-linter: 0

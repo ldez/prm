@@ -24,6 +24,19 @@ type Configuration struct {
 
 var getPathFunc = GetPath
 
+// FindPullRequests finds a pull request by number.
+func (c *Configuration) FindPullRequests(number int) (*types.PullRequest, error) {
+	for _, prs := range c.PullRequests {
+		for _, pr := range prs {
+			if pr.Number == number {
+				return &pr, nil
+			}
+		}
+	}
+
+	return nil, fmt.Errorf("unable to find PR: %d", number)
+}
+
 // RemovePullRequest removes a pull request.
 func (c *Configuration) RemovePullRequest(pull *types.PullRequest) int {
 	prs := c.PullRequests[pull.Owner]
@@ -57,19 +70,6 @@ func (c *Configuration) findPullRequestIndex(pull *types.PullRequest) int {
 	}
 
 	return -1
-}
-
-// FindPullRequests finds a pull request by number.
-func (c *Configuration) FindPullRequests(number int) (*types.PullRequest, error) {
-	for _, prs := range c.PullRequests {
-		for _, pr := range prs {
-			if pr.Number == number {
-				return &pr, nil
-			}
-		}
-	}
-
-	return nil, fmt.Errorf("unable to find PR: %d", number)
 }
 
 // Get configuration for the current directory.
