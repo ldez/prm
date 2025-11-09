@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: 0.54.0
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v5
