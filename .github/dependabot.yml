@@ -1,0 +1,23 @@
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+updates:
+  - package-ecosystem: gomod
+    directory: "/"
+    schedule:
+      interval: monthly
+    groups:
+      gomod:
+        patterns:
+          - "*"  # Group all updates into a single larger pull request.
+    cooldown:
+      default-days: 7
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    groups:
+      github-actions:
+        patterns:
+          - "*"  # Group all updates into a single larger pull request.
+    cooldown:
+      default-days: 7

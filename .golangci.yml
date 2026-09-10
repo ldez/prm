@@ -6,7 +6,9 @@ formatters:
     - gofumpt
   settings:
     gofumpt:
-      extra-rules: true
+      extra:
+        clothe-returns: true
+        group-params: true
 
 linters:
   default: all
@@ -15,7 +17,9 @@ linters:
     - dupl
     - err113
     - exhaustive
-    - exhaustruct
+    - exhaustruct # deprecated
+    - exhaustruct_v5
+    - gomodguard # deprecated
     - lll
     - mnd
     - nestif
@@ -100,6 +104,7 @@ linters:
       - path: (.+)_test.go
         linters:
           - funlen
+          - goconst
       - path: meta/version.go
         text: (version|date|commit) is a global variable
         linters:
