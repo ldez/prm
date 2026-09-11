@@ -113,10 +113,6 @@ linters:
         text: getPathFunc is a global variable
         linters:
           - gochecknoglobals
-      - path: types/.+
-        text: "var-naming: avoid meaningless package name"
-        linters:
-          - revive
 
 issues:
   max-issues-per-linter: 0
